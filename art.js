@@ -38,7 +38,8 @@
     (function () { var l = ''; for (var x = 20; x < 400; x += 40) { var y = 189.5 + 3.2 * (1 - Math.pow((x - 200) / 200, 2)); l += '<ellipse cx="' + x + '" cy="' + (y - 4) + '" rx="9" ry="5" fill="#ffe7a8" opacity=".28"/><circle cx="' + x + '" cy="' + y + '" r="1.6" fill="#ffe08a"/>'; } return l; })() +
     // 플루트 눈사람 (뒷줄 왼쪽) — 원근감을 위해 조금 작게
     flutist(126, 166, 1.15) +
-    // [뒷줄 연주자]
+    // 클라리넷 눈사람 (뒷줄 가운데) — 원근감을 위해 조금 작게
+    clarinetist(186, 166, 1.15) +
     // 바이올린 눈사람 (앞줄 왼쪽)
     violinist(64, 184, 1.35) +
     // 첼로 눈사람 (앞줄 오른쪽) — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름)
@@ -270,6 +271,26 @@
       scarf: '#3d6fb6', sway: [1.2, 3.4], mouth: false, delay: .9,
       hat: '<path d="M-7.6 -45 Q0 -58 7.6 -45" fill="none" stroke="#e98a9a" stroke-width="1.4"/><circle cx="-7.9" cy="-44" r="2.7" fill="#f3a6b4"/><circle cx="7.9" cy="-44" r="2.7" fill="#f3a6b4"/>',
       play: flute + puff(0) + puff(1.2), notes: [[-30, -42], [-26, -46]]
+    });
+  }
+  // 클라리넷 눈사람: 클라리넷을 물고 신이 나면 벨(아래 끝)을 들어 올림 — 악기·두 손이 함께 움직이고 고개가 따라 까딱임
+  function clarinetist(x, y, sc) {
+    var rings = ''; [-34, -29, -24, -19.5].forEach(function (yy) { var xx = (yy + 39) * .19; rings += '<path d="M' + (xx - 1.2) + ' ' + yy + ' h2.4" stroke="#c7ccd6" stroke-width=".55"/>'; });
+    var keys = ''; [-31.5, -27, -22].forEach(function (yy) { var xx = (yy + 39) * .19; keys += '<circle cx="' + (xx + .2) + '" cy="' + yy + '" r=".45" fill="#c7ccd6"/>'; });
+    var clar =
+      '<g>' +
+      '<animateTransform attributeName="transform" type="rotate" values="0 0 -39;-14 0 -39;-3 0 -39;-10 0 -39;0 0 -39" keyTimes="0;.3;.5;.75;1" dur="3.2s" repeatCount="indefinite"/>' +
+      '<path d="M0 -39.4 L4.6 -15.5" stroke="#1e1e26" stroke-width="2.1" stroke-linecap="round"/>' +
+      '<path d="M-.4 -40.6 L.1 -38.2" stroke="#2c2c36" stroke-width="1.3" stroke-linecap="round"/>' +
+      rings + keys +
+      '<path d="M3.3 -16.6 L6.4 -17.2 L8.4 -12.2 L1.6 -10.9Z" fill="#1e1e26"/><path d="M1.6 -10.9 L8.4 -12.2" stroke="#c7ccd6" stroke-width=".6"/>' +
+      '<path d="M-8 -28.5 Q-4.5 -33 .9 -33.8" ' + TW() + '/><path d="M.9 -33.8 l1.3 -.6 M.9 -33.8 l1.4 .5" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
+      '<path d="M8 -24 Q6.5 -22.5 3.7 -22.8" ' + TW() + '/><path d="M3.7 -22.8 l-1.3 -.6 M3.7 -22.8 l-1.3 .6" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
+      '</g>';
+    return snowPlayer(x, y, sc, {
+      scarf: '#e0b12f', sway: [2, 1.6], mouth: false, delay: .2,
+      hat: '<path d="M-7.6 -47 Q0 -60 7.6 -47Z" fill="#3d5fa6"/><rect x="-8" y="-48.4" width="16" height="2.8" rx="1.2" fill="#2e4a86"/><circle cx="0" cy="-56.8" r="2.1" fill="#ffffff"/>',
+      play: clar, notes: [[12, -18], [15, -23]]
     });
   }
   function win(x) {
