@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1200px;height:630px;overflow:hidden;background:linear-gradient(180deg,#2b1d38 0%,#4e2843 30%,#8e4556 56%,#d98466 80%,#f3bf86 100%);color:#fff;font-family:'Gowun Batang',serif;position:relative;text-align:center}
+.t{position:absolute;top:70px;left:0;right:0}
+.e{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;color:#f3d9a4;letter-spacing:.12em}
+.s{font-size:36px;color:#f3d9a4;margin-top:22px;letter-spacing:.1em}
+h1{font-size:96px;line-height:1.15;font-weight:700}
+.d{font-size:36px;margin-top:18px}
+.scene{position:absolute;left:0;right:0;bottom:-150px}
+.scene svg{display:block;width:1200px;height:630px}
+</style></head><body>
+<div class="scene" id="s"></div>
+<div class="t"><div class="e">2027 New Year Concert</div><div class="s">보람챔버</div><h1>신년음악회</h1><div class="d">2027. 1. 6. 수요일 · 입장 무료</div></div>
+<script src="../art.js"></script>
+<script>document.getElementById('s').innerHTML=ART.cover.replace('#fffaf2','#f3bf86').replace('xMidYMax slice','xMidYMax slice');</script>
+</body></html>
