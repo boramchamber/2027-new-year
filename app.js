@@ -292,7 +292,7 @@ document.getElementById('app').innerHTML = `
   } else { secs.forEach(function (s) { s.classList.add('in'); }); }
 
   // 표지: 눈처럼 내리는 하얀 음표 (글꼴 대신 직접 그려 어느 휴대폰에서도 깨지지 않게)
-  // 종류: 0 4분음표 ♩ · 1 8분음표 ♪ · 2 이어진 8분음표 ♫ · 3 이어진 16분음표 ♬ · 4 2분음표
+  // 종류: 0 4분음표 ♩ · 1 8분음표 ♪ · 2 이어진 8분음표 ♫ · 3 이어진 16분음표 ♬ · 4 2분음표 · 5 눈송이 · 6 눈 결정
   var NOTE = {
     head: function (c, x, y, hollow) {
       c.save(); c.translate(x, y); c.rotate(-.38);
@@ -305,6 +305,18 @@ document.getElementById('app').innerHTML = `
       c.beginPath(); c.moveTo(x1 - .7, y1); c.lineTo(x2 + .7, y2); c.lineTo(x2 + .7, y2 + 2.6); c.lineTo(x1 - .7, y1 + 2.6); c.closePath(); c.fill();
     },
     draw: function (c, kind) {
+      if (kind === 5) { c.beginPath(); c.arc(0, 0, 2.5, 0, Math.PI * 2); c.fill(); return; }   // 동그란 눈송이
+      if (kind === 6) {                                                                          // 육각 눈 결정
+        c.lineWidth = 1.1; c.lineCap = 'round'; c.beginPath();
+        for (var k = 0; k < 6; k++) {
+          var a = k * Math.PI / 3, ca = Math.cos(a), sa = Math.sin(a);
+          c.moveTo(0, 0); c.lineTo(ca * 6, sa * 6);
+          var bx = ca * 3.6, by = sa * 3.6, b1 = a + .7, b2 = a - .7;
+          c.moveTo(bx, by); c.lineTo(bx + Math.cos(b1) * 2, by + Math.sin(b1) * 2);
+          c.moveTo(bx, by); c.lineTo(bx + Math.cos(b2) * 2, by + Math.sin(b2) * 2);
+        }
+        c.stroke(); return;
+      }
       if (kind === 2 || kind === 3) {
         NOTE.head(c, 0, 0); NOTE.head(c, 10, -2);
         NOTE.stem(c, 3.8, -1, -15); NOTE.stem(c, 13.8, -3, -17);
@@ -327,16 +339,18 @@ document.getElementById('app').innerHTML = `
     size(); window.addEventListener('resize', size);
     var spawn = function (n, top) {
       n.x = Math.random() * W; n.y = top ? -20 : Math.random() * H * .72;
-      n.kind = Math.floor(Math.random() * 5);
-      n.sc = Math.random() * .55 + .55;            // 크기
-      n.v = Math.random() * .35 + .25;             // 떨어지는 속도
+      // 눈 40% · 눈 결정 10% · 음표 5종 50%
+      var r = Math.random();
+      n.kind = r < .4 ? 5 : r < .5 ? 6 : Math.floor(Math.random() * 5);
+      n.sc = n.kind === 5 ? Math.random() * .8 + .6 : Math.random() * .55 + .55;   // 크기
+      n.v = n.kind >= 5 ? Math.random() * .3 + .2 : Math.random() * .35 + .25;      // 떨어지는 속도 (눈은 조금 더 천천히)
       n.w = Math.random() * Math.PI * 2;           // 좌우 흔들림
       n.rot = (Math.random() - .5) * .6;           // 기울기
       n.spin = (Math.random() - .5) * .006;
       n.a = Math.random() * .35 + .5;              // 투명도
       return n;
     };
-    for (var i = 0; i < 24; i++) notes.push(spawn({}, false));
+    for (var i = 0; i < 44; i++) notes.push(spawn({}, false));
     (function tick() {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, cv.width, cv.height);
