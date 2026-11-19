@@ -110,9 +110,6 @@ document.getElementById('app').innerHTML = `
     </div>
     <p class="copy" id="copyright"></p>
     <p class="rights">이 초대장의 사진·그림·글은 보람챔버오케스트라에 저작권이 있으며<br>허락 없이 복제·배포·다른 곳에 사용할 수 없습니다.</p>
-    <div class="music" id="music" hidden>
-      <div class="music-player"><div id="yt-player"></div></div>
-    </div>
   </footer>
 `;
 
@@ -160,56 +157,6 @@ document.getElementById('app').innerHTML = `
       '<p class="sign">' + esc(D.orchestra) + ' 드림</p>';
   }
   if (D.admission) $('w-admission').textContent = '입장 ' + D.admission;
-
-  // 배경음악 — 소리 끈 채 자동 재생 → 첫 터치에 소리 켬, 끝나면 시작 지점부터 반복, ♪ 버튼으로 끄고 켬
-  (function () {
-    var B = D.bgm;
-    if (!B || !B.youtube) return;
-    // 글씨 없이 플레이어만 (제목·연주자 정보는 data.js bgm 에만 기록)
-    $('music').hidden = false;
-
-    var fab = document.createElement('button');
-    fab.type = 'button'; fab.className = 'music-fab'; fab.id = 'music-fab';
-    fab.setAttribute('aria-label', '배경음악 켜기/끄기');
-    fab.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor"/><circle cx="16.5" cy="16" r="2.6" fill="currentColor"/></svg><i class="slash"></i>';
-    document.body.appendChild(fab);
-
-    var start = +B.start || 0, end = +B.end || 0, player = null, ready = false, want = false, on = false;
-    function paint() { fab.classList.toggle('on', on); }
-    function sound(v) {
-      on = v; paint();
-      if (!ready) { want = v; return; }
-      if (v) { player.unMute(); player.setVolume(85); player.playVideo(); } else { player.mute(); }
-    }
-    window.onYouTubeIframeAPIReady = function () {
-      var vars = { autoplay: 1, mute: 1, start: start, playsinline: 1, rel: 0, controls: 1, modestbranding: 1 };
-      if (end) vars.end = end;
-      player = new YT.Player('yt-player', {
-        videoId: B.youtube, playerVars: vars,
-        events: {
-          onReady: function (e) { ready = true; e.target.mute(); e.target.playVideo(); if (want) sound(true); },
-          onStateChange: function (e) {
-            if (e.data === YT.PlayerState.ENDED) { player.seekTo(start, true); player.playVideo(); }
-          }
-        }
-      });
-    };
-    var tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-
-    // 화면 아무 곳이나 처음 터치(클릭·키 입력)하면 소리 켜기 — 한 번만
-    var evs = ['touchend', 'click', 'keydown'];
-    function first(e) {
-      if (e.target && e.target.closest && e.target.closest('#music-fab')) return;
-      evs.forEach(function (n) { document.removeEventListener(n, first, true); });
-      sound(true);
-    }
-    evs.forEach(function (n) { document.addEventListener(n, first, true); });
-    fab.onclick = function () {
-      evs.forEach(function (n) { document.removeEventListener(n, first, true); });
-      sound(!on);
-    };
-  })();
 
   // 공연 안내
   var rows = [];
