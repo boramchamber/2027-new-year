@@ -37,7 +37,8 @@
     '<path d="M0 187 Q200 194 400 187" fill="none" stroke="#d9b56e" stroke-width="1.4"/>' +
     (function () { var l = ''; for (var x = 20; x < 400; x += 40) { var y = 189.5 + 3.2 * (1 - Math.pow((x - 200) / 200, 2)); l += '<ellipse cx="' + x + '" cy="' + (y - 4) + '" rx="9" ry="5" fill="#ffe7a8" opacity=".28"/><circle cx="' + x + '" cy="' + y + '" r="1.6" fill="#ffe08a"/>'; } return l; })() +
     // [뒷줄 연주자]
-    // [앞줄 왼쪽 연주자]
+    // 바이올린 눈사람 (앞줄 왼쪽)
+    violinist(64, 184, 1.35) +
     // 첼로 눈사람 (앞줄 오른쪽) — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름)
     '<g transform="translate(90 8)">' +
     '<ellipse cx="148" cy="177" rx="22" ry="3" fill="#6e4424" opacity=".35"/>' +
@@ -190,6 +191,60 @@
       '<image href="' + (window.ART_BASE || '') + 'conductor-face-v2.png" x="-10.6" y="-64.6" width="21.2" height="25.5"/>' +
       '</g>' +
       '</g></g>';
+  }
+  // 눈사람 연주자 공통 틀 — 첼로 눈사람과 같은 비율(의자 높이 15·몸통 반지름 10.5·머리 7.8). 원점 = 의자 밑 땅.
+  //  cfg: scarf(목도리 색), hat(모자 그림), tilt(고개 기울기 °), sway(몸 흔들림 [각도, 초]), play(악기·팔 그림), notes(음표 위치 [x,y])
+  function snowPlayer(x, y, sc, cfg) {
+    var sw = cfg.sway || [1.6, 2.8];
+    var notes = (cfg.notes || []).map(function (n, i) {
+      return '<text x="' + n[0] + '" y="' + n[1] + '" font-size="' + (7 - i) + '" fill="#fff6dc" font-family="serif" opacity="0">' + (i ? '♫' : '♪') +
+        '<animate attributeName="opacity" values="0;.95;0" dur="2.6s" begin="' + (i * 1.3 + (cfg.delay || 0)) + 's" repeatCount="indefinite"/>' +
+        '<animateTransform attributeName="transform" type="translate" values="0 0;' + (5 + i * 2) + ' -16" dur="2.6s" begin="' + (i * 1.3 + (cfg.delay || 0)) + 's" repeatCount="indefinite"/></text>';
+    }).join('');
+    return '<ellipse cx="' + x + '" cy="' + (y + 1) + '" rx="' + 15 * sc + '" ry="' + 2.2 * sc + '" fill="#6e4424" opacity=".35"/>' +
+      '<g transform="translate(' + x + ' ' + y + ') scale(' + sc + ')">' +
+      '<path d="M-8 -12 L-9 1 M8 -12 L9 1" stroke="#6b4a2b" stroke-width="1.6" stroke-linecap="round"/>' +
+      '<path d="M-8.5 -5 H8.5" stroke="#6b4a2b" stroke-width=".9"/><rect x="-11.5" y="-15" width="23" height="3.2" rx="1.2" fill="#8a5a3a"/>' +
+      '<g><animateTransform attributeName="transform" type="rotate" values="' + (-sw[0]) + ' 0 -14;' + sw[0] + ' 0 -14;' + (-sw[0]) + ' 0 -14" dur="' + sw[1] + 's" repeatCount="indefinite"/>' +
+      '<circle cx="0" cy="-24.5" r="10.5" fill="#ffffff" stroke="#d3ddef"/>' +
+      '<g transform="rotate(' + (cfg.tilt || 0) + ' 0 -37)">' +
+      '<circle cx="0" cy="-43" r="7.8" fill="#ffffff" stroke="#d3ddef"/>' +
+      '<circle cx="-2.5" cy="-44.5" r=".95" fill="#2f2f45"/><circle cx="2.5" cy="-44.5" r=".95" fill="#2f2f45"/><path d="M0 -42 l5 1.2 -5 1.2Z" fill="#f08a3c"/>' +
+      (cfg.mouth === false ? '' : '<path d="M-2.5 -39 q2.5 1.6 5 0" fill="none" stroke="#2f2f45" stroke-width=".6" stroke-linecap="round"/>') +
+      (cfg.hat || '') + '</g>' +
+      '<path d="M-8 -37 Q0 -33 8 -37 L9 -34 Q0 -29 -9 -34Z" fill="' + cfg.scarf + '"/><path d="M4 -35 l2.4 7.5 -4 -1Z" fill="' + cfg.scarf + '"/>' +
+      '<circle cx="0" cy="-26" r=".9" fill="#2f2f45"/><circle cx="0" cy="-21.5" r=".9" fill="#2f2f45"/>' +
+      (cfg.play || '') + notes +
+      '</g></g>';
+  }
+  function TW() { return 'fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"'; }   // 나뭇가지 팔 (함수라서 그림 만들기 전에도 쓸 수 있음)
+
+  // 바이올린 눈사람: 바이올린을 턱에 끼고 활을 길게 그음, 고개는 악기 쪽으로
+  function violinist(x, y, sc) {
+    var violin =
+      '<g transform="translate(7.5 -35.2) rotate(24) scale(1.25)">' +
+      '<ellipse cx="-1.6" cy="0" rx="4.1" ry="3.7" fill="#5a2a12"/><ellipse cx="3.7" cy="0" rx="3.4" ry="3.1" fill="#5a2a12"/>' +
+      '<ellipse cx="-1.6" cy="0" rx="3.4" ry="3" fill="#b4602c"/><ellipse cx="3.7" cy="0" rx="2.7" ry="2.4" fill="#b4602c"/>' +
+      '<path d="M.7 -1.4 q.6 1.4 0 2.8 M2.3 -1.4 q-.6 1.4 0 2.8" fill="none" stroke="#3a1a0a" stroke-width=".45"/>' +
+      '<rect x="6.4" y="-.6" width="7" height="1.2" rx=".4" fill="#2a1a12"/><circle cx="14" cy="0" r="1.15" fill="#7a3a1c"/>' +
+      '<ellipse cx="-4.9" cy=".4" rx="1.4" ry="1.1" fill="#2a1a12"/>' +
+      '<path d="M-3.4 0 H13" stroke="#f3e3c0" stroke-width=".22"/>' +
+      '</g>';
+    var leftHand = '<path d="M7 -27.5 Q14 -24.5 20.2 -29.6" ' + TW() + '/><path d="M20.2 -29.6 l1.4 -1 M20.2 -29.6 l1.6 .3" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>';
+    var bow =
+      '<g>' +
+      '<animateTransform attributeName="transform" type="translate" values="-4.5 .9;4.5 -.9;-4.5 .9" dur="1.6s" repeatCount="indefinite"/>' +
+      '<animateTransform attributeName="transform" type="rotate" additive="sum" values="-3 -10 -30;3 -10 -30;-3 -10 -30" dur="1.6s" repeatCount="indefinite"/>' +
+      '<path d="M-8.5 -25 Q-11 -27.5 -10 -30.2" ' + TW() + '/>' +
+      '<path d="M-10.4 -30.4 L24.5 -37.8" stroke="#4a2a18" stroke-width=".85" stroke-linecap="round"/>' +
+      '<path d="M-9.8 -29.3 L24.1 -36.5" stroke="#f2ead8" stroke-width=".45"/>' +
+      '<rect x="-11.6" y="-31.4" width="2.4" height="2.4" rx=".5" fill="#2a1a12"/>' +
+      '</g>';
+    return snowPlayer(x, y, sc, {
+      scarf: '#3f8a5a', tilt: 9, sway: [1.4, 3.2], delay: .4,
+      hat: '<ellipse cx="-1.2" cy="-50" rx="8.8" ry="3.4" fill="#8e2f3c"/><circle cx="-1.6" cy="-53.2" r="1.1" fill="#8e2f3c"/>',
+      play: violin + leftHand + bow, notes: [[16, -46], [20, -42]]
+    });
   }
   function win(x) {
     return '<rect x="' + (x - 3) + '" y="127" width="16" height="22" rx="8" fill="#ffe7a8" opacity=".35"/>' +
