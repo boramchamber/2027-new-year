@@ -5,7 +5,7 @@
 (function () {
   var A = {};
 
-  // 표지 땅: 눈 덮인 언덕 위 불 켜진 음악당, 눈 쌓인 소나무, 눈사람, 가로등
+  // 표지 땅: 눈 덮인 언덕 위 불 켜진 음악당, 눈 쌓인 소나무, 첼로 켜는 눈사람, 가로등
   A.cover =
     '<svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
     '<defs><radialGradient id="cv-halo"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>' +
@@ -29,12 +29,49 @@
     // 가로등
     '<circle cx="214" cy="134" r="12" fill="#ffe7a8" opacity=".45"/>' +
     '<path d="M214 166 V137" stroke="#3a3550" stroke-width="1.8"/><rect x="210" y="130" width="8" height="8" rx="2" fill="#ffe08a" stroke="#3a3550" stroke-width="1.2"/>' +
-    // 눈사람
-    '<circle cx="160" cy="166" r="10" fill="#ffffff" stroke="#d3ddef"/><circle cx="160" cy="151" r="7" fill="#ffffff" stroke="#d3ddef"/>' +
-    '<path d="M153 155 Q160 159 167 155 L168 158 Q160 162 152 158Z" fill="#d6413f"/><path d="M164 157 l3 7 -4 -1Z" fill="#d6413f"/>' +
-    '<rect x="154" y="140" width="12" height="3" rx="1" fill="#2f2f45"/><rect x="156.5" y="133" width="7" height="8" rx="1" fill="#2f2f45"/>' +
-    '<circle cx="157.5" cy="150" r=".9" fill="#2f2f45"/><circle cx="162.5" cy="150" r=".9" fill="#2f2f45"/><path d="M160 152 l4 1 -4 1Z" fill="#f08a3c"/>' +
-    '<circle cx="160" cy="163" r=".9" fill="#2f2f45"/><circle cx="160" cy="167" r=".9" fill="#2f2f45"/>' +
+    // 눈사람 첼리스트 (활이 오가고, 몸이 흔들리고, 음표가 피어오름 — SVG 자체 애니메이션)
+    '<ellipse cx="150" cy="176" rx="20" ry="3" fill="#c9d6ee" opacity=".8"/>' +
+    '<g transform="translate(150 176) scale(1.35) translate(-150 -176)"><g>' +
+    '<animateTransform attributeName="transform" type="rotate" values="-1.6 150 176;1.6 150 176;-1.6 150 176" dur="2.8s" repeatCount="indefinite"/>' +
+    // 몸
+    '<circle cx="144" cy="162" r="11" fill="#ffffff" stroke="#d3ddef"/><circle cx="144" cy="143" r="8" fill="#ffffff" stroke="#d3ddef"/>' +
+    '<circle cx="144" cy="157" r=".9" fill="#2f2f45"/>' +
+    '<path d="M136 149 Q144 153 152 149 L153 152 Q144 157 135 152Z" fill="#d6413f"/><path d="M148 151 l2.4 8 -4 -1Z" fill="#d6413f"/>' +
+    '<rect x="135" y="132.5" width="18" height="3" rx="1" fill="#2f2f45"/><rect x="138.5" y="123" width="11" height="10" rx="1" fill="#2f2f45"/><rect x="138.5" y="130" width="11" height="2" fill="#c0463f"/>' +
+    '<circle cx="141.5" cy="141.5" r=".95" fill="#2f2f45"/><circle cx="146.5" cy="141.5" r=".95" fill="#2f2f45"/><path d="M144 144 l5 1.2 -5 1.2Z" fill="#f08a3c"/>' +
+    '<path d="M141.5 147 q2.5 1.6 5 0" fill="none" stroke="#2f2f45" stroke-width=".6" stroke-linecap="round"/>' +
+    // 첼로 (몸 앞에 비스듬히)
+    '<g transform="rotate(-14 160 172)">' +
+    '<path d="M160 171.5 V177.5" stroke="#4a4a55" stroke-width=".9"/>' +
+    '<ellipse cx="160" cy="150" rx="7" ry="7.8" fill="#5a2a12"/><ellipse cx="160" cy="163" rx="8.4" ry="9.2" fill="#5a2a12"/>' +
+    '<ellipse cx="160" cy="150" rx="6.2" ry="7" fill="#a0522d"/><ellipse cx="160" cy="163" rx="7.6" ry="8.4" fill="#a0522d"/>' +
+    '<ellipse cx="158" cy="160" rx="3" ry="5" fill="#c06a3a" opacity=".45"/>' +
+    '<path d="M156.4 156.5 q-1 2.2 0 4.4 M163.6 156.5 q1 2.2 0 4.4" fill="none" stroke="#3a1a0a" stroke-width=".7" stroke-linecap="round"/>' +
+    '<rect x="159.2" y="133" width="1.8" height="24" rx=".6" fill="#2a1a12"/>' +
+    '<rect x="157.6" y="160" width="5" height="1.1" fill="#e8d2a0"/><path d="M158.6 165 h3 l-.6 4 h-1.8Z" fill="#2a1a12"/>' +
+    '<path d="M159.6 134 V165 M160.6 134 V165" stroke="#f3e3c0" stroke-width=".25"/>' +
+    '<circle cx="160.1" cy="131.6" r="1.9" fill="#7a3a1c"/>' +
+    '</g>' +
+    // 왼손 (지판을 쥠)
+    '<path d="M151 151 Q155 147 157.6 141.6" fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"/>' +
+    '<path d="M157.6 141.6 l1.6 -.6 M157.6 141.6 l1.5 .8" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
+    // 오른팔 + 활 (현 위를 오감)
+    '<g>' +
+    '<animateTransform attributeName="transform" type="translate" values="-2.6 .5;2.6 -.5;-2.6 .5" dur="1.4s" repeatCount="indefinite"/>' +
+    '<animateTransform attributeName="transform" type="rotate" additive="sum" values="-4 146 161;4 146 161;-4 146 161" dur="1.4s" repeatCount="indefinite"/>' +
+    '<path d="M138 156 Q141 161 146 161" fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"/>' +
+    '<path d="M145 161.6 L180 155.2" stroke="#4a2a18" stroke-width="1" stroke-linecap="round"/>' +
+    '<path d="M146 162.9 L179.4 156.5" stroke="#f2ead8" stroke-width=".55"/>' +
+    '<rect x="144.6" y="160.4" width="2.6" height="2.6" rx=".5" fill="#2a1a12"/>' +
+    '</g>' +
+    // 피어오르는 음표
+    '<text x="166" y="140" font-size="7" fill="#fff6dc" font-family="serif" opacity="0">♪' +
+    '<animate attributeName="opacity" values="0;.95;0" dur="2.6s" repeatCount="indefinite"/>' +
+    '<animateTransform attributeName="transform" type="translate" values="0 0;5 -18" dur="2.6s" repeatCount="indefinite"/></text>' +
+    '<text x="170" y="146" font-size="6" fill="#fff6dc" font-family="serif" opacity="0">♫' +
+    '<animate attributeName="opacity" values="0;.9;0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>' +
+    '<animateTransform attributeName="transform" type="translate" values="0 0;7 -16" dur="2.6s" begin="1.3s" repeatCount="indefinite"/></text>' +
+    '</g></g>' +
     // 가까운 소나무 (작은 전구 장식)
     pines([[42, 176, 1.15], [76, 178, .85], [356, 168, 1.0], [384, 172, .72]], '#2e5d4f', true) +
     '<path d="M0 194 Q100 180 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +

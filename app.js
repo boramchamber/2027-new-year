@@ -140,6 +140,9 @@ document.getElementById('app').innerHTML = `
     : esc(D.title);
   $('when').innerHTML = esc(dateShort) + (D.time ? '<span class="time">' + esc(timeText(D.time)) + '</span>' : '');
   $('cover-art').innerHTML = ART.cover || '';
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var cvs = document.querySelector('#cover-art svg'); if (cvs && cvs.pauseAnimations) cvs.pauseAnimations();
+  }
   $('cover-sky').innerHTML = ART.sky || '';
   $('cover-garland').innerHTML = ART.garland || '';
 
