@@ -34,7 +34,7 @@ window.INVITE = {
   // 묶음(group)별 곡 목록. 곡 순서 = 초대장에 보이는 순서
   // - composer : 작곡가를 모르면 '' (화면에 안 보임)
   // - desc     : 일반 관객용 쉬운 설명 1~2문장. 사실로 확인된 것만 씁니다.
-  // - art      : 곡 그림 이름 (art.js) — autumn·ocean·grandpa·graduation·toreador·waltz·candle·together
+  // - art      : 곡 그림 이름 (art.js) — autumn·ocean·grandpa·graduation·toreador·waltz·candle·together·tango
   program: [
     {
       group: '전체 합주',
@@ -63,7 +63,9 @@ window.INVITE = {
         { title: 'Ave Maria', note: '', composer: '', art: 'candle',
           desc: "'아베 마리아'는 라틴어로 '마리아님, 기뻐하소서'라는 기도의 첫마디예요. 촛불을 켜 둔 듯 고요하고 따뜻한 노래입니다." },
         { title: '사랑으로', note: '', composer: '', art: 'together',
-          desc: '많은 분이 함께 따라 부를 수 있는 우리 노래예요. 서로를 아끼고 감싸 주는 마음을 담아 들려드립니다.' }
+          desc: '많은 분이 함께 따라 부를 수 있는 우리 노래예요. 서로를 아끼고 감싸 주는 마음을 담아 들려드립니다.' },
+        { title: 'Por una Cabeza', note: '영화 〈여인의 향기〉 OST', composer: 'C. Gardel', art: 'tango',
+          desc: "영화 〈여인의 향기〉에서 알 파치노가 탱고를 추는 장면에 흐르는 음악이에요. '말 머리 하나 차이로'라는 뜻의 제목처럼 아슬아슬하고 정열적인 탱고 선율입니다." }
       ]
     }
   ],

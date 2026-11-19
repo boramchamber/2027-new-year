@@ -288,8 +288,31 @@
       '<path d="M' + (x - w) + ' ' + (y + h + 8) + ' Q' + (x - w) + ' ' + (y + r + 4) + ' ' + x + ' ' + (y + r + 4) + ' Q' + (x + w) + ' ' + (y + r + 4) + ' ' + (x + w) + ' ' + (y + h + 8) + 'Z" fill="#5a2a2a"/>';
   }
 
+  // 여인의 향기 (Por una Cabeza) — 조명 아래 반도네온과 붉은 장미
+  A.tango =
+    '<svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+    '<defs><linearGradient id="tg2-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a2233"/><stop offset="1" stop-color="#2a0f1a"/></linearGradient>' +
+    '<linearGradient id="tg2-spot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1d6" stop-opacity=".42"/><stop offset="1" stop-color="#fff1d6" stop-opacity="0"/></linearGradient></defs>' +
+    '<rect width="320" height="150" fill="url(#tg2-bg)"/>' +
+    '<path d="M142 0 H184 L252 150 H72Z" fill="url(#tg2-spot)"/>' +
+    '<rect y="118" width="320" height="32" fill="#3a1520"/><path d="M0 118 H320" stroke="#c9a55c" stroke-opacity=".35"/>' +
+    '<ellipse cx="160" cy="122" rx="62" ry="5" fill="#000" opacity=".35"/>' +
+    // 반도네온: 양쪽 나무 상자 + 가운데 주름통
+    '<rect x="134" y="66" width="52" height="40" fill="#241a1c"/>' +
+    (function () { var l = ''; for (var x = 138; x < 186; x += 6) l += '<path d="M' + x + ' 66 V106" stroke="#e8dcc4" stroke-opacity=".75" stroke-width="1.2"/>'; return l; })() +
+    '<rect x="110" y="60" width="26" height="52" rx="4" fill="#1b1214" stroke="#c9a55c" stroke-width="1.4"/>' +
+    '<rect x="184" y="60" width="26" height="52" rx="4" fill="#1b1214" stroke="#c9a55c" stroke-width="1.4"/>' +
+    (function () { var b = ''; [[117, 70], [127, 70], [117, 80], [127, 80], [117, 90], [127, 90], [192, 72], [202, 72], [192, 84], [202, 84], [192, 96], [202, 96]].forEach(function (p) { b += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.4" fill="#f1e2bd"/>'; }); return b; })() +
+    // 붉은 장미
+    '<path d="M196 130 Q226 124 250 110" fill="none" stroke="#3f7a3a" stroke-width="2.4" stroke-linecap="round"/>' +
+    '<path d="M216 125 q8 -10 16 -6 q-6 8 -16 6Z M232 118 q2 10 10 10 q-2 -8 -10 -10Z" fill="#4d8b45"/>' +
+    '<circle cx="254" cy="106" r="11" fill="#c8102e"/><circle cx="247" cy="101" r="6" fill="#d8283f"/><circle cx="260" cy="100" r="6" fill="#b10d27"/>' +
+    '<path d="M250 106 q4 -6 9 -2 q-2 5 -7 4" fill="none" stroke="#7d0a1c" stroke-width="1.6"/>' +
+    '<g fill="#f6d488" font-family="serif"><text x="66" y="50" font-size="18" opacity=".8">♪</text><text x="88" y="78" font-size="13" opacity=".55">♫</text><text x="244" y="52" font-size="15" opacity=".7">♩</text></g>' +
+    '</svg>';
+
   // 곡 목록의 작은 정사각형 그림에서 보여 줄 가로 시작 위치 (그림 폭 320 중 150 만큼 보임)
-  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85 };
+  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85, tango: 92 };
 
   window.ART = A;
 })();
