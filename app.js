@@ -45,11 +45,6 @@ document.getElementById('app').innerHTML = `
         <b>누구나 환영</b>가족·친구와 함께
       </div>
     </div>
-    <div class="music" id="music" hidden>
-      <div class="music-head"><span class="en">Music</span><b class="serif" id="music-title"></b><small id="music-note"></small></div>
-      <div class="music-player"><div id="yt-player"></div></div>
-      <p class="music-by"><span id="music-by"></span><br>화면을 터치하면 음악이 흘러나와요 · 오른쪽 아래 ♪ 로 끄고 켜요</p>
-    </div>
   </section>
 
   <section class="soft reveal">
@@ -115,6 +110,9 @@ document.getElementById('app').innerHTML = `
     </div>
     <p class="copy" id="copyright"></p>
     <p class="rights">이 초대장의 사진·그림·글은 보람챔버오케스트라에 저작권이 있으며<br>허락 없이 복제·배포·다른 곳에 사용할 수 없습니다.</p>
+    <div class="music" id="music" hidden>
+      <div class="music-player"><div id="yt-player"></div></div>
+    </div>
   </footer>
 `;
 
@@ -167,9 +165,7 @@ document.getElementById('app').innerHTML = `
   (function () {
     var B = D.bgm;
     if (!B || !B.youtube) return;
-    $('music-title').textContent = B.title || '';
-    $('music-note').textContent = B.note || '';
-    $('music-by').textContent = B.by || '';
+    // 글씨 없이 플레이어만 (제목·연주자 정보는 data.js bgm 에만 기록)
     $('music').hidden = false;
 
     var fab = document.createElement('button');
