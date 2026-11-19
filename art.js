@@ -78,37 +78,101 @@
     '</g></g>' +
     // 가까운 소나무 (작은 전구 장식)
     pines([[42, 176, 1.15], [76, 178, .85], [388, 172, .72]], '#2e5d4f', true) +
-    // 지휘자 캐릭터 — 사진에서 딴 얼굴 + 졸라맨 몸, 지휘대 위에서 지휘 (SVG 자체 애니메이션)
-    '<ellipse cx="352" cy="166" rx="17" ry="2.6" fill="#c9d6ee" opacity=".8"/>' +
-    '<g transform="translate(352 165) scale(1.08)">' +
-    '<rect x="-13" y="-5" width="26" height="6" rx="1.5" fill="#7a3444"/><path d="M-13 -4.6 H13" stroke="#d9b56e" stroke-width=".8"/>' +
-    '<g>' +
-    '<animateTransform attributeName="transform" type="translate" values="0 0;0 -1.3;0 0;0 -.8;0 0" dur="2s" repeatCount="indefinite"/>' +
-    '<g fill="none" stroke="#1d1f2b" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M0 -22 L-6 -5 M0 -22 L6 -5"/><path d="M0 -22 V-40"/>' +
-    '</g>' +
-    '<path d="M-3 -41.5 L0 -40 L-3 -38.5Z M3 -41.5 L0 -40 L3 -38.5Z" fill="#c0463f"/>' +
-    // 지휘봉 팔 (화면 왼쪽 — 눈사람 쪽)
-    '<g>' +
-    '<animateTransform attributeName="transform" type="rotate" values="0 0 -37;30 0 -37;-6 0 -37;20 0 -37;0 0 -37" keyTimes="0;.25;.5;.75;1" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1;.4 0 .6 1" dur="2s" repeatCount="indefinite"/>' +
-    '<path d="M0 -37 L-9 -31 L-15 -37" fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M-15 -37 L-25 -47" stroke="#ffffff" stroke-width="1.1" stroke-linecap="round"/>' +
-    '<circle cx="-25.4" cy="-47.4" r="1.6" fill="#fff6c8"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></circle>' +
-    '</g>' +
-    // 반대 손 (화면 오른쪽)
-    '<g>' +
-    '<animateTransform attributeName="transform" type="rotate" values="0 0 -37;-16 0 -37;6 0 -37;-10 0 -37;0 0 -37" keyTimes="0;.25;.5;.75;1" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1;.4 0 .6 1" dur="2s" repeatCount="indefinite"/>' +
-    '<path d="M0 -37 L9 -32 L14 -38" fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M14 -38 l1.8 -1.6 M14 -38 l2.3 -.3 M14 -38 l1.6 1.2" stroke="#1d1f2b" stroke-width=".9" stroke-linecap="round"/>' +
-    '</g>' +
-    // 얼굴 (사진에서 머리·얼굴만 오린 것, 배경 투명)
-    '<g>' +
-    '<animateTransform attributeName="transform" type="rotate" values="-3 0 -41;3 0 -41;-3 0 -41" dur="2s" repeatCount="indefinite"/>' +
-    '<image href="' + (window.ART_BASE || '') + 'conductor-face-v2.png" x="-10.6" y="-64.6" width="21.2" height="25.5"/>' +
-    '</g>' +
-    '</g></g>' +
+    // 지휘자 캐릭터 — 사진에서 오린 얼굴 + 졸라맨 몸, 12초짜리 지휘 (아래 maestro 함수)
+    maestro() +
     '<path d="M0 194 Q100 180 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +
     '</svg>';
+  // 지휘자 캐릭터: 12초 동안 6마디(4/4, 한 박 0.5초) 지휘 — 보통 → 여리게 → 점점 크게 → 세게 → 크게 원을 그리며 끝맺음
+  // 지휘봉 팔은 위팔·아래팔·손목 3마디 관절. 손이 실제 4/4 지휘 도형을 그리도록 각 순간의 손 위치에서 관절 각도를 계산함.
+  function maestro() {
+    var T = 12, N = 192, S = [0, -37], L1 = 9, L2 = 8;
+    var PAT = [[0, .95], [.15, .25], [.85, .65], [.55, .05], [-1, .65], [-.55, 0], [-.15, .45], [0, -1]];   // 반 박마다: 1박·튐·2박(안쪽)·튐·3박(바깥)·튐·4박·위
+    var CUT = [[0, .95], [-.9, .2], [-.6, -.9], [.4, -1], [.9, -.1], [.15, .55], [.15, .55], [0, -1]];      // 마지막 마디: 크게 원 → 끝맺음 → 멈춤 → 준비
+    function amp(t) { return t < 4 ? 6.5 : t < 6 ? 3.2 : t < 8 ? 3.2 + (t - 6) / 2 * 5.3 : 8.5; }
+    function pt(h) {
+      h = ((h % 48) + 48) % 48;
+      var tab = h >= 40 ? CUT : PAT, q = tab[h % 8], a = (h === 47) ? amp(0) : amp(h * 0.25);
+      return [-11 + q[0] * a, -34 + q[1] * a];
+    }
+    function cr(p0, p1, p2, p3, u) {
+      var u2 = u * u, u3 = u2 * u;
+      return [0, 1].map(function (k) {
+        return .5 * (2 * p1[k] + (-p0[k] + p2[k]) * u + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * u2 + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * u3);
+      });
+    }
+    function hand(t) {   // 지휘봉 손 위치
+      var x = t / 0.25, h = Math.floor(x), u = x - h;
+      return cr(pt(h - 1), pt(h), pt(h + 1), pt(h + 2), u);
+    }
+    function lerp(a, b, w) { return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w]; }
+    function sm(w) { w = Math.max(0, Math.min(1, w)); return w * w * (3 - 2 * w); }
+    function other(t) {  // 반대 손: 따라 젓기 → 여리게(손바닥 아래) → 점점 들어 올림 → 크게 따라 젓기
+      var r = hand(t), m = function (k) { return [11 - (r[0] + 11) * k, -33 + (r[1] + 34) * k]; };
+      var low = [13, -27 + .4 * Math.sin(t * 9)], high = [15, -45];
+      if (t < 3.75) return m(.45);
+      if (t < 4.25) return lerp(m(.45), low, sm((t - 3.75) / .5));
+      if (t < 6) return low;
+      if (t < 8) return lerp(low, high, sm((t - 6) / 2));
+      if (t < 8.25) return lerp(high, m(.9), sm((t - 8) / .25));
+      if (t < 11.75) return m(.9);
+      return lerp(m(.9), m(.45), sm((t - 11.75) / .25));
+    }
+    function ik(tg, elbowSign) {
+      var dx = tg[0] - S[0], dy = tg[1] - S[1], d = Math.max(1.5, Math.min(L1 + L2 - .3, Math.sqrt(dx * dx + dy * dy)));
+      var phi = Math.atan2(dy, dx), a = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+      var t1 = phi + elbowSign * a, ex = S[0] + L1 * Math.cos(t1), ey = S[1] + L1 * Math.sin(t1);
+      var t2 = Math.atan2(tg[1] - ey, tg[0] - ex) - t1;
+      return [t1 * 180 / Math.PI, t2 * 180 / Math.PI];
+    }
+    function unwrap(arr) { for (var k = 1; k < arr.length; k++) { while (arr[k] - arr[k - 1] > 180) arr[k] -= 360; while (arr[k] - arr[k - 1] < -180) arr[k] += 360; } return arr; }
+    function ictus(t) {   // 박을 짚는 순간 몸이 살짝 내려앉음
+      var near = Math.round(t / .5) * .5, k = (t >= 10 && t < 11) || t >= 11.5 ? 0 : 1;
+      var b = Math.exp(-Math.pow((t - near) / .08, 2)) * k * (amp(t) / 8);
+      return b + 1.3 * Math.exp(-Math.pow((t - 11.25) / .1, 2));
+    }
+    function lean(t) { return t < 4 ? 0 : t < 6 ? 1.2 * sm((t - 4) / .5) : t < 8 ? 1.2 - 4.2 * sm((t - 6) / 2) : t < 11 ? -3 : -3 + 3 * sm((t - 11) / 1); }
+
+    var A1 = [], A2 = [], B1 = [], B2 = [], FL = [], BOB = [], LN = [], NOD = [];
+    for (var k = 0; k <= N; k++) {
+      var t = (k % N) * T / N, r = ik(hand(t), -1), o = ik(other(t), 1), bo = ictus(t);
+      A1.push(r[0]); A2.push(r[1]); B1.push(o[0]); B2.push(o[1]);
+      FL.push(t >= 11.25 && t < 11.75 ? 18 : 22 + 12 * Math.sin(2 * Math.PI * t / .5) * (amp(t) / 8));
+      BOB.push(.9 * bo); LN.push(lean(t)); NOD.push(-2 + 5 * bo + .5 * lean(t));
+    }
+    unwrap(A1); unwrap(A2); unwrap(B1); unwrap(B2);
+    var f = function (v) { return v.toFixed(1); };
+    var rot = function (arr, cx, cy, extra) {
+      return '<animateTransform attributeName="transform" type="rotate"' + (extra || '') + ' values="' + arr.map(function (v) { return f(v) + ' ' + cx + ' ' + cy; }).join(';') + '" dur="12s" repeatCount="indefinite"/>';
+    };
+    var legs = BOB.map(function (b) { var hy = f(-22 + b); return 'M0 ' + hy + ' L-6 -5 M0 ' + hy + ' L6 -5'; }).join(';');
+    var ink = 'fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round"';
+
+    return '<ellipse cx="352" cy="166" rx="17" ry="2.6" fill="#c9d6ee" opacity=".8"/>' +
+      '<g transform="translate(352 165) scale(1.08)">' +
+      '<rect x="-13" y="-5" width="26" height="6" rx="1.5" fill="#7a3444"/><path d="M-13 -4.6 H13" stroke="#d9b56e" stroke-width=".8"/>' +
+      '<path d="M0 -22 L-6 -5 M0 -22 L6 -5" ' + ink + ' stroke-width="2.3"><animate attributeName="d" values="' + legs + '" dur="12s" repeatCount="indefinite"/></path>' +
+      '<g>' +
+      '<animateTransform attributeName="transform" type="translate" values="' + BOB.map(function (b) { return '0 ' + f(b); }).join(';') + '" dur="12s" repeatCount="indefinite"/>' +
+      rot(LN, 0, -22, ' additive="sum"') +
+      '<path d="M0 -22 V-40" ' + ink + ' stroke-width="2.3"/>' +
+      '<path d="M-3 -41.5 L0 -40 L-3 -38.5Z M3 -41.5 L0 -40 L3 -38.5Z" fill="#c0463f"/>' +
+      // 지휘봉 팔: 위팔 → 아래팔 → 손목(지휘봉)
+      '<g>' + rot(A1, 0, -37) + '<path d="M0 -37 H9" ' + ink + '/>' +
+      '<g>' + rot(A2, 9, -37) + '<path d="M9 -37 H17" ' + ink + '/>' +
+      '<g>' + rot(FL, 17, -37) + '<path d="M17 -37 H30" stroke="#ffffff" stroke-width="1.1" stroke-linecap="round"/>' +
+      '<circle cx="30.4" cy="-37" r="1.5" fill="#fff6c8"><animate attributeName="opacity" values=".25;1;.25" dur=".5s" repeatCount="indefinite"/></circle>' +
+      '</g></g></g>' +
+      // 반대 손: 위팔 → 아래팔 → 펼친 손
+      '<g>' + rot(B1, 0, -37) + '<path d="M0 -37 H9" ' + ink + '/>' +
+      '<g>' + rot(B2, 9, -37) + '<path d="M9 -37 H17" ' + ink + '/>' +
+      '<path d="M17 -37 l2.2 -1.4 M17 -37 l2.6 0 M17 -37 l2.2 1.4" stroke="#1d1f2b" stroke-width=".9" stroke-linecap="round"/>' +
+      '</g></g>' +
+      // 얼굴 (사진에서 머리·얼굴만 오린 것, 배경 투명) — 박자에 맞춰 까딱
+      '<g>' + rot(NOD, 0, -40) +
+      '<image href="' + (window.ART_BASE || '') + 'conductor-face-v2.png" x="-10.6" y="-64.6" width="21.2" height="25.5"/>' +
+      '</g>' +
+      '</g></g>';
+  }
   function win(x) {
     return '<rect x="' + (x - 3) + '" y="127" width="16" height="22" rx="8" fill="#ffe7a8" opacity=".35"/>' +
       '<rect x="' + x + '" y="130" width="10" height="16" rx="5" fill="#ffd36b"/>' +
