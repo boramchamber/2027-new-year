@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>보람챔버 신년음악회</title>
+<meta name="description" content="2027년 1월 6일(수) · 보람챔버오케스트라 신년음악회에 초대합니다.">
+<!-- 카카오톡·문자 미리보기 (내용이 바뀌면 여기도 함께 고칩니다) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="보람챔버 신년음악회">
+<meta property="og:description" content="2027년 1월 6일(수) · 보람챔버오케스트라가 초대합니다.">
+<meta property="og:url" content="https://boramchamber.github.io/2027-new-year/">
+<meta name="theme-color" content="#1d2b4c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1d2b4c;
+    --navy-deep: #121c33;
+    --gold: #c9a55c;
+    --gold-soft: #e8d5a8;
+    --ink: #2a2a2a;
+    --muted: #7a7468;
+    --line: #ece5d8;
+    --paper: #ffffff;
+    --outside: #f4f0e8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--outside);
+    color: var(--ink);
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    word-break: keep-all;
+  }
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+    background: var(--paper);
+    min-height: 100vh;
+    box-shadow: 0 0 24px rgba(0,0,0,.06);
+  }
+  .serif { font-family: 'Noto Serif KR', 'AppleMyungjo', 'Batang', serif; }
+
+  /* 표지 */
+  .cover {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(120% 80% at 50% 0%, #2c3f6b 0%, var(--navy) 45%, var(--navy-deep) 100%);
+    color: #fff;
+    text-align: center;
+    padding: 72px 24px 64px;
+  }
+  .cover canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .cover > *:not(canvas) { position: relative; }
+  .cover .eyebrow {
+    font-size: 12px; letter-spacing: .32em; color: var(--gold-soft); font-weight: 500;
+  }
+  .cover .ornament { width: 72px; height: 72px; margin: 28px auto 20px; display: block; }
+  .cover h1 {
+    font-size: 34px; line-height: 1.35; font-weight: 700; letter-spacing: -.01em;
+  }
+  .cover h1 .small { display: block; font-size: 18px; font-weight: 400; color: var(--gold-soft); margin-bottom: 6px; letter-spacing: .04em; }
+  .cover .rule { width: 40px; height: 1px; background: var(--gold); margin: 28px auto; }
+  .cover .when { font-size: 20px; letter-spacing: .02em; }
+  .cover .when .time { display: block; font-size: 16px; color: var(--gold-soft); margin-top: 2px; }
+  .cover .who { margin-top: 28px; font-size: 15px; color: rgba(255,255,255,.8); letter-spacing: .08em; }
+  .dday {
+    display: inline-block; margin-top: 30px; padding: 6px 16px;
+    border: 1px solid rgba(201,165,92,.6); border-radius: 999px;
+    color: var(--gold-soft); font-size: 14px; letter-spacing: .06em;
+  }
+
+  /* 본문 섹션 */
+  section { padding: 56px 28px; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: 0; }
+  .sec-label { text-align: center; font-size: 12px; letter-spacing: .3em; color: var(--gold); font-weight: 500; }
+  .sec-title { text-align: center; font-size: 22px; font-weight: 600; margin: 6px 0 28px; color: var(--navy); }
+
+  .greeting p { text-align: center; font-size: 16px; line-height: 2; color: #444; }
+  .greeting .sign { margin-top: 24px; font-size: 15px; color: var(--muted); }
+
+  .info { border-top: 1px solid var(--navy); }
+  .info .row { display: flex; gap: 16px; padding: 16px 4px; border-bottom: 1px solid var(--line); }
+  .info .k { flex: 0 0 56px; color: var(--muted); font-size: 15px; }
+  .info .v { flex: 1; font-weight: 500; }
+  .info .v .sub { display: block; font-weight: 400; font-size: 14px; color: var(--muted); }
+  .info .v.pending { color: var(--muted); font-weight: 400; }
+
+  .program { list-style: none; counter-reset: p; }
+  .program li {
+    counter-increment: p;
+    display: grid; grid-template-columns: 32px 1fr; column-gap: 8px;
+    padding: 16px 0; border-bottom: 1px dashed var(--line);
+  }
+  .program li:last-child { border-bottom: 0; }
+  .program li::before {
+    content: counter(p, decimal-leading-zero);
+    font-family: 'Noto Serif KR', serif; color: var(--gold); font-size: 15px; padding-top: 2px;
+  }
+  .program .t { font-size: 17px; font-weight: 600; color: var(--navy); }
+  .program .m { grid-column: 2; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
+  .program-note { margin-top: 20px; text-align: center; font-size: 14px; color: var(--muted); }
+
+  .performers { display: grid; gap: 12px; }
+  .performers .p { display: flex; justify-content: center; gap: 12px; font-size: 16px; }
+  .performers .role { color: var(--muted); }
+  .performers .name { font-weight: 600; color: var(--navy); }
+
+  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 48px; padding: 10px 14px;
+    border: 1px solid var(--navy); border-radius: 10px;
+    background: #fff; color: var(--navy);
+    font: inherit; font-size: 15px; font-weight: 500; text-decoration: none; cursor: pointer;
+  }
+  .btn.primary { background: var(--navy); color: #fff; }
+  .btn.full { grid-column: 1 / -1; }
+  .addr { text-align: center; }
+  .addr .name { font-size: 18px; font-weight: 600; color: var(--navy); }
+  .addr .line { color: #555; margin-top: 4px; }
+  .addr .parking { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+  footer { padding: 40px 28px 56px; text-align: center; background: #faf8f3; }
+  footer .contact { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+  footer .copy { margin-top: 28px; font-size: 12px; color: #aaa39a; letter-spacing: .08em; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 32px; transform: translate(-50%, 20px);
+    background: rgba(18,28,51,.92); color: #fff; padding: 10px 18px; border-radius: 999px;
+    font-size: 14px; opacity: 0; transition: .25s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+  [hidden] { display: none !important; }
+
+  /* 작은 폰 (갤럭시 폴드 접힘·아이폰 SE 등 360px 이하) */
+  @media (max-width: 360px) {
+    section { padding: 48px 20px; }
+    footer { padding: 36px 20px 48px; }
+    .cover { padding: 60px 20px 52px; }
+    .cover h1 { font-size: 30px; }
+    .greeting p { font-size: 15px; }
+    .program .t { font-size: 16px; }
+    .info .k { flex-basis: 48px; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header class="cover">
+    <canvas id="snow" aria-hidden="true"></canvas>
+    <div class="eyebrow" id="subtitle"></div>
+    <svg class="ornament" viewBox="0 0 72 72" aria-hidden="true">
+      <circle cx="36" cy="36" r="34" fill="none" stroke="#c9a55c" stroke-opacity=".5"/>
+      <circle cx="36" cy="36" r="28" fill="none" stroke="#c9a55c" stroke-opacity=".25"/>
+      <path d="M30 46a5 4 0 1 1-2-3.2V22l16-4v20.8" fill="none" stroke="#e8d5a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="25" cy="46" rx="5" ry="4" fill="#e8d5a8"/>
+      <ellipse cx="41" cy="42" rx="5" ry="4" fill="#e8d5a8"/>
+      <path d="M28 27l16-4" stroke="#e8d5a8" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <h1 class="serif" id="title"></h1>
+    <div class="rule"></div>
+    <div class="when serif" id="when"></div>
+    <div class="who" id="who"></div>
+    <div class="dday" id="dday" hidden></div>
+  </header>
+
+  <section class="greeting reveal" id="sec-greeting">
+    <div class="sec-label">INVITATION</div>
+    <h2 class="sec-title serif">초대합니다</h2>
+    <div id="greeting"></div>
+  </section>
+
+  <section class="reveal">
+    <div class="sec-label">INFORMATION</div>
+    <h2 class="sec-title serif">공연 안내</h2>
+    <div class="info" id="info"></div>
+  </section>
+
+  <section class="reveal" id="sec-program">
+    <div class="sec-label">PROGRAM</div>
+    <h2 class="sec-title serif">프로그램</h2>
+    <ol class="program" id="program"></ol>
+    <p class="program-note" id="program-note"></p>
+  </section>
+
+  <section class="reveal" id="sec-performers" hidden>
+    <div class="sec-label">PERFORMERS</div>
+    <h2 class="sec-title serif">연주</h2>
+    <div class="performers" id="performers"></div>
+  </section>
+
+  <section class="reveal" id="sec-map" hidden>
+    <div class="sec-label">LOCATION</div>
+    <h2 class="sec-title serif">오시는 길</h2>
+    <div class="addr" id="addr"></div>
+    <div class="btns">
+      <a class="btn" id="naver" target="_blank" rel="noopener">네이버 지도</a>
+      <a class="btn" id="kakao" target="_blank" rel="noopener">카카오맵</a>
+      <button class="btn full" type="button" id="copy-addr">주소 복사</button>
+    </div>
+  </section>
+
+  <footer>
+    <p class="contact" id="contact" hidden></p>
+    <div class="btns">
+      <button class="btn primary full" type="button" id="share">초대장 공유하기</button>
+      <button class="btn full" type="button" id="calendar" hidden>내 캘린더에 추가</button>
+    </div>
+    <p class="copy" id="copyright"></p>
+  </footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var D = window.INVITE;
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+  var WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+  var p = D.date.split('-').map(Number);
+  var day = new Date(p[0], p[1] - 1, p[2]);
+  var dateText = p[0] + '년 ' + p[1] + '월 ' + p[2] + '일 (' + WEEK[day.getDay()] + ')';
+  var dateShort = p[0] + '. ' + p[1] + '. ' + p[2] + '. ' + WEEK[day.getDay()] + '요일';
+  var timeText = function (t) {
+    if (!t) return '';
+    var hm = t.split(':').map(Number), h = hm[0], m = hm[1] || 0;
+    return (h < 12 ? '오전 ' : '오후 ') + (h % 12 === 0 ? 12 : h % 12) + '시' + (m ? ' ' + m + '분' : '');
+  };
+
+  // 표지
+  $('subtitle').textContent = D.subtitle;
+  var t = D.title.split(' ');
+  $('title').innerHTML = t.length > 1
+    ? '<span class="small">' + esc(t.slice(0, -1).join(' ')) + '</span>' + esc(t[t.length - 1])
+    : esc(D.title);
+  $('when').innerHTML = esc(dateShort) + (D.time ? '<span class="time">' + esc(timeText(D.time)) + '</span>' : '');
+  $('who').textContent = D.orchestra;
+
+  // D-day
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var diff = Math.round((day - today) / 86400000);
+  if (diff >= 0) {
+    $('dday').textContent = diff === 0 ? '오늘 공연합니다' : 'D-' + diff;
+    $('dday').hidden = false;
+  }
+
+  // 인사말
+  if (D.greeting && D.greeting.length) {
+    $('greeting').innerHTML = '<p>' + D.greeting.map(esc).join('<br>') + '</p>' +
+      '<p class="sign">' + esc(D.orchestra) + ' 드림</p>';
+  } else {
+    $('sec-greeting').hidden = true;
+  }
+
+  // 공연 안내
+  var rows = [];
+  var when = esc(dateText) + (D.time ? ' ' + esc(timeText(D.time)) : '');
+  rows.push(['일시', when + (D.doorsOpen ? '<span class="sub">' + esc(timeText(D.doorsOpen)) + ' 입장 시작</span>' : '')]);
+  if (D.venue && D.venue.name) {
+    rows.push(['장소', esc(D.venue.name) + (D.venue.address ? '<span class="sub">' + esc(D.venue.address) + '</span>' : '')]);
+  } else {
+    rows.push(['장소', '추후 안내 예정', 'pending']);
+  }
+  if (D.admission) rows.push(['입장', esc(D.admission)]);
+  $('info').innerHTML = rows.map(function (r) {
+    return '<div class="row"><div class="k">' + r[0] + '</div><div class="v' + (r[2] ? ' ' + r[2] : '') + '">' + r[1] + '</div></div>';
+  }).join('');
+
+  // 프로그램
+  if (D.program && D.program.length) {
+    $('program').innerHTML = D.program.map(function (s) {
+      var meta = (s.note || s.composer)
+        ? '<div class="m"><span>' + esc(s.note || '') + '</span><span>' + esc(s.composer || '') + '</span></div>' : '';
+      return '<li><div class="t">' + esc(s.title) + '</div>' + meta + '</li>';
+    }).join('');
+    $('program-note').textContent = D.programNote || '';
+  } else {
+    $('sec-program').hidden = true;
+  }
+
+  // 연주자
+  if (D.performers && D.performers.length) {
+    $('performers').innerHTML = D.performers.map(function (x) {
+      return '<div class="p"><span class="role">' + esc(x.role) + '</span><span class="name">' + esc(x.name) + '</span></div>';
+    }).join('');
+    $('sec-performers').hidden = false;
+  }
+
+  // 오시는 길
+  if (D.venue && D.venue.address) {
+    var q = encodeURIComponent(D.venue.address);
+    $('addr').innerHTML = '<div class="name">' + esc(D.venue.name || '') + '</div><div class="line">' + esc(D.venue.address) + '</div>' +
+      (D.venue.parking ? '<div class="parking">' + esc(D.venue.parking) + '</div>' : '');
+    $('naver').href = 'https://map.naver.com/p/search/' + q;
+    $('kakao').href = 'https://map.kakao.com/link/search/' + q;
+    $('copy-addr').onclick = function () { copy(D.venue.address, '주소를 복사했습니다'); };
+    $('sec-map').hidden = false;
+  }
+
+  // 문의 · 저작
+  if (D.contact) { $('contact').textContent = D.contact; $('contact').hidden = false; }
+  $('copyright').textContent = '© ' + p[0] + ' ' + D.orchestra;
+
+  // 공유
+  function toast(msg) {
+    var el = $('toast'); el.textContent = msg; el.classList.add('show');
+    clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('show'); }, 1800);
+  }
+  function copy(text, msg) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { toast(msg); }, function () { fallback(); });
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast(msg); } catch (e) { toast('복사하지 못했습니다'); }
+      document.body.removeChild(ta);
+    }
+  }
+  $('share').onclick = function () {
+    var data = { title: D.title, text: dateText + ' · ' + D.orchestra + ' ' + D.title + '에 초대합니다.', url: location.href };
+    if (navigator.share) { navigator.share(data).catch(function () {}); }
+    else { copy(location.href, '초대장 주소를 복사했습니다'); }
+  };
+
+  // 캘린더 (.ics) — 시간이 정해지면 나타납니다
+  if (D.time) {
+    $('calendar').hidden = false;
+    $('calendar').onclick = function () {
+      var hm = D.time.split(':').map(Number);
+      var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      var start = '' + p[0] + pad(p[1]) + pad(p[2]) + 'T' + pad(hm[0]) + pad(hm[1] || 0) + '00';
+      var endH = hm[0] + 2;
+      var end = '' + p[0] + pad(p[1]) + pad(p[2]) + 'T' + pad(endH) + pad(hm[1] || 0) + '00';
+      var loc = D.venue ? [D.venue.name, D.venue.address].filter(Boolean).join(' ') : '';
+      var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//boramchamber//invite//KO', 'BEGIN:VEVENT',
+        'UID:' + D.date + '@boramchamber.github.io', 'DTSTAMP:' + start, 'DTSTART;TZID=Asia/Seoul:' + start,
+        'DTEND;TZID=Asia/Seoul:' + end, 'SUMMARY:' + D.title, loc ? 'LOCATION:' + loc : '', 'END:VEVENT', 'END:VCALENDAR']
+        .filter(Boolean).join('\r\n');
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      a.download = 'boramchamber-' + D.date + '.ics';
+      a.click();
+    };
+  }
+
+  // 스크롤하면 섹션이 부드럽게 나타남
+  var secs = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    secs.forEach(function (s) { io.observe(s); });
+  } else { secs.forEach(function (s) { s.classList.add('in'); }); }
+
+  // 표지 눈송이
+  var cv = $('snow'), ctx = cv.getContext && cv.getContext('2d');
+  if (ctx && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var flakes = [], W, H, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var size = function () { W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    size(); window.addEventListener('resize', size);
+    for (var i = 0; i < 40; i++) flakes.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.8 + .6, s: Math.random() * .4 + .15, w: Math.random() * Math.PI * 2 });
+    (function tick() {
+      ctx.clearRect(0, 0, W, H);
+      flakes.forEach(function (f) {
+        f.y += f.s; f.w += .01; f.x += Math.sin(f.w) * .2;
+        if (f.y > H + 4) { f.y = -4; f.x = Math.random() * W; }
+        ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (.35 + f.r / 5) + ')'; ctx.fill();
+      });
+      requestAnimationFrame(tick);
+    })();
+  }
+})();
+</script>
+</body>
+</html>
