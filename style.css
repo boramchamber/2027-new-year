@@ -96,6 +96,23 @@ section { padding: 52px 24px; }
 .info .v.pending { color: var(--muted); font-weight: 400; }
 
 /* 배경음악 카드 + 떠 있는 ♪ 버튼 */
+/* 배경음악 ♪ 버튼 (오른쪽 아래) */
+.music-fab {
+  position: fixed; right: 16px; bottom: 20px; z-index: 50; width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(217,181,110,.8); background: rgba(22,34,77,.85); color: #f3d9a4;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25); cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.music-fab svg { width: 21px; height: 21px; }
+.music-fab .slash { position: absolute; width: 25px; height: 2px; background: #f3d9a4; transform: rotate(-45deg); border-radius: 2px; }
+.music-fab.on .slash { display: none; }
+.music-fab.on::after {
+  content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid rgba(243,217,164,.6);
+  animation: fab-pulse 1.8s ease-out infinite;
+}
+@keyframes fab-pulse { from { transform: scale(.9); opacity: 1; } to { transform: scale(1.35); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .music-fab.on::after { animation: none; } }
+
 /* 프로그램 */
 .group { text-align: center; margin: 6px 0 18px; }
 .group + .pieces { margin-bottom: 8px; }

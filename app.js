@@ -161,6 +161,38 @@ document.getElementById('app').innerHTML = `
   }
   if (D.admission) $('w-admission').textContent = '입장 ' + D.admission;
 
+  // 배경음악 (mp3) — 화면에 티 나지 않게: 첫 터치에 재생 → 반복, ♪ 버튼으로 끄고 켬
+  (function () {
+    var B = D.bgm;
+    if (!B || !B.file) return;
+    var au = new Audio(B.file);
+    au.loop = true; au.preload = 'none'; au.volume = B.volume || 0.7;
+    var fab = document.createElement('button');
+    fab.type = 'button'; fab.className = 'music-fab';
+    fab.setAttribute('aria-label', '배경음악 켜기/끄기');
+    fab.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor"/><circle cx="16.5" cy="16" r="2.6" fill="currentColor"/></svg><i class="slash"></i>';
+    document.body.appendChild(fab);
+    var on = false;
+    function paint() { fab.classList.toggle('on', on); }
+    function sound(v) {
+      on = v; paint();
+      if (v) { var pr = au.play(); if (pr && pr.catch) pr.catch(function () { on = false; paint(); }); }
+      else au.pause();
+    }
+    var evs = ['touchend', 'click', 'keydown'];
+    function stopListening() { evs.forEach(function (n) { document.removeEventListener(n, first, true); }); }
+    function first(e) {
+      if (e.target && e.target.closest && e.target.closest('.music-fab')) return;
+      stopListening(); sound(true);
+    }
+    evs.forEach(function (n) { document.addEventListener(n, first, true); });
+    fab.onclick = function () { stopListening(); sound(!on); };
+    // 다른 앱으로 나가면 잠시 멈추고, 돌아오면 이어서
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) au.pause(); else if (on) au.play().catch(function () {});
+    });
+  })();
+
   // 공연 안내
   var rows = [];
   var when = esc(dateText) + (D.time ? ' ' + esc(timeText(D.time)) : '');

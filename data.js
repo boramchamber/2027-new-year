@@ -107,5 +107,15 @@ window.INVITE = {
     // { role: '지휘', name: '홍길동' },
   ],
 
+  // 배경음악 — 저작권이 끝난 곡의 퍼블릭 도메인 녹음만 (mp3). file 이 '' 이면 음악 없음.
+  // 화면 아무 곳이나 처음 터치하면 재생, 끝나면 처음부터 반복, 오른쪽 아래 ♪ 로 끄고 켬.
+  // 파일을 바꿀 때는 이름 끝 번호를 올린다(-v1 → -v2) — 휴대폰이 예전 파일을 기억하지 않게.
+  bgm: {
+    file: '',                       // 예: 'clair-de-lune-v1.mp3'
+    volume: 0.7,
+    // 드뷔시 〈달빛〉 Clair de lune — Laurens Goedhart 피아노(2011), 퍼블릭 도메인, 위키미디어 공용
+    source: 'https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg'
+  },
+
   contact: ''           // 문의처 (예: '문의 · 인스타그램 @boramchamber') — 없으면 빈칸
 };
