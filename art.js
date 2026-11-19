@@ -106,16 +106,25 @@
     }
     function lerp(a, b, w) { return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w]; }
     function sm(w) { w = Math.max(0, Math.min(1, w)); return w * w * (3 - 2 * w); }
-    function other(t) {  // 반대 손: 따라 젓기 → 여리게(손바닥 아래) → 점점 들어 올림 → 크게 따라 젓기
-      var r = hand(t), m = function (k) { return [11 - (r[0] + 11) * k, -33 + (r[1] + 34) * k]; };
-      var low = [13, -27 + .4 * Math.sin(t * 9)], high = [15, -45];
-      if (t < 3.75) return m(.45);
-      if (t < 4.25) return lerp(m(.45), low, sm((t - 3.75) / .5));
-      if (t < 6) return low;
-      if (t < 8) return lerp(low, high, sm((t - 6) / 2));
-      if (t < 8.25) return lerp(high, m(.9), sm((t - 8) / .25));
-      if (t < 11.75) return m(.9);
-      return lerp(m(.9), m(.45), sm((t - 11.75) / .25));
+    function other(t) {  // 반대 손: 평소엔 허리 옆에 내려 둠 → 여리게(가슴 높이, 손바닥 아래) → 점점 들어 올림 → 세게·끝맺음은 좌우 대칭으로 함께 → 다시 내려놓음
+      var r = hand(t), m = function (k) { return [Math.max(7, 11 - (r[0] + 11) * k), -34 + (r[1] + 34) * k]; };   // 몸 가운데를 넘어 엇갈리지 않게
+      var rest = [6.5 + .25 * Math.sin(t * 2.1), -23.6], soft = [12, -31 + .35 * Math.sin(t * 9)], high = [14, -46];
+      if (t < 3.5) return rest;
+      if (t < 4) return lerp(rest, soft, sm((t - 3.5) / .5));
+      if (t < 6) return soft;
+      if (t < 8) return lerp(soft, high, sm((t - 6) / 2));
+      if (t < 8.3) return lerp(high, m(.75), sm((t - 8) / .3));
+      if (t < 11.5) return m(.75);
+      return lerp(m(.75), rest, sm((t - 11.5) / .5));
+    }
+    function ikOut(tg, prev) {  // 반대 팔: 팔꿈치가 손보다 아래로 처지는(낮은) 풀이 — 실제 지휘처럼. 두 풀이 높이가 비슷하면 바로 앞 자세를 이어 감(뒤집힘 방지)
+      var p = ik(tg, 1), q = ik(tg, -1);
+      var ey = function (v) { return Math.sin(v[0] * Math.PI / 180); };
+      if (prev && Math.abs(ey(p) - ey(q)) < .18) {
+        var dist = function (v) { return Math.abs(((v[0] - prev[0]) % 360 + 540) % 360 - 180); };
+        return dist(p) <= dist(q) ? p : q;
+      }
+      return ey(p) >= ey(q) ? p : q;
     }
     function ik(tg, elbowSign) {
       var dx = tg[0] - S[0], dy = tg[1] - S[1], d = Math.max(1.5, Math.min(L1 + L2 - .3, Math.sqrt(dx * dx + dy * dy)));
@@ -134,7 +143,7 @@
 
     var A1 = [], A2 = [], B1 = [], B2 = [], FL = [], BOB = [], LN = [], NOD = [];
     for (var k = 0; k <= N; k++) {
-      var t = (k % N) * T / N, r = ik(hand(t), -1), o = ik(other(t), 1), bo = ictus(t);
+      var t = (k % N) * T / N, r = ik(hand(t), -1), o = ikOut(other(t), B1.length ? [B1[B1.length - 1]] : null), bo = ictus(t);
       A1.push(r[0]); A2.push(r[1]); B1.push(o[0]); B2.push(o[1]);
       FL.push(t >= 11.25 && t < 11.75 ? 18 : 22 + 12 * Math.sin(2 * Math.PI * t / .5) * (amp(t) / 8));
       BOB.push(.9 * bo); LN.push(lean(t)); NOD.push(-2 + 5 * bo + .5 * lean(t));
