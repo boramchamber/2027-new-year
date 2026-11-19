@@ -5,7 +5,7 @@
 (function () {
   var A = {};
 
-  // 표지 땅: 눈 덮인 언덕 위 불 켜진 음악당, 눈 쌓인 소나무, 첼로 켜는 눈사람, 지휘자 캐릭터, 가로등
+  // 표지 땅: 눈 덮인 언덕, 무대 뒤 불 켜진 음악당, 나무 무대 위 눈사람 오케스트라와 지휘자 캐릭터
   A.cover =
     '<svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
     '<defs><radialGradient id="cv-halo"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>' +
@@ -16,7 +16,6 @@
     pines([[118, 140, .45], [132, 138, .35], [150, 141, .4], [196, 136, .38], [212, 134, .3], [372, 136, .42], [386, 138, .32]], '#8fa7d3', false) +
     // 가까운 눈밭
     '<path d="M0 170 Q90 150 200 162 T400 156 V210 H0Z" fill="url(#cv-snow)"/>' +
-    '<ellipse cx="282" cy="167" rx="86" ry="9" fill="#ffe1a0" opacity=".5"/>' +
     // 음악당
     '<rect x="244" y="120" width="76" height="44" fill="#7a3444"/>' +
     '<path d="M236 122 L282 94 L328 122Z" fill="#8c3d4e"/>' +
@@ -26,11 +25,22 @@
     '<path d="M276 164 V147 Q282 138 288 147 V164Z" fill="#ffc24d"/>' +
     '<circle cx="282" cy="141" r="3.4" fill="none" stroke="#3d7a52" stroke-width="1.8"/><circle cx="282" cy="144.4" r="1.1" fill="#d6413f"/>' +
     '<rect x="240" y="161" width="84" height="5" rx="2.5" fill="#ffffff"/>' +
-    // 가로등
-    '<circle cx="214" cy="134" r="12" fill="#ffe7a8" opacity=".45"/>' +
-    '<path d="M214 166 V137" stroke="#3a3550" stroke-width="1.8"/><rect x="210" y="130" width="8" height="8" rx="2" fill="#ffe08a" stroke="#3a3550" stroke-width="1.2"/>' +
-    // 눈사람 첼리스트 — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름 — SVG 자체 애니메이션)
-    '<ellipse cx="148" cy="177" rx="22" ry="3" fill="#c9d6ee" opacity=".8"/>' +
+    // 무대 양옆 소나무 (작은 전구 장식, 밑동은 무대 뒤로)
+    pines([[14, 166, 1.2], [388, 164, 1.0]], '#2e5d4f', true) +
+    // 무대 — 눈밭 위 나무 무대(앞면 와인색·금색 테·무대 앞 조명), 음악당은 무대 뒤 배경
+    '<defs><linearGradient id="st-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c99566"/><stop offset="1" stop-color="#9c6539"/></linearGradient></defs>' +
+    '<path d="M0 158 Q200 149 400 156 L400 187 Q200 194 0 187Z" fill="url(#st-top)"/>' +
+    '<path d="M0 158 Q200 149 400 156 L400 160.5 Q200 153.5 0 162.5Z" fill="#ffffff" opacity=".85"/>' +
+    '<g stroke="#7d4b27" stroke-opacity=".35" stroke-width=".7" fill="none"><path d="M0 168 Q200 160 400 166"/><path d="M0 177 Q200 171 400 176"/></g>' +
+    '<ellipse cx="282" cy="171" rx="96" ry="11" fill="#ffe1a0" opacity=".32"/>' +
+    '<path d="M0 187 Q200 194 400 187 L400 199 Q200 206 0 199Z" fill="#7a3444"/>' +
+    '<path d="M0 187 Q200 194 400 187" fill="none" stroke="#d9b56e" stroke-width="1.4"/>' +
+    (function () { var l = ''; for (var x = 20; x < 400; x += 40) { var y = 189.5 + 3.2 * (1 - Math.pow((x - 200) / 200, 2)); l += '<ellipse cx="' + x + '" cy="' + (y - 4) + '" rx="9" ry="5" fill="#ffe7a8" opacity=".28"/><circle cx="' + x + '" cy="' + y + '" r="1.6" fill="#ffe08a"/>'; } return l; })() +
+    // [뒷줄 연주자]
+    // [앞줄 왼쪽 연주자]
+    // 첼로 눈사람 (앞줄 오른쪽) — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름)
+    '<g transform="translate(90 8)">' +
+    '<ellipse cx="148" cy="177" rx="22" ry="3" fill="#6e4424" opacity=".35"/>' +
     '<g transform="translate(150 176) scale(1.35) translate(-150 -176)">' +
     // 의자
     '<path d="M137 164 L136 177 M153 164 L154 177" stroke="#6b4a2b" stroke-width="1.6" stroke-linecap="round"/>' +
@@ -76,11 +86,10 @@
     '<animate attributeName="opacity" values="0;.9;0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>' +
     '<animateTransform attributeName="transform" type="translate" values="0 0;7 -16" dur="2.6s" begin="1.3s" repeatCount="indefinite"/></text>' +
     '</g></g>' +
-    // 가까운 소나무 (작은 전구 장식)
-    pines([[42, 176, 1.15], [76, 178, .85], [388, 172, .72]], '#2e5d4f', true) +
+    '</g>' +
     // 지휘자 캐릭터 — 사진에서 오린 얼굴 + 졸라맨 몸, 12초짜리 지휘 (아래 maestro 함수)
     maestro() +
-    '<path d="M0 194 Q100 180 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +
+    '<path d="M0 204 Q100 199 200 204 T400 202 V210 H0Z" fill="#fffaf2"/>' +
     '</svg>';
   // 지휘자 캐릭터: 12초 동안 6마디(4/4, 한 박 0.5초) 지휘 — 보통 → 여리게 → 점점 크게 → 세게 → 크게 원을 그리며 끝맺음
   // 지휘봉 팔은 위팔·아래팔·손목 3마디 관절. 손이 실제 4/4 지휘 도형을 그리도록 각 순간의 손 위치에서 관절 각도를 계산함.
@@ -156,8 +165,8 @@
     var legs = BOB.map(function (b) { var hy = f(-22 + b); return 'M0 ' + hy + ' L-6 -5 M0 ' + hy + ' L6 -5'; }).join(';');
     var ink = 'fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round"';
 
-    return '<ellipse cx="352" cy="166" rx="17" ry="2.6" fill="#c9d6ee" opacity=".8"/>' +
-      '<g transform="translate(352 165) scale(1.08)">' +
+    return '<ellipse cx="350" cy="185" rx="20" ry="3" fill="#6e4424" opacity=".35"/>' +
+      '<g transform="translate(350 184) scale(1.25)">' +
       '<rect x="-13" y="-5" width="26" height="6" rx="1.5" fill="#7a3444"/><path d="M-13 -4.6 H13" stroke="#d9b56e" stroke-width=".8"/>' +
       '<path d="M0 -22 L-6 -5 M0 -22 L6 -5" ' + ink + ' stroke-width="2.3"><animate attributeName="d" values="' + legs + '" dur="12s" repeatCount="indefinite"/></path>' +
       '<g>' +
