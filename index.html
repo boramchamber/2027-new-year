@@ -103,6 +103,12 @@
   }
   .program .t { font-size: 17px; font-weight: 600; color: var(--navy); }
   .program .m { grid-column: 2; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; }
+  .group {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 16px; font-weight: 600; color: var(--navy); margin: 8px 0 4px;
+  }
+  .group::before, .group::after { content: ''; flex: 1; height: 1px; background: var(--gold); opacity: .5; }
+  .program + .group { margin-top: 36px; }
   .program-note { margin-top: 20px; text-align: center; font-size: 14px; color: var(--muted); }
 
   .performers { display: grid; gap: 12px; }
@@ -189,7 +195,7 @@
   <section class="reveal" id="sec-program">
     <div class="sec-label">PROGRAM</div>
     <h2 class="sec-title serif">프로그램</h2>
-    <ol class="program" id="program"></ol>
+    <div id="program"></div>
     <p class="program-note" id="program-note"></p>
   </section>
 
@@ -282,11 +288,15 @@
   }).join('');
 
   // 프로그램
-  if (D.program && D.program.length) {
-    $('program').innerHTML = D.program.map(function (s) {
-      var meta = (s.note || s.composer)
-        ? '<div class="m"><span>' + esc(s.note || '') + '</span><span>' + esc(s.composer || '') + '</span></div>' : '';
-      return '<li><div class="t">' + esc(s.title) + '</div>' + meta + '</li>';
+  var groups = (D.program || []).filter(function (g) { return g.pieces && g.pieces.length; });
+  if (groups.length) {
+    $('program').innerHTML = groups.map(function (g) {
+      var items = g.pieces.map(function (s) {
+        var meta = (s.note || s.composer)
+          ? '<div class="m"><span>' + esc(s.note || '') + '</span><span>' + esc(s.composer || '') + '</span></div>' : '';
+        return '<li><div class="t">' + esc(s.title) + '</div>' + meta + '</li>';
+      }).join('');
+      return (g.group ? '<h3 class="group serif">' + esc(g.group) + '</h3>' : '') + '<ol class="program">' + items + '</ol>';
     }).join('');
     $('program-note').textContent = D.programNote || '';
   } else {

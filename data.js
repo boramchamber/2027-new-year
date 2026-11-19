@@ -30,14 +30,29 @@ window.INVITE = {
     '따뜻한 박수로 함께해 주세요.'
   ],
 
+  // 묶음(group)별 곡 목록. 곡 순서 = 초대장에 보이는 순서
+  // 작곡가를 모르면 composer 를 '' 로 둡니다 (화면에 안 보임)
   program: [
-    { title: '할아버지의 11개월', note: '', composer: '' },
-    { title: '위풍당당 행진곡', note: 'Pomp and Circumstance', composer: 'E. Elgar' },
-    { title: "How Far I'll Go", note: '디즈니 〈모아나〉 OST', composer: 'L. M. Miranda' },
-    { title: '카르멘', note: 'Carmen', composer: 'G. Bizet' },
-    { title: 'The Ludlows', note: "영화 〈가을의 전설〉 OST", composer: 'J. Horner' }
+    {
+      group: '전체 합주',
+      pieces: [
+        { title: 'The Ludlows', note: '영화 〈가을의 전설〉 OST', composer: 'J. Horner' },
+        { title: "How Far I'll Go", note: '디즈니 〈모아나〉 OST', composer: 'L. M. Miranda' },
+        { title: "Grandpapa's Eleven Month", note: '할아버지의 11개월', composer: '' },
+        { title: 'Pomp and Circumstance', note: '위풍당당 행진곡', composer: 'E. Elgar' },
+        { title: 'The Toreadors', note: '오페라 〈카르멘〉 중', composer: 'G. Bizet' }
+      ]
+    },
+    {
+      group: '앙상블',
+      pieces: [
+        { title: 'The Last Waltz', note: '영화 〈올드보이〉 OST', composer: '' },
+        { title: 'Ave Maria', note: '', composer: '' },
+        { title: '사랑으로', note: '', composer: '' }
+      ]
+    }
   ],
-  programNote: '곡목은 추가될 수 있습니다.',
+  programNote: '곡목은 변경될 수 있습니다.',
 
   performers: [
     // { role: '지휘', name: '홍길동' },
