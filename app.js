@@ -73,6 +73,7 @@ document.getElementById('app').innerHTML = `
   <section class="soft reveal" id="sec-program">
     <div class="sec-label en">Program</div>
     <h2 class="sec-title serif">이런 곡을 들려드려요</h2>
+    <p class="program-hint">곡을 누르면 쉬운 설명이 펼쳐져요</p>
     <div id="program"></div>
     <p class="program-note" id="program-note"></p>
   </section>
@@ -164,15 +165,19 @@ document.getElementById('app').innerHTML = `
         ? '<div class="group">' + (g.en ? '<div class="g-en en">' + esc(g.en) + '</div>' : '') +
           '<h3 class="serif">' + esc(g.group) + '</h3>' + (g.desc ? '<p>' + esc(g.desc) + '</p>' : '') + '</div>'
         : '';
-      var items = g.pieces.map(function (s, i) {
-        var no = (i + 1 < 10 ? '0' : '') + (i + 1);
-        var meta = [s.note, s.composer].filter(Boolean).map(esc).join(' · ');
-        return '<article class="piece">' +
-          '<div class="art">' + (ART[s.art] || '') + '<span class="no en">' + no + '</span></div>' +
-          '<div class="body"><h4 class="t serif">' + esc(s.title) + '</h4>' +
-          (meta ? '<div class="m">' + meta + '</div>' : '') +
-          (s.desc ? '<p class="d">' + esc(s.desc) + '</p>' : '') +
-          '</div></article>';
+      // 한 줄 목록: 작은 그림 + 제목 — 누르면 설명이 펼쳐짐 (설명 없는 곡은 펼치기 없음)
+      var items = g.pieces.map(function (s) {
+        var meta = [s.note ? esc(s.note) : '', s.composer ? '<span class="nw">' + esc(s.composer) + '</span>' : ''].filter(Boolean).join(' · ');
+        var art = ART[s.art] || '';
+        var x = (ART.thumbX && ART.thumbX[s.art]) || 85;
+        art = art.replace('viewBox="0 0 320 150"', 'viewBox="' + x + ' 0 150 150"');
+        var row = '<span class="thumb">' + art + '</span>' +
+          '<span class="txt"><span class="t serif">' + esc(s.title) + '</span>' +
+          (meta ? '<span class="m">' + meta + '</span>' : '') + '</span>';
+        if (!s.desc) return '<div class="piece"><div class="row">' + row + '<span></span></div></div>';
+        return '<details class="piece"><summary class="row">' + row +
+          '<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</summary><p class="d">' + esc(s.desc) + '</p></details>';
       }).join('');
       return head + '<div class="pieces">' + items + '</div>';
     }).join('');
@@ -281,21 +286,68 @@ document.getElementById('app').innerHTML = `
     secs.forEach(function (s) { io.observe(s); });
   } else { secs.forEach(function (s) { s.classList.add('in'); }); }
 
-  // 표지 눈송이
+  // 표지: 눈처럼 내리는 하얀 음표 (글꼴 대신 직접 그려 어느 휴대폰에서도 깨지지 않게)
+  // 종류: 0 4분음표 ♩ · 1 8분음표 ♪ · 2 이어진 8분음표 ♫ · 3 이어진 16분음표 ♬ · 4 2분음표
+  var NOTE = {
+    head: function (c, x, y, hollow) {
+      c.save(); c.translate(x, y); c.rotate(-.38);
+      c.beginPath(); c.ellipse(0, 0, 4.3, 3, 0, 0, Math.PI * 2);
+      if (hollow) { c.lineWidth = 1.4; c.stroke(); } else { c.fill(); }
+      c.restore();
+    },
+    stem: function (c, x, y1, y2) { c.fillRect(x - .7, y2, 1.4, y1 - y2); },
+    beam: function (c, x1, y1, x2, y2) {
+      c.beginPath(); c.moveTo(x1 - .7, y1); c.lineTo(x2 + .7, y2); c.lineTo(x2 + .7, y2 + 2.6); c.lineTo(x1 - .7, y1 + 2.6); c.closePath(); c.fill();
+    },
+    draw: function (c, kind) {
+      if (kind === 2 || kind === 3) {
+        NOTE.head(c, 0, 0); NOTE.head(c, 10, -2);
+        NOTE.stem(c, 3.8, -1, -15); NOTE.stem(c, 13.8, -3, -17);
+        NOTE.beam(c, 3.8, -15, 13.8, -17);
+        if (kind === 3) NOTE.beam(c, 3.8, -11, 13.8, -13);
+        return;
+      }
+      NOTE.head(c, 0, 0, kind === 4);
+      NOTE.stem(c, 3.8, -1, -15);
+      if (kind === 1) {
+        c.beginPath(); c.moveTo(3.1, -15); c.bezierCurveTo(4.5, -10.5, 10, -10, 8.4, -4);
+        c.bezierCurveTo(8.6, -8, 5.6, -9.4, 3.1, -11); c.closePath(); c.fill();
+      }
+    }
+  };
   var cv = $('snow'), ctx = cv.getContext && cv.getContext('2d');
-  if (ctx && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var flakes = [], W, H, dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var size = function () { W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+  if (ctx && ctx.ellipse && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var notes = [], W, H, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var size = function () { W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W * dpr; cv.height = H * dpr; };
     size(); window.addEventListener('resize', size);
-    for (var i = 0; i < 36; i++) flakes.push({ x: Math.random() * W, y: Math.random() * H * .7, r: Math.random() * 1.8 + .6, s: Math.random() * .4 + .15, w: Math.random() * Math.PI * 2 });
+    var spawn = function (n, top) {
+      n.x = Math.random() * W; n.y = top ? -20 : Math.random() * H * .72;
+      n.kind = Math.floor(Math.random() * 5);
+      n.sc = Math.random() * .55 + .55;            // 크기
+      n.v = Math.random() * .35 + .25;             // 떨어지는 속도
+      n.w = Math.random() * Math.PI * 2;           // 좌우 흔들림
+      n.rot = (Math.random() - .5) * .6;           // 기울기
+      n.spin = (Math.random() - .5) * .006;
+      n.a = Math.random() * .35 + .5;              // 투명도
+      return n;
+    };
+    for (var i = 0; i < 24; i++) notes.push(spawn({}, false));
     (function tick() {
-      ctx.clearRect(0, 0, W, H);
-      flakes.forEach(function (f) {
-        f.y += f.s; f.w += .01; f.x += Math.sin(f.w) * .2;
-        if (f.y > H * .75) { f.y = -4; f.x = Math.random() * W; }
-        ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,246,228,' + (.35 + f.r / 5) + ')'; ctx.fill();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      var floor = H * .78;
+      notes.forEach(function (n) {
+        n.y += n.v; n.w += .012; n.x += Math.sin(n.w) * .25; n.rot += n.spin;
+        if (n.y > floor) spawn(n, true);
+        var fade = Math.min(1, (floor - n.y) / 50, (n.y + 20) / 30);
+        ctx.setTransform(dpr * n.sc, 0, 0, dpr * n.sc, dpr * n.x, dpr * n.y);
+        ctx.rotate(n.rot);
+        ctx.globalAlpha = Math.max(0, n.a * fade);
+        ctx.fillStyle = ctx.strokeStyle = '#fffaf0';
+        ctx.shadowColor = 'rgba(255,255,255,.7)'; ctx.shadowBlur = 6 * dpr * n.sc;
+        NOTE.draw(ctx, n.kind);
       });
+      ctx.globalAlpha = 1;
       requestAnimationFrame(tick);
     })();
   }

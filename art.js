@@ -215,5 +215,8 @@
       '<path d="M' + (x - w) + ' ' + (y + h + 8) + ' Q' + (x - w) + ' ' + (y + r + 4) + ' ' + x + ' ' + (y + r + 4) + ' Q' + (x + w) + ' ' + (y + r + 4) + ' ' + (x + w) + ' ' + (y + h + 8) + 'Z" fill="#5a2a2a"/>';
   }
 
+  // 곡 목록의 작은 정사각형 그림에서 보여 줄 가로 시작 위치 (그림 폭 320 중 150 만큼 보임)
+  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85 };
+
   window.ART = A;
 })();
