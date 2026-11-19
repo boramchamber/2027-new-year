@@ -53,21 +53,31 @@ document.getElementById('app').innerHTML = `
     <div class="info" id="info"></div>
   </section>
 
-  <section class="reveal" id="sec-conductor" hidden>
+  <section class="reveal stage" id="sec-conductor" hidden>
     <div class="sec-label en">Conductor</div>
     <h2 class="sec-title serif">지휘자 소개</h2>
     <div class="conductor">
-      <div class="photo protect" id="conductor-photo" hidden></div>
-      <svg class="baton" id="conductor-baton" viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="32" cy="32" r="30" fill="#fff" stroke="#ecdfcb"/>
-        <path d="M18 46 L44 20" stroke="#4d1c2a" stroke-width="2.4" stroke-linecap="round"/>
-        <path d="M16 48 L22 42" stroke="#c08a3e" stroke-width="5" stroke-linecap="round"/>
-        <path d="M46 14 q3 4 0 8 M50 18 q3 4 0 8" fill="none" stroke="#c08a3e" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      <div class="role">지휘</div>
-      <div class="name serif" id="conductor-name"></div>
+      <figure class="portrait protect" id="conductor-photo" hidden>
+        <div class="frame" id="conductor-frame"></div>
+        <figcaption><span class="en">Conductor</span><b class="serif" id="conductor-name-photo"></b></figcaption>
+      </figure>
+      <div class="nameplate" id="conductor-nameplate">
+        <svg class="baton" viewBox="0 0 64 64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="#d9b56e" stroke-opacity=".5"/>
+          <path d="M18 46 L44 20" stroke="#f3eee4" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M16 48 L22 42" stroke="#d9b56e" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="role en">Conductor</div>
+        <div class="name serif" id="conductor-name"></div>
+      </div>
       <div class="now" id="conductor-now" hidden></div>
-      <div class="profile" id="conductor-profile" hidden></div>
+      <div class="awards" id="conductor-awards" hidden></div>
+      <details class="bio" id="conductor-bio" hidden>
+        <summary><span class="open-t">약력 자세히 보기</span><span class="close-t">약력 접기</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </summary>
+        <div class="profile" id="conductor-profile"></div>
+      </details>
     </div>
     <div class="performers" id="performers" hidden></div>
   </section>
@@ -191,27 +201,56 @@ document.getElementById('app').innerHTML = `
     $('sec-program').hidden = true;
   }
 
-  // 지휘자 — 사진·현재 직함·약력은 비어 있으면 숨김
+  // 지휘자 — 사진(포스터처럼 이름을 겹침)·현재 직함·수상 배지·약력(눌러서 펼침). 비어 있으면 숨김
   var C = D.conductor;
   if (C && C.name) {
     $('conductor-name').textContent = C.name;
+    $('conductor-name-photo').textContent = C.name;
     if (C.photo) {
-      $('conductor-photo').innerHTML = '<img src="' + esc(C.photo + (C.photo.indexOf('?') < 0 ? (window.BUST || '') : '')) + '" alt="지휘자 ' + esc(C.name) + '">';
+      $('conductor-frame').innerHTML = '<img src="' + esc(C.photo + (C.photo.indexOf('?') < 0 ? (window.BUST || '') : '')) + '" alt="지휘자 ' + esc(C.name) + '">';
       $('conductor-photo').hidden = false;
-      $('conductor-baton').style.display = 'none';
+      $('conductor-nameplate').hidden = true;
     }
     var now = (C.now || []).filter(Boolean);
-    if (now.length) { $('conductor-now').innerHTML = now.map(esc).join('<br>'); $('conductor-now').hidden = false; }
-    var prof = (C.profile || []).filter(function (g) { return g && (typeof g === 'string' || (g.items && g.items.length)); });
-    if (prof.length) {
-      $('conductor-profile').innerHTML = prof.map(function (g) {
-        if (typeof g === 'string') g = { items: [g] };
+    if (now.length) { $('conductor-now').innerHTML = now.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join(''); $('conductor-now').hidden = false; }
+
+    var prof = (C.profile || []).filter(function (g) { return g && (typeof g === 'string' || (g.items && g.items.length)); })
+      .map(function (g) { return typeof g === 'string' ? { items: [g] } : g; });
+    // '수상' 묶음은 월계관 배지로 따로 보여 줌 ("…부문 2위" → 배지 안 '2위', 아래 대회 이름)
+    var awards = prof.filter(function (g) { return g.head === '수상'; });
+    if (awards.length) {
+      $('conductor-awards').innerHTML = awards[0].items.map(function (x) {
+        var m = String(x).match(/^(.*?)\s*(\d+\s*위|대상|최우수상|우수상|금상|은상|동상|특별상)$/);
+        var rank = m ? m[2] : '', name = m ? m[1] : x;
+        return '<div class="award">' + laurel(rank) + '<div class="nm">' + esc(name) + '</div></div>';
+      }).join('');
+      $('conductor-awards').hidden = false;
+    }
+    var rest = prof.filter(function (g) { return g.head !== '수상'; });
+    if (rest.length) {
+      $('conductor-profile').innerHTML = rest.map(function (g) {
         return '<div class="pg">' + (g.head ? '<h4>' + esc(g.head) + '</h4>' : '') +
           '<ul>' + g.items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
       }).join('');
-      $('conductor-profile').hidden = false;
+      $('conductor-bio').hidden = false;
     }
     $('sec-conductor').hidden = false;
+  }
+  // 금색 월계관 (가운데 순위 글자)
+  function laurel(rank) {
+    // 원(가운데 40,42 반지름 27)의 왼쪽 호를 따라 잎 7장, 오른쪽은 좌우 대칭
+    var leaves = '';
+    for (var k = 0; k < 7; k++) {
+      var th = 112 + k * 21, rad = th * Math.PI / 180;
+      var x = 40 + Math.cos(rad) * 27, y = 42 + Math.sin(rad) * 27, rot = th + 90 + 28;
+      var op = (0.6 + k * 0.06).toFixed(2);
+      leaves += '<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="6.4" ry="2.7" transform="rotate(' + rot + ' ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')" fill="#d9b56e" opacity="' + op + '"/>' +
+        '<ellipse cx="' + (80 - x).toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="6.4" ry="2.7" transform="rotate(' + (-rot) + ' ' + (80 - x).toFixed(1) + ' ' + y.toFixed(1) + ')" fill="#d9b56e" opacity="' + op + '"/>';
+    }
+    return '<svg class="laurel" viewBox="0 0 80 80" aria-hidden="true">' +
+      '<path d="M22 66 Q40 78 58 66" fill="none" stroke="#d9b56e" stroke-width="1.4"/>' + leaves +
+      (rank ? '<text x="40" y="49" text-anchor="middle" font-size="17" font-weight="700" fill="#f6e3b4" font-family="Gowun Batang, serif">' + esc(rank) + '</text>' : '') +
+      '</svg>';
   }
 
   // 함께하는 연주자

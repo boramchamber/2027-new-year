@@ -136,29 +136,81 @@ section { padding: 52px 24px; }
 .program-note { margin-top: 18px; text-align: center; font-size: 14px; color: var(--muted); }
 
 /* 지휘 */
+/* 지휘자 소개 — 공연 책자처럼 어두운 무대 + 금색 */
+.stage {
+  background: radial-gradient(120% 60% at 50% 0%, #2b3768 0%, #171d3a 55%, #10142a 100%);
+  color: #efe9de;
+}
+.stage .sec-label { color: #d9b56e; }
+.stage .sec-title { color: #fff; }
 .conductor { text-align: center; }
-.conductor .baton { width: 64px; height: 64px; margin: 0 auto 10px; display: block; }
-.conductor .photo {
-  width: 220px; margin: 0 auto 22px; padding: 8px; background: #fff;
-  border-radius: 130px 130px 18px 18px; box-shadow: 0 10px 28px rgba(77,28,42,.18);
+
+.portrait { position: relative; width: min(300px, 84%); margin: 6px auto 0; }
+.portrait::before {
+  content: ''; position: absolute; inset: -60px -70px -20px; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255,226,160,.30), rgba(255,226,160,0));
 }
-.conductor .photo img {
-  display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 22%;
-  border-radius: 122px 122px 12px 12px;
+.portrait .frame { position: relative; padding: 9px; border: 1px solid rgba(217,181,110,.75); }
+.portrait .frame::before, .portrait .frame::after {
+  content: ''; position: absolute; width: 18px; height: 18px; border: 2px solid #d9b56e;
 }
-.conductor .role { font-size: 14px; color: var(--gold); letter-spacing: .3em; padding-left: .3em; }
-.conductor .name { font-size: 28px; font-weight: 700; color: var(--wine-deep); letter-spacing: .18em; padding-left: .18em; }
-.conductor .now { margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.8; }
+.portrait .frame::before { left: -5px; top: -5px; border-right: 0; border-bottom: 0; }
+.portrait .frame::after { right: -5px; bottom: -5px; border-left: 0; border-top: 0; }
+.portrait img {
+  display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 16%;
+  box-shadow: 0 0 0 1px rgba(217,181,110,.35); filter: contrast(1.06);
+}
+.portrait figcaption {
+  position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 2;
+  padding: 70px 0 16px; text-align: center;
+  background: linear-gradient(180deg, rgba(12,15,32,0) 0%, rgba(12,15,32,.88) 70%);
+}
+.portrait figcaption .en { display: block; font-size: 15px; color: #d9b56e; letter-spacing: .18em; }
+.portrait figcaption b { display: block; font-size: 32px; color: #fff; letter-spacing: .28em; padding-left: .28em; line-height: 1.25; }
+
+.nameplate .baton { width: 64px; height: 64px; margin: 0 auto 10px; display: block; }
+.nameplate .role { font-size: 15px; color: #d9b56e; letter-spacing: .18em; }
+.nameplate .name { font-size: 30px; font-weight: 700; color: #fff; letter-spacing: .24em; padding-left: .24em; }
+
+.conductor .now { margin-top: 26px; }
+.conductor .now::before {
+  content: ''; display: block; width: 72px; height: 1px; margin: 0 auto 14px;
+  background: linear-gradient(90deg, transparent, #d9b56e, transparent);
+}
+.conductor .now p { font-size: 15px; color: #f1e4c6; line-height: 1.85; letter-spacing: .02em; }
+
+.awards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 26px; }
+.award {
+  padding: 12px 10px 14px; border-radius: 14px;
+  border: 1px solid rgba(217,181,110,.35); background: rgba(255,255,255,.04);
+}
+.award .laurel { width: 74px; height: 74px; display: block; margin: 0 auto 4px; }
+.award .nm { font-size: 12.5px; color: #ddd4c4; line-height: 1.5; }
+
+.bio { margin-top: 22px; }
+.bio summary {
+  display: inline-flex; align-items: center; gap: 6px; list-style: none; cursor: pointer;
+  padding: 10px 20px; border: 1px solid rgba(217,181,110,.6); border-radius: 999px;
+  color: #f3d9a4; font-size: 14px; -webkit-tap-highlight-color: transparent;
+}
+.bio summary::-webkit-details-marker { display: none; }
+.bio summary svg { width: 16px; height: 16px; transition: transform .25s ease; }
+.bio[open] summary svg { transform: rotate(180deg); }
+.bio .close-t, .bio[open] .open-t { display: none; }
+.bio[open] .close-t { display: inline; }
 .conductor .profile {
-  margin: 24px auto 0; padding: 6px 18px; text-align: left;
-  background: #fff; border-radius: 18px; box-shadow: 0 4px 16px rgba(122,62,40,.08);
+  margin-top: 16px; padding: 4px 18px; text-align: left; border-radius: 16px;
+  border: 1px solid rgba(217,181,110,.22); background: rgba(255,255,255,.04);
+  animation: open-d .3s ease;
 }
-.conductor .pg { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.conductor .pg { padding: 14px 0; border-bottom: 1px solid rgba(217,181,110,.18); }
 .conductor .pg:last-child { border-bottom: 0; }
-.conductor .pg h4 { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+.conductor .pg h4 { font-size: 14px; color: #d9b56e; font-weight: 700; margin-bottom: 4px; letter-spacing: .06em; }
 .conductor .pg ul { list-style: none; }
-.conductor .pg li { position: relative; padding-left: 12px; font-size: 14px; color: var(--text); line-height: 1.75; }
-.conductor .pg li::before { content: ''; position: absolute; left: 0; top: .78em; width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+.conductor .pg li { position: relative; padding-left: 12px; font-size: 14px; color: #e6dfd3; line-height: 1.75; }
+.conductor .pg li::before { content: ''; position: absolute; left: 0; top: .78em; width: 4px; height: 4px; transform: rotate(45deg); background: #d9b56e; }
+.stage .performers .role { color: #bfb4a2; }
+.stage .performers .name { color: #fff; }
 
 .performers { display: grid; gap: 12px; margin-top: 24px; }
 .performers .p { display: flex; justify-content: center; gap: 12px; font-size: 16px; }
@@ -191,10 +243,10 @@ footer .copy { margin-top: 28px; font-size: 12px; color: #a89886; letter-spacing
 footer .rights { margin-top: 6px; font-size: 11px; color: #b3a594; line-height: 1.6; }
 
 /* 사진·그림 보호: 길게 눌러 저장·선택·끌기 막기 (사진 위에 투명 막을 씌움) */
-.protect, .cover .scene, .piece .thumb, .conductor .baton { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.protect, .cover .scene, .piece .thumb, .nameplate .baton { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .protect { position: relative; }
 .protect img { pointer-events: none; -webkit-user-drag: none; }
-.protect::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.protect::after { content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: 1; }
 
 .toast {
   position: fixed; left: 50%; bottom: 32px; transform: translate(-50%, 20px);
