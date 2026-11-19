@@ -36,6 +36,8 @@
     '<path d="M0 187 Q200 194 400 187 L400 199 Q200 206 0 199Z" fill="#7a3444"/>' +
     '<path d="M0 187 Q200 194 400 187" fill="none" stroke="#d9b56e" stroke-width="1.4"/>' +
     (function () { var l = ''; for (var x = 20; x < 400; x += 40) { var y = 189.5 + 3.2 * (1 - Math.pow((x - 200) / 200, 2)); l += '<ellipse cx="' + x + '" cy="' + (y - 4) + '" rx="9" ry="5" fill="#ffe7a8" opacity=".28"/><circle cx="' + x + '" cy="' + y + '" r="1.6" fill="#ffe08a"/>'; } return l; })() +
+    // 플루트 눈사람 (뒷줄 왼쪽) — 원근감을 위해 조금 작게
+    flutist(126, 166, 1.15) +
     // [뒷줄 연주자]
     // 바이올린 눈사람 (앞줄 왼쪽)
     violinist(64, 184, 1.35) +
@@ -244,6 +246,30 @@
       scarf: '#3f8a5a', tilt: 9, sway: [1.4, 3.2], delay: .4,
       hat: '<ellipse cx="-1.2" cy="-50" rx="8.8" ry="3.4" fill="#8e2f3c"/><circle cx="-1.6" cy="-53.2" r="1.1" fill="#8e2f3c"/>',
       play: violin + leftHand + bow, notes: [[16, -46], [20, -42]]
+    });
+  }
+  // 플루트 눈사람: 플루트를 옆으로 들고 숨을 불어 넣음 — 악기와 팔이 함께 살짝 오르내리고, 입김이 피어오름
+  function flutist(x, y, sc) {
+    var keys = ''; for (var k = 0; k < 7; k++) keys += '<circle cx="' + (-6 - k * 2.6) + '" cy="' + (-38.9 + k * .32) + '" r=".42" fill="#7d8796"/>';
+    var flute =
+      '<g>' +
+      '<animateTransform attributeName="transform" type="rotate" values="-2 0 -39.5;2.5 0 -39.5;-2 0 -39.5" dur="2.4s" repeatCount="indefinite"/>' +
+      '<path d="M3.2 -39.9 L-26 -36.6" stroke="#9aa4b3" stroke-width="2" stroke-linecap="round"/>' +
+      '<path d="M3.2 -40.3 L-26 -37" stroke="#e7ecf3" stroke-width=".7" stroke-linecap="round"/>' +
+      '<ellipse cx="-.6" cy="-39.7" rx=".9" ry=".55" fill="#3a3f4a"/>' + keys +
+      '<path d="M7.4 -29 Q2 -33 -4.6 -38.2" ' + TW() + '/><path d="M-4.6 -38.2 l-1 -1.3 M-4.6 -38.2 l-1.5 -.2" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
+      '<path d="M-8 -28.5 Q-13.5 -31 -17.2 -37.2" ' + TW() + '/><path d="M-17.2 -37.2 l-.6 -1.5 M-17.2 -37.2 l-1.5 -.6" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
+      '</g>';
+    var puff = function (d) {
+      return '<circle cx="-1.2" cy="-38" r=".9" fill="#ffffff" opacity="0">' +
+        '<animate attributeName="opacity" values="0;.85;0" dur="2.4s" begin="' + d + 's" repeatCount="indefinite"/>' +
+        '<animateTransform attributeName="transform" type="translate" values="0 0;-3 -5" dur="2.4s" begin="' + d + 's" repeatCount="indefinite"/>' +
+        '<animate attributeName="r" values=".6;1.6" dur="2.4s" begin="' + d + 's" repeatCount="indefinite"/></circle>';
+    };
+    return snowPlayer(x, y, sc, {
+      scarf: '#3d6fb6', sway: [1.2, 3.4], mouth: false, delay: .9,
+      hat: '<path d="M-7.6 -45 Q0 -58 7.6 -45" fill="none" stroke="#e98a9a" stroke-width="1.4"/><circle cx="-7.9" cy="-44" r="2.7" fill="#f3a6b4"/><circle cx="7.9" cy="-44" r="2.7" fill="#f3a6b4"/>',
+      play: flute + puff(0) + puff(1.2), notes: [[-30, -42], [-26, -46]]
     });
   }
   function win(x) {
