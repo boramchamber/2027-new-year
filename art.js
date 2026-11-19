@@ -29,20 +29,24 @@
     // 가로등
     '<circle cx="214" cy="134" r="12" fill="#ffe7a8" opacity=".45"/>' +
     '<path d="M214 166 V137" stroke="#3a3550" stroke-width="1.8"/><rect x="210" y="130" width="8" height="8" rx="2" fill="#ffe08a" stroke="#3a3550" stroke-width="1.2"/>' +
-    // 눈사람 첼리스트 (활이 오가고, 몸이 흔들리고, 음표가 피어오름 — SVG 자체 애니메이션)
-    '<ellipse cx="150" cy="176" rx="20" ry="3" fill="#c9d6ee" opacity=".8"/>' +
-    '<g transform="translate(150 176) scale(1.35) translate(-150 -176)"><g>' +
-    '<animateTransform attributeName="transform" type="rotate" values="-1.6 150 176;1.6 150 176;-1.6 150 176" dur="2.8s" repeatCount="indefinite"/>' +
-    // 몸
-    '<circle cx="144" cy="162" r="11" fill="#ffffff" stroke="#d3ddef"/><circle cx="144" cy="143" r="8" fill="#ffffff" stroke="#d3ddef"/>' +
-    '<circle cx="144" cy="157" r=".9" fill="#2f2f45"/>' +
-    '<path d="M136 149 Q144 153 152 149 L153 152 Q144 157 135 152Z" fill="#d6413f"/><path d="M148 151 l2.4 8 -4 -1Z" fill="#d6413f"/>' +
-    '<rect x="135" y="132.5" width="18" height="3" rx="1" fill="#2f2f45"/><rect x="138.5" y="123" width="11" height="10" rx="1" fill="#2f2f45"/><rect x="138.5" y="130" width="11" height="2" fill="#c0463f"/>' +
-    '<circle cx="141.5" cy="141.5" r=".95" fill="#2f2f45"/><circle cx="146.5" cy="141.5" r=".95" fill="#2f2f45"/><path d="M144 144 l5 1.2 -5 1.2Z" fill="#f08a3c"/>' +
-    '<path d="M141.5 147 q2.5 1.6 5 0" fill="none" stroke="#2f2f45" stroke-width=".6" stroke-linecap="round"/>' +
-    // 첼로 (몸 앞에 비스듬히)
-    '<g transform="rotate(-14 160 172)">' +
-    '<path d="M160 171.5 V177.5" stroke="#4a4a55" stroke-width=".9"/>' +
+    // 눈사람 첼리스트 — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름 — SVG 자체 애니메이션)
+    '<ellipse cx="148" cy="177" rx="22" ry="3" fill="#c9d6ee" opacity=".8"/>' +
+    '<g transform="translate(150 176) scale(1.35) translate(-150 -176)">' +
+    // 의자
+    '<path d="M137 164 L136 177 M153 164 L154 177" stroke="#6b4a2b" stroke-width="1.6" stroke-linecap="round"/>' +
+    '<path d="M136.5 171.5 H153.5" stroke="#6b4a2b" stroke-width=".9"/>' +
+    '<rect x="133.5" y="161" width="23" height="3.2" rx="1.2" fill="#8a5a3a"/>' +
+    '<g>' +
+    '<animateTransform attributeName="transform" type="rotate" values="-1.8 145 162;1.8 145 162;-1.8 145 162" dur="2.8s" repeatCount="indefinite"/>' +
+    // 몸 (의자 위에 앉음)
+    '<circle cx="145" cy="151.5" r="10.5" fill="#ffffff" stroke="#d3ddef"/><circle cx="145" cy="133" r="7.8" fill="#ffffff" stroke="#d3ddef"/>' +
+    '<path d="M137 139 Q145 143 153 139 L154 142 Q145 147 136 142Z" fill="#d6413f"/><path d="M149 141 l2.4 7.5 -4 -1Z" fill="#d6413f"/>' +
+    '<rect x="136" y="122.6" width="18" height="3" rx="1" fill="#2f2f45"/><rect x="139.5" y="113" width="11" height="10" rx="1" fill="#2f2f45"/><rect x="139.5" y="120" width="11" height="2" fill="#c0463f"/>' +
+    '<circle cx="142.5" cy="131.5" r=".95" fill="#2f2f45"/><circle cx="147.5" cy="131.5" r=".95" fill="#2f2f45"/><path d="M145 134 l5 1.2 -5 1.2Z" fill="#f08a3c"/>' +
+    '<path d="M142.5 137 q2.5 1.6 5 0" fill="none" stroke="#2f2f45" stroke-width=".6" stroke-linecap="round"/>' +
+    // 첼로 (무릎 사이에 세움, 위가 연주자 쪽으로 살짝 기욺)
+    '<g transform="translate(-5 -4) rotate(-9 160 172)">' +
+    '<path d="M160 171.5 V181" stroke="#4a4a55" stroke-width=".9"/>' +
     '<ellipse cx="160" cy="150" rx="7" ry="7.8" fill="#5a2a12"/><ellipse cx="160" cy="163" rx="8.4" ry="9.2" fill="#5a2a12"/>' +
     '<ellipse cx="160" cy="150" rx="6.2" ry="7" fill="#a0522d"/><ellipse cx="160" cy="163" rx="7.6" ry="8.4" fill="#a0522d"/>' +
     '<ellipse cx="158" cy="160" rx="3" ry="5" fill="#c06a3a" opacity=".45"/>' +
@@ -53,22 +57,22 @@
     '<circle cx="160.1" cy="131.6" r="1.9" fill="#7a3a1c"/>' +
     '</g>' +
     // 왼손 (지판을 쥠)
-    '<path d="M151 151 Q155 147 157.6 141.6" fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"/>' +
-    '<path d="M157.6 141.6 l1.6 -.6 M157.6 141.6 l1.5 .8" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
+    '<path d="M152.5 143 Q155 139.5 155.2 135.2" fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"/>' +
+    '<path d="M155.2 135.2 l1.6 -.6 M155.2 135.2 l1.5 .8" stroke="#6b4a2b" stroke-width=".8" stroke-linecap="round"/>' +
     // 오른팔 + 활 (현 위를 오감)
     '<g>' +
     '<animateTransform attributeName="transform" type="translate" values="-2.6 .5;2.6 -.5;-2.6 .5" dur="1.4s" repeatCount="indefinite"/>' +
-    '<animateTransform attributeName="transform" type="rotate" additive="sum" values="-4 146 161;4 146 161;-4 146 161" dur="1.4s" repeatCount="indefinite"/>' +
-    '<path d="M138 156 Q141 161 146 161" fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"/>' +
-    '<path d="M145 161.6 L180 155.2" stroke="#4a2a18" stroke-width="1" stroke-linecap="round"/>' +
-    '<path d="M146 162.9 L179.4 156.5" stroke="#f2ead8" stroke-width=".55"/>' +
-    '<rect x="144.6" y="160.4" width="2.6" height="2.6" rx=".5" fill="#2a1a12"/>' +
+    '<animateTransform attributeName="transform" type="rotate" additive="sum" values="-4 142 157;4 142 157;-4 142 157" dur="1.4s" repeatCount="indefinite"/>' +
+    '<path d="M137 147 Q138.5 153 142 157" fill="none" stroke="#6b4a2b" stroke-width="1.3" stroke-linecap="round"/>' +
+    '<path d="M141 157.6 L176 151.2" stroke="#4a2a18" stroke-width="1" stroke-linecap="round"/>' +
+    '<path d="M142 158.9 L175.4 152.5" stroke="#f2ead8" stroke-width=".55"/>' +
+    '<rect x="140.6" y="156.4" width="2.6" height="2.6" rx=".5" fill="#2a1a12"/>' +
     '</g>' +
     // 피어오르는 음표
-    '<text x="166" y="140" font-size="7" fill="#fff6dc" font-family="serif" opacity="0">♪' +
+    '<text x="163" y="130" font-size="7" fill="#fff6dc" font-family="serif" opacity="0">♪' +
     '<animate attributeName="opacity" values="0;.95;0" dur="2.6s" repeatCount="indefinite"/>' +
     '<animateTransform attributeName="transform" type="translate" values="0 0;5 -18" dur="2.6s" repeatCount="indefinite"/></text>' +
-    '<text x="170" y="146" font-size="6" fill="#fff6dc" font-family="serif" opacity="0">♫' +
+    '<text x="167" y="136" font-size="6" fill="#fff6dc" font-family="serif" opacity="0">♫' +
     '<animate attributeName="opacity" values="0;.9;0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>' +
     '<animateTransform attributeName="transform" type="translate" values="0 0;7 -16" dur="2.6s" begin="1.3s" repeatCount="indefinite"/></text>' +
     '</g></g>' +
