@@ -107,5 +107,16 @@ window.INVITE = {
     // { role: '지휘', name: '홍길동' },
   ],
 
+  // 배경음악 — 유튜브 영상(퍼가기 허용된 것만). 화면 아무 곳이나 처음 터치하면 소리가 켜지고,
+  // start 초부터 재생해 끝나면(end 초, 0이면 영상 끝) 다시 start 로 돌아가 반복합니다.
+  bgm: {
+    youtube: 'uBnQ17Pwijk',   // https://youtu.be/uBnQ17Pwijk
+    start: 0,                 // 음악이 시작되는 지점(초) — 예: 12
+    end: 0,                   // 끝낼 지점(초) — 0이면 영상 끝까지
+    title: 'Mast in the Mist',
+    note: '게임 〈대항해시대〉 OST · 작곡 칸노 요코',
+    by: '피아노 연주 · 피아노요정 숑아 (YouTube)'
+  },
+
   contact: ''           // 문의처 (예: '문의 · 인스타그램 @boramchamber') — 없으면 빈칸
 };
