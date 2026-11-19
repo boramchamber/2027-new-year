@@ -101,11 +101,10 @@
     '<path d="M0 -37 L9 -32 L14 -38" fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>' +
     '<path d="M14 -38 l1.8 -1.6 M14 -38 l2.3 -.3 M14 -38 l1.6 1.2" stroke="#1d1f2b" stroke-width=".9" stroke-linecap="round"/>' +
     '</g>' +
-    // 얼굴 (사진에서 딴 얼굴, 흰 테두리)
+    // 얼굴 (사진에서 머리·얼굴만 오린 것, 배경 투명)
     '<g>' +
     '<animateTransform attributeName="transform" type="rotate" values="-3 0 -41;3 0 -41;-3 0 -41" dur="2s" repeatCount="indefinite"/>' +
-    '<ellipse cx="0" cy="-53.4" rx="11.6" ry="14.5" fill="#ffffff"/>' +
-    '<image href="' + (window.ART_BASE || '') + 'conductor-face-v1.png" x="-10.4" y="-66.7" width="20.8" height="26.6"/>' +
+    '<image href="' + (window.ART_BASE || '') + 'conductor-face-v2.png" x="-10.6" y="-64.6" width="21.2" height="25.5"/>' +
     '</g>' +
     '</g></g>' +
     '<path d="M0 194 Q100 180 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +
