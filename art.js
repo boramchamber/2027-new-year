@@ -1,36 +1,109 @@
 /*
  * 초대장 그림 (직접 그린 SVG). data.js 의 art: '이름' 으로 골라 씁니다.
- * 표지 그림은 cover, 곡별 그림은 나머지 이름입니다.
+ * 표지는 cover(땅)·sky(밤하늘)·garland(알전구 줄), 곡별 그림은 나머지 이름입니다.
  */
 (function () {
   var A = {};
 
-  // 표지: 해 뜨는 언덕 위 불 켜진 음악당
+  // 표지 땅: 눈 덮인 언덕 위 불 켜진 음악당, 눈 쌓인 소나무, 눈사람, 가로등
   A.cover =
     '<svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
-    '<defs><radialGradient id="cv-sun"><stop offset="0" stop-color="#fff6dc"/><stop offset=".45" stop-color="#ffd98f"/><stop offset="1" stop-color="#ffc173" stop-opacity="0"/></radialGradient>' +
-    '<radialGradient id="cv-win"><stop offset="0" stop-color="#ffe7a3"/><stop offset="1" stop-color="#ffb84d" stop-opacity="0"/></radialGradient></defs>' +
-    '<circle cx="120" cy="150" r="110" fill="url(#cv-sun)" opacity=".55"/>' +
-    '<circle cx="120" cy="150" r="34" fill="#fff1c9"/>' +
-    '<path d="M0 150 Q50 118 110 136 T230 126 T400 132 V210 H0Z" fill="#a8576a" opacity=".75"/>' +
-    '<path d="M0 172 Q80 146 180 162 T400 150 V210 H0Z" fill="#5b2c43"/>' +
+    '<defs><radialGradient id="cv-halo"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>' +
+    '<linearGradient id="cv-snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e2eaf8"/></linearGradient></defs>' +
+    '<circle cx="282" cy="128" r="96" fill="url(#cv-halo)" opacity=".45"/>' +
+    // 먼 언덕과 먼 숲
+    '<path d="M0 148 Q70 124 140 138 T280 130 T400 136 V210 H0Z" fill="#c8d7f1"/>' +
+    pines([[118, 140, .45], [132, 138, .35], [150, 141, .4], [196, 136, .38], [212, 134, .3], [372, 136, .42], [386, 138, .32]], '#8fa7d3', false) +
+    // 가까운 눈밭
+    '<path d="M0 170 Q90 150 200 162 T400 156 V210 H0Z" fill="url(#cv-snow)"/>' +
+    '<ellipse cx="282" cy="167" rx="86" ry="9" fill="#ffe1a0" opacity=".5"/>' +
     // 음악당
-    '<circle cx="290" cy="128" r="54" fill="url(#cv-win)" opacity=".45"/>' +
-    '<path d="M246 156 V124 H334 V156Z" fill="#3e1d31"/>' +
-    '<path d="M240 124 L290 98 L340 124Z" fill="#4a2238"/>' +
-    '<path d="M240 124 H340" stroke="#f3c77a" stroke-width="1.2" opacity=".7"/>' +
-    '<circle cx="290" cy="114" r="5" fill="#ffd77f"/>' +
-    '<rect x="254" y="131" width="10" height="16" rx="5" fill="#ffd77f"/>' +
-    '<rect x="270" y="131" width="10" height="16" rx="5" fill="#ffd77f"/>' +
-    '<rect x="300" y="131" width="10" height="16" rx="5" fill="#ffd77f"/>' +
-    '<rect x="316" y="131" width="10" height="16" rx="5" fill="#ffd77f"/>' +
-    '<path d="M284 156 V140 Q290 132 296 140 V156Z" fill="#ffc861"/>' +
-    // 나무
-    '<path d="M40 168 L52 136 L64 168Z M58 172 L68 148 L78 172Z M352 160 L362 134 L372 160Z" fill="#3a1b2c"/>' +
-    // 음표
-    '<g fill="#ffe2a6" font-family="serif"><text x="318" y="92" font-size="18" opacity=".9">♪</text><text x="342" y="74" font-size="14" opacity=".7">♫</text><text x="300" y="70" font-size="12" opacity=".6">♩</text></g>' +
-    '<path d="M0 194 Q100 178 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +
+    '<rect x="244" y="120" width="76" height="44" fill="#7a3444"/>' +
+    '<path d="M236 122 L282 94 L328 122Z" fill="#8c3d4e"/>' +
+    '<path d="M231 123 L282 90 L333 123 Q327 127 321 123 L282 99 L243 123 Q237 127 231 123Z" fill="#ffffff"/>' +
+    '<circle cx="282" cy="111" r="5" fill="#ffd36b"/>' +
+    win(252) + win(268) + win(290) + win(306) +
+    '<path d="M276 164 V147 Q282 138 288 147 V164Z" fill="#ffc24d"/>' +
+    '<circle cx="282" cy="141" r="3.4" fill="none" stroke="#3d7a52" stroke-width="1.8"/><circle cx="282" cy="144.4" r="1.1" fill="#d6413f"/>' +
+    '<rect x="240" y="161" width="84" height="5" rx="2.5" fill="#ffffff"/>' +
+    // 가로등
+    '<circle cx="214" cy="134" r="12" fill="#ffe7a8" opacity=".45"/>' +
+    '<path d="M214 166 V137" stroke="#3a3550" stroke-width="1.8"/><rect x="210" y="130" width="8" height="8" rx="2" fill="#ffe08a" stroke="#3a3550" stroke-width="1.2"/>' +
+    // 눈사람
+    '<circle cx="160" cy="166" r="10" fill="#ffffff" stroke="#d3ddef"/><circle cx="160" cy="151" r="7" fill="#ffffff" stroke="#d3ddef"/>' +
+    '<path d="M153 155 Q160 159 167 155 L168 158 Q160 162 152 158Z" fill="#d6413f"/><path d="M164 157 l3 7 -4 -1Z" fill="#d6413f"/>' +
+    '<rect x="154" y="140" width="12" height="3" rx="1" fill="#2f2f45"/><rect x="156.5" y="133" width="7" height="8" rx="1" fill="#2f2f45"/>' +
+    '<circle cx="157.5" cy="150" r=".9" fill="#2f2f45"/><circle cx="162.5" cy="150" r=".9" fill="#2f2f45"/><path d="M160 152 l4 1 -4 1Z" fill="#f08a3c"/>' +
+    '<circle cx="160" cy="163" r=".9" fill="#2f2f45"/><circle cx="160" cy="167" r=".9" fill="#2f2f45"/>' +
+    // 가까운 소나무 (작은 전구 장식)
+    pines([[42, 176, 1.15], [76, 178, .85], [356, 168, 1.0], [384, 172, .72]], '#2e5d4f', true) +
+    '<path d="M0 194 Q100 180 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +
     '</svg>';
+  function win(x) {
+    return '<rect x="' + (x - 3) + '" y="127" width="16" height="22" rx="8" fill="#ffe7a8" opacity=".35"/>' +
+      '<rect x="' + x + '" y="130" width="10" height="16" rx="5" fill="#ffd36b"/>' +
+      '<rect x="' + (x - 1) + '" y="146" width="12" height="2.4" rx="1.2" fill="#ffffff"/>';
+  }
+  function pines(list, color, lights) {
+    var out = '', bulbs = ['#ffd36b', '#ff9e9e', '#ffe9b8'];
+    list.forEach(function (t) {
+      var x = t[0], y = t[1], s = t[2];
+      var tier = function (top, w, h) {
+        var ty = y - top * s, by = y - (top - h) * s, my = y - (top - h * .45) * s, qy = y - (top - h * .3) * s;
+        return '<path d="M' + x + ' ' + ty + ' L' + (x - w * s) + ' ' + by + ' L' + (x + w * s) + ' ' + by + 'Z" fill="' + color + '"/>' +
+          '<path d="M' + x + ' ' + ty + ' L' + (x - w * .55 * s) + ' ' + my + ' Q' + x + ' ' + qy + ' ' + (x + w * .55 * s) + ' ' + my + 'Z" fill="#ffffff"/>';
+      };
+      out += '<rect x="' + (x - 2 * s) + '" y="' + (y - 6 * s) + '" width="' + 4 * s + '" height="' + 6 * s + '" fill="#4a3428"/>' +
+        tier(46, 10, 18) + tier(34, 14, 20) + tier(20, 18, 16);
+      if (lights) {
+        [[-6, 28], [5, 22], [-9, 14], [8, 10], [0, 36], [-2, 18]].forEach(function (b, i) {
+          out += '<circle cx="' + (x + b[0] * s) + '" cy="' + (y - b[1] * s) + '" r="' + 1.4 * s + '" fill="' + bulbs[i % 3] + '"/>';
+        });
+      }
+    });
+    return out;
+  }
+
+  // 표지 하늘: 별, 초승달, 작은 금빛 불꽃 (표지 전체 뒤에 깔림)
+  A.sky = (function () {
+    var stars = [[22, 40, 1.1], [58, 88, .8], [96, 30, 1], [140, 64, .7], [176, 22, .9], [236, 44, .8], [268, 18, 1.1], [300, 70, .7], [346, 34, 1], [380, 80, .8],
+      [30, 170, .7], [370, 160, .9], [16, 260, .8], [388, 250, .7], [44, 330, .9], [356, 320, .8], [120, 380, .6], [300, 400, .7], [24, 420, .7], [380, 430, .6]];
+    var s = '<svg viewBox="0 0 400 640" preserveAspectRatio="xMidYMin slice" aria-hidden="true">' +
+      '<defs><radialGradient id="sk-moon"><stop offset="0" stop-color="#fff6d8" stop-opacity=".5"/><stop offset="1" stop-color="#fff6d8" stop-opacity="0"/></radialGradient>' +
+      '<mask id="sk-cres"><rect width="400" height="640" fill="#fff"/><circle cx="57" cy="126" r="15" fill="#000"/></mask></defs>' +
+      '<circle cx="50" cy="132" r="40" fill="url(#sk-moon)"/>' +
+      '<circle cx="50" cy="132" r="16" fill="#fff6d8" mask="url(#sk-cres)"/>';
+    stars.forEach(function (t) { s += '<circle cx="' + t[0] + '" cy="' + t[1] + '" r="' + t[2] + '" fill="#ffffff" opacity=".8"/>'; });
+    s += burst(350, 120, 16, '#ffd98a') + burst(330, 96, 8, '#ffb3b3') + burst(70, 300, 10, '#bfe3ff');
+    return s + '</svg>';
+  })();
+  function burst(cx, cy, r, color) {
+    var g = '<g stroke="' + color + '" stroke-width="1.1" stroke-linecap="round" opacity=".7">';
+    for (var k = 0; k < 12; k++) {
+      var a = k * Math.PI / 6, c = Math.cos(a), n = Math.sin(a);
+      g += '<path d="M' + (cx + c * r * .45) + ' ' + (cy + n * r * .45) + ' L' + (cx + c * r) + ' ' + (cy + n * r) + '"/>';
+    }
+    return g + '</g><circle cx="' + cx + '" cy="' + cy + '" r="1.4" fill="' + color + '"/>';
+  }
+
+  // 표지 맨 위 알전구 줄장식
+  A.garland = (function () {
+    var cols = ['#ffd36b', '#ff9e9e', '#a8e6c9', '#ffe9b8', '#9ec5ff'];
+    var segs = [[-6, 2, 45, 30, 100, 12], [100, 12, 150, 34, 200, 12], [200, 12, 250, 34, 300, 12], [300, 12, 355, 30, 406, 2]];
+    var s = '<svg viewBox="0 0 400 44" preserveAspectRatio="xMidYMin slice" aria-hidden="true"><path d="M-6 2';
+    segs.forEach(function (q) { s += ' Q' + q[2] + ' ' + q[3] + ' ' + q[4] + ' ' + q[5]; });
+    s += '" fill="none" stroke="#e9d39a" stroke-opacity=".55" stroke-width="1.1"/>';
+    var n = 0;
+    segs.forEach(function (q) {
+      for (var t = .15; t < 1; t += .2) {
+        var u = 1 - t, x = u * u * q[0] + 2 * u * t * q[2] + t * t * q[4], y = u * u * q[1] + 2 * u * t * q[3] + t * t * q[5], c = cols[n++ % cols.length];
+        s += '<circle cx="' + x + '" cy="' + (y + 4) + '" r="5.5" fill="' + c + '" opacity=".28"/>' +
+          '<rect x="' + (x - 1.2) + '" y="' + (y - .5) + '" width="2.4" height="2" fill="#c9b27a"/>' +
+          '<ellipse cx="' + x + '" cy="' + (y + 4) + '" rx="2.3" ry="3.3" fill="' + c + '"/>';
+      }
+    });
+    return s + '</svg>';
+  })();
 
   // 가을의 전설 — 노을 진 가을 들판
   A.autumn =

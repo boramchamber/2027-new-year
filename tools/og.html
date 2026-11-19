@@ -1,18 +1,36 @@
 <!doctype html><html><head><meta charset="utf-8">
+<!-- 카톡 미리보기 그림(og.png 1200×630) 원본. 고친 뒤 CLAUDE.md 4절 명령으로 og.png 를 다시 만든다 -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{width:1200px;height:630px;overflow:hidden;background:linear-gradient(180deg,#2b1d38 0%,#4e2843 30%,#8e4556 56%,#d98466 80%,#f3bf86 100%);color:#fff;font-family:'Gowun Batang',serif;position:relative;text-align:center}
-.t{position:absolute;top:70px;left:0;right:0}
+body{width:1200px;height:630px;overflow:hidden;background:linear-gradient(180deg,#16224d 0%,#22367a 34%,#3d5fa6 62%,#7fa3dc 84%,#bcd3f3 100%);color:#fff;font-family:'Gowun Batang',serif;position:relative;text-align:center}
+.sky,.garland,.fall{position:absolute;left:0;right:0;top:0}
+.sky svg{display:block;width:1200px;height:630px}
+.garland svg{display:block;width:1200px;height:auto}
+.fall span{position:absolute;color:#fffaf0;opacity:.75;text-shadow:0 0 8px rgba(255,255,255,.8)}
+.t{position:absolute;top:92px;left:0;right:0;text-shadow:0 3px 18px rgba(10,20,50,.5)}
 .e{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;color:#f3d9a4;letter-spacing:.12em}
-.s{font-size:36px;color:#f3d9a4;margin-top:22px;letter-spacing:.1em}
+.s{font-size:36px;color:#f3d9a4;margin-top:18px;letter-spacing:.1em}
 h1{font-size:96px;line-height:1.15;font-weight:700}
-.d{font-size:36px;margin-top:18px}
-.scene{position:absolute;left:0;right:0;bottom:-150px}
+.d{font-size:36px;margin-top:16px}
+.scene{position:absolute;left:0;right:0;bottom:-120px}
 .scene svg{display:block;width:1200px;height:630px}
 </style></head><body>
+<div class="sky" id="sky"></div>
 <div class="scene" id="s"></div>
+<div class="fall">
+  <span style="left:150px;top:150px;font-size:34px">♪</span><span style="left:250px;top:380px;font-size:28px">♫</span>
+  <span style="left:960px;top:330px;font-size:30px">♬</span><span style="left:1040px;top:190px;font-size:26px">♩</span>
+  <span style="left:330px;top:250px;font-size:22px">❄</span><span style="left:880px;top:420px;font-size:20px">❄</span>
+  <span style="left:1100px;top:400px;font-size:18px">●</span><span style="left:90px;top:300px;font-size:14px">●</span>
+  <span style="left:820px;top:130px;font-size:14px">●</span><span style="left:400px;top:440px;font-size:12px">●</span>
+</div>
+<div class="garland" id="g"></div>
 <div class="t"><div class="e">2027 New Year Concert</div><div class="s">보람챔버</div><h1>신년음악회</h1><div class="d">2027. 1. 6. 수요일 · 입장 무료</div></div>
 <script src="../art.js"></script>
-<script>document.getElementById('s').innerHTML=ART.cover.replace('#fffaf2','#f3bf86').replace('xMidYMax slice','xMidYMax slice');</script>
+<script>
+  document.getElementById('sky').innerHTML = ART.sky.replace('xMidYMin slice', 'xMidYMid slice');
+  document.getElementById('s').innerHTML = ART.cover;
+  document.getElementById('g').innerHTML = ART.garland;
+</script>
 </body></html>

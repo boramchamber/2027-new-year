@@ -5,7 +5,9 @@
 document.getElementById('app').innerHTML = `
 
   <header class="cover">
+    <div class="sky" id="cover-sky"></div>
     <canvas id="snow" aria-hidden="true"></canvas>
+    <div class="garland" id="cover-garland"></div>
     <div class="eyebrow en" id="subtitle"></div>
     <h1 class="serif" id="title"></h1>
     <p class="tagline serif">새해, 음악으로 따뜻하게 만나요</p>
@@ -128,6 +130,8 @@ document.getElementById('app').innerHTML = `
     : esc(D.title);
   $('when').innerHTML = esc(dateShort) + (D.time ? '<span class="time">' + esc(timeText(D.time)) + '</span>' : '');
   $('cover-art').innerHTML = ART.cover || '';
+  $('cover-sky').innerHTML = ART.sky || '';
+  $('cover-garland').innerHTML = ART.garland || '';
 
   // D-day
   var today = new Date(); today.setHours(0, 0, 0, 0);
@@ -354,7 +358,7 @@ document.getElementById('app').innerHTML = `
     (function tick() {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, cv.width, cv.height);
-      var floor = H * .78;
+      var floor = H * .86;   // 눈밭 근처에서 사라짐
       notes.forEach(function (n) {
         n.y += n.v; n.w += .012; n.x += Math.sin(n.w) * .25; n.rot += n.spin;
         if (n.y > floor) spawn(n, true);
