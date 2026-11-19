@@ -181,6 +181,13 @@ footer .closing { font-size: 20px; color: var(--wine-deep); line-height: 1.6; }
 footer .closing small { display: block; font-size: 14px; color: var(--muted); font-family: 'Noto Sans KR', sans-serif; margin-top: 6px; }
 footer .contact { font-size: 14px; color: var(--muted); margin-top: 18px; }
 footer .copy { margin-top: 28px; font-size: 12px; color: #a89886; letter-spacing: .08em; }
+footer .rights { margin-top: 6px; font-size: 11px; color: #b3a594; line-height: 1.6; }
+
+/* 사진·그림 보호: 길게 눌러 저장·선택·끌기 막기 (사진 위에 투명 막을 씌움) */
+.protect, .cover .scene, .piece .thumb, .conductor .baton { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.protect { position: relative; }
+.protect img { pointer-events: none; -webkit-user-drag: none; }
+.protect::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
 
 .toast {
   position: fixed; left: 50%; bottom: 32px; transform: translate(-50%, 20px);

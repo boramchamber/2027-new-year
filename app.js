@@ -55,7 +55,7 @@ document.getElementById('app').innerHTML = `
     <div class="sec-label en">Conductor</div>
     <h2 class="sec-title serif">지휘자 소개</h2>
     <div class="conductor">
-      <div class="photo" id="conductor-photo" hidden></div>
+      <div class="photo protect" id="conductor-photo" hidden></div>
       <svg class="baton" id="conductor-baton" viewBox="0 0 64 64" aria-hidden="true">
         <circle cx="32" cy="32" r="30" fill="#fff" stroke="#ecdfcb"/>
         <path d="M18 46 L44 20" stroke="#4d1c2a" stroke-width="2.4" stroke-linecap="round"/>
@@ -97,6 +97,7 @@ document.getElementById('app').innerHTML = `
       <button class="btn full" type="button" id="calendar" hidden>내 캘린더에 추가</button>
     </div>
     <p class="copy" id="copyright"></p>
+    <p class="rights">이 초대장의 사진·그림·글은 보람챔버오케스트라에 저작권이 있으며<br>허락 없이 복제·배포·다른 곳에 사용할 수 없습니다.</p>
   </footer>
 `;
 
@@ -232,7 +233,11 @@ document.getElementById('app').innerHTML = `
   // 맺음 · 문의 · 저작
   $('closing-date').textContent = dateText + (D.time ? ' ' + timeText(D.time) : '');
   if (D.contact) { $('contact').textContent = D.contact; $('contact').hidden = false; }
-  $('copyright').textContent = '© ' + p[0] + ' ' + D.orchestra;
+  $('copyright').textContent = '© ' + p[0] + ' ' + D.orchestra + '. All rights reserved.';
+
+  // 사진·그림은 길게 누르기·우클릭·끌어다 놓기로 저장되지 않게
+  document.addEventListener('contextmenu', function (e) { if (e.target.closest && e.target.closest('.protect, img, svg')) e.preventDefault(); });
+  document.addEventListener('dragstart', function (e) { if (e.target.closest && e.target.closest('.protect, img, svg')) e.preventDefault(); });
 
   // 공유
   function toast(msg) {
