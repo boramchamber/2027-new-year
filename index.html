@@ -136,11 +136,27 @@
   /* 지휘 */
   .conductor { text-align: center; }
   .conductor .baton { width: 64px; height: 64px; margin: 0 auto 10px; display: block; }
-  .conductor .name { font-size: 28px; font-weight: 700; color: var(--wine-deep); letter-spacing: .18em; padding-left: .18em; }
-  .conductor .profile {
-    list-style: none; margin: 20px auto 0; padding-top: 18px; max-width: 320px;
-    border-top: 1px solid var(--line); font-size: 14px; color: var(--text); line-height: 1.9;
+  .conductor .photo {
+    width: 220px; margin: 0 auto 22px; padding: 8px; background: #fff;
+    border-radius: 130px 130px 18px 18px; box-shadow: 0 10px 28px rgba(77,28,42,.18);
   }
+  .conductor .photo img {
+    display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 22%;
+    border-radius: 122px 122px 12px 12px;
+  }
+  .conductor .role { font-size: 14px; color: var(--gold); letter-spacing: .3em; padding-left: .3em; }
+  .conductor .name { font-size: 28px; font-weight: 700; color: var(--wine-deep); letter-spacing: .18em; padding-left: .18em; }
+  .conductor .now { margin-top: 8px; font-size: 14px; color: var(--text); line-height: 1.8; }
+  .conductor .profile {
+    margin: 24px auto 0; padding: 6px 18px; text-align: left;
+    background: #fff; border-radius: 18px; box-shadow: 0 4px 16px rgba(122,62,40,.08);
+  }
+  .conductor .pg { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .conductor .pg:last-child { border-bottom: 0; }
+  .conductor .pg h4 { font-size: 14px; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+  .conductor .pg ul { list-style: none; }
+  .conductor .pg li { position: relative; padding-left: 12px; font-size: 14px; color: var(--text); line-height: 1.75; }
+  .conductor .pg li::before { content: ''; position: absolute; left: 0; top: .78em; width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
 
   .performers { display: grid; gap: 12px; margin-top: 24px; }
   .performers .p { display: flex; justify-content: center; gap: 12px; font-size: 16px; }
@@ -257,16 +273,19 @@
 
   <section class="soft reveal" id="sec-conductor" hidden>
     <div class="sec-label en">Conductor</div>
-    <h2 class="sec-title serif">지휘</h2>
+    <h2 class="sec-title serif">지휘자 소개</h2>
     <div class="conductor">
-      <svg class="baton" viewBox="0 0 64 64" aria-hidden="true">
+      <div class="photo" id="conductor-photo" hidden></div>
+      <svg class="baton" id="conductor-baton" viewBox="0 0 64 64" aria-hidden="true">
         <circle cx="32" cy="32" r="30" fill="#fff" stroke="#ecdfcb"/>
         <path d="M18 46 L44 20" stroke="#4d1c2a" stroke-width="2.4" stroke-linecap="round"/>
         <path d="M16 48 L22 42" stroke="#c08a3e" stroke-width="5" stroke-linecap="round"/>
         <path d="M46 14 q3 4 0 8 M50 18 q3 4 0 8" fill="none" stroke="#c08a3e" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
+      <div class="role">지휘</div>
       <div class="name serif" id="conductor-name"></div>
-      <ul class="profile" id="conductor-profile" hidden></ul>
+      <div class="now" id="conductor-now" hidden></div>
+      <div class="profile" id="conductor-profile" hidden></div>
     </div>
     <div class="performers" id="performers" hidden></div>
   </section>
@@ -379,12 +398,24 @@
     $('sec-program').hidden = true;
   }
 
-  // 지휘자 (약력이 비어 있으면 이름만)
-  if (D.conductor && D.conductor.name) {
-    $('conductor-name').textContent = D.conductor.name;
-    var prof = (D.conductor.profile || []).filter(Boolean);
+  // 지휘자 — 사진·현재 직함·약력은 비어 있으면 숨김
+  var C = D.conductor;
+  if (C && C.name) {
+    $('conductor-name').textContent = C.name;
+    if (C.photo) {
+      $('conductor-photo').innerHTML = '<img src="' + esc(C.photo) + '" alt="지휘자 ' + esc(C.name) + '">';
+      $('conductor-photo').hidden = false;
+      $('conductor-baton').style.display = 'none';
+    }
+    var now = (C.now || []).filter(Boolean);
+    if (now.length) { $('conductor-now').innerHTML = now.map(esc).join('<br>'); $('conductor-now').hidden = false; }
+    var prof = (C.profile || []).filter(function (g) { return g && (typeof g === 'string' || (g.items && g.items.length)); });
     if (prof.length) {
-      $('conductor-profile').innerHTML = prof.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+      $('conductor-profile').innerHTML = prof.map(function (g) {
+        if (typeof g === 'string') g = { items: [g] };
+        return '<div class="pg">' + (g.head ? '<h4>' + esc(g.head) + '</h4>' : '') +
+          '<ul>' + g.items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+      }).join('');
       $('conductor-profile').hidden = false;
     }
     $('sec-conductor').hidden = false;
