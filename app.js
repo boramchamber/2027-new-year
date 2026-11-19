@@ -51,14 +51,7 @@ document.getElementById('app').innerHTML = `
     <div class="info" id="info"></div>
   </section>
 
-  <section class="reveal" id="sec-program">
-    <div class="sec-label en">Program</div>
-    <h2 class="sec-title serif">이런 곡을 들려드려요</h2>
-    <div id="program"></div>
-    <p class="program-note" id="program-note"></p>
-  </section>
-
-  <section class="soft reveal" id="sec-conductor" hidden>
+  <section class="reveal" id="sec-conductor" hidden>
     <div class="sec-label en">Conductor</div>
     <h2 class="sec-title serif">지휘자 소개</h2>
     <div class="conductor">
@@ -75,6 +68,13 @@ document.getElementById('app').innerHTML = `
       <div class="profile" id="conductor-profile" hidden></div>
     </div>
     <div class="performers" id="performers" hidden></div>
+  </section>
+
+  <section class="soft reveal" id="sec-program">
+    <div class="sec-label en">Program</div>
+    <h2 class="sec-title serif">이런 곡을 들려드려요</h2>
+    <div id="program"></div>
+    <p class="program-note" id="program-note"></p>
   </section>
 
   <section class="reveal" id="sec-map" hidden>
