@@ -5,7 +5,7 @@
 (function () {
   var A = {};
 
-  // 표지 땅: 눈 덮인 언덕 위 불 켜진 음악당, 눈 쌓인 소나무, 첼로 켜는 눈사람, 가로등
+  // 표지 땅: 눈 덮인 언덕 위 불 켜진 음악당, 눈 쌓인 소나무, 첼로 켜는 눈사람, 지휘자 캐릭터, 가로등
   A.cover =
     '<svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
     '<defs><radialGradient id="cv-halo"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>' +
@@ -77,7 +77,37 @@
     '<animateTransform attributeName="transform" type="translate" values="0 0;7 -16" dur="2.6s" begin="1.3s" repeatCount="indefinite"/></text>' +
     '</g></g>' +
     // 가까운 소나무 (작은 전구 장식)
-    pines([[42, 176, 1.15], [76, 178, .85], [356, 168, 1.0], [384, 172, .72]], '#2e5d4f', true) +
+    pines([[42, 176, 1.15], [76, 178, .85], [388, 172, .72]], '#2e5d4f', true) +
+    // 지휘자 캐릭터 — 사진에서 딴 얼굴 + 졸라맨 몸, 지휘대 위에서 지휘 (SVG 자체 애니메이션)
+    '<ellipse cx="352" cy="166" rx="17" ry="2.6" fill="#c9d6ee" opacity=".8"/>' +
+    '<g transform="translate(352 165) scale(1.08)">' +
+    '<rect x="-13" y="-5" width="26" height="6" rx="1.5" fill="#7a3444"/><path d="M-13 -4.6 H13" stroke="#d9b56e" stroke-width=".8"/>' +
+    '<g>' +
+    '<animateTransform attributeName="transform" type="translate" values="0 0;0 -1.3;0 0;0 -.8;0 0" dur="2s" repeatCount="indefinite"/>' +
+    '<g fill="none" stroke="#1d1f2b" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M0 -22 L-6 -5 M0 -22 L6 -5"/><path d="M0 -22 V-40"/>' +
+    '</g>' +
+    '<path d="M-3 -41.5 L0 -40 L-3 -38.5Z M3 -41.5 L0 -40 L3 -38.5Z" fill="#c0463f"/>' +
+    // 지휘봉 팔 (화면 왼쪽 — 눈사람 쪽)
+    '<g>' +
+    '<animateTransform attributeName="transform" type="rotate" values="0 0 -37;30 0 -37;-6 0 -37;20 0 -37;0 0 -37" keyTimes="0;.25;.5;.75;1" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1;.4 0 .6 1" dur="2s" repeatCount="indefinite"/>' +
+    '<path d="M0 -37 L-9 -31 L-15 -37" fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M-15 -37 L-25 -47" stroke="#ffffff" stroke-width="1.1" stroke-linecap="round"/>' +
+    '<circle cx="-25.4" cy="-47.4" r="1.6" fill="#fff6c8"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></circle>' +
+    '</g>' +
+    // 반대 손 (화면 오른쪽)
+    '<g>' +
+    '<animateTransform attributeName="transform" type="rotate" values="0 0 -37;-16 0 -37;6 0 -37;-10 0 -37;0 0 -37" keyTimes="0;.25;.5;.75;1" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1;.4 0 .6 1" dur="2s" repeatCount="indefinite"/>' +
+    '<path d="M0 -37 L9 -32 L14 -38" fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M14 -38 l1.8 -1.6 M14 -38 l2.3 -.3 M14 -38 l1.6 1.2" stroke="#1d1f2b" stroke-width=".9" stroke-linecap="round"/>' +
+    '</g>' +
+    // 얼굴 (사진에서 딴 얼굴, 흰 테두리)
+    '<g>' +
+    '<animateTransform attributeName="transform" type="rotate" values="-3 0 -41;3 0 -41;-3 0 -41" dur="2s" repeatCount="indefinite"/>' +
+    '<ellipse cx="0" cy="-53.4" rx="11.6" ry="14.5" fill="#ffffff"/>' +
+    '<image href="' + (window.ART_BASE || '') + 'conductor-face-v1.png" x="-10.4" y="-66.7" width="20.8" height="26.6"/>' +
+    '</g>' +
+    '</g></g>' +
     '<path d="M0 194 Q100 180 200 190 T400 186 V210 H0Z" fill="#fffaf2"/>' +
     '</svg>';
   function win(x) {
