@@ -40,8 +40,11 @@
     flutist(126, 166, 1.15) +
     // 클라리넷 눈사람 (뒷줄 가운데) — 원근감을 위해 조금 작게
     clarinetist(186, 166, 1.15) +
+    // 뒷줄 보면대
+    musicStand(153, 166, 1.0, -1) + musicStand(211, 166, .92, -1) +
     // 바이올린 눈사람 (앞줄 왼쪽)
     violinist(64, 184, 1.35) +
+    musicStand(28, 184, 1.2, 1) +
     // 첼로 눈사람 (앞줄 오른쪽) — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름)
     '<g transform="translate(90 8)">' +
     '<ellipse cx="148" cy="177" rx="22" ry="3" fill="#6e4424" opacity=".35"/>' +
@@ -91,6 +94,8 @@
     '<animateTransform attributeName="transform" type="translate" values="0 0;7 -16" dur="2.6s" begin="1.3s" repeatCount="indefinite"/></text>' +
     '</g></g>' +
     '</g>' +
+    // 첼로 보면대, 지휘자 악보대(지휘대 바로 앞 — 지휘대 위에 선 지휘자 가슴 높이)
+    musicStand(286, 184, 1.2, -1) + musicStand(327, 184, 1.2, 1, 36) +
     // 지휘자 캐릭터 — 사진에서 오린 얼굴 + 졸라맨 몸, 12초짜리 지휘 (아래 maestro 함수)
     maestro() +
     '<path d="M0 204 Q100 199 200 204 T400 202 V210 H0Z" fill="#fffaf2"/>' +
@@ -296,6 +301,21 @@
       hat: '<path d="M-7.6 -47 Q0 -60 7.6 -47Z" fill="#3d5fa6"/><rect x="-8" y="-48.4" width="16" height="2.8" rx="1.2" fill="#2e4a86"/><circle cx="0" cy="-56.8" r="2.1" fill="#ffffff"/>',
       play: clar, notes: [[12, -18], [15, -23]]
     });
+  }
+  // 보면대 — 원점 = 받침 아래 땅. face: 1 이면 오른쪽(연주자가 오른쪽), -1 이면 왼쪽으로 기울임. tall: 기둥 높이
+  function musicStand(x, y, sc, face, tall) {
+    var h = tall || 28, top = -h - 4;
+    var lines = ''; for (var k = 0; k < 3; k++) lines += '<path d="M-6.4 ' + (top - 4.6 + k * 2.2) + ' H6.4" stroke="#b9ae98" stroke-width=".35"/>';
+    var dots = '<circle cx="-4" cy="' + (top - 3.7) + '" r=".6" fill="#4d4d5a"/><circle cx="-.5" cy="' + (top - 2.5) + '" r=".6" fill="#4d4d5a"/><circle cx="3" cy="' + (top - 1.4) + '" r=".6" fill="#4d4d5a"/>';
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + sc + ')">' +
+      '<ellipse cx="0" cy=".6" rx="8" ry="1.3" fill="#6e4424" opacity=".3"/>' +
+      '<path d="M-6 0 L0 -5 L6 0 M0 -5 V0" fill="none" stroke="#2f2f3a" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M0 -5 V' + (top + 2) + '" stroke="#2f2f3a" stroke-width="1.3"/>' +
+      '<g transform="rotate(' + (face * -16) + ' 0 ' + (top + 1) + ')">' +
+      '<rect x="-9" y="' + (top - 7.5) + '" width="18" height="10.5" rx="1" fill="#2f2f3a"/>' +
+      '<rect x="-7.6" y="' + (top - 6.6) + '" width="15.2" height="8.2" fill="#fffdf3"/>' + lines + dots +
+      '<rect x="-9.6" y="' + (top + 2.4) + '" width="19.2" height="1.6" rx=".6" fill="#2f2f3a"/>' +
+      '</g></g>';
   }
   function win(x) {
     return '<rect x="' + (x - 3) + '" y="127" width="16" height="22" rx="8" fill="#ffe7a8" opacity=".35"/>' +
