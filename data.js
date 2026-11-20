@@ -115,8 +115,8 @@ window.INVITE = {
   // 화면 아무 곳이나 처음 터치하면 재생, 끝나면 처음부터 반복, 오른쪽 아래 ♪ 로 끄고 켬.
   // 파일을 바꿀 때는 이름 끝 번호를 올린다(-v1 → -v2) — 휴대폰이 예전 파일을 기억하지 않게.
   bgm: {
-    file: 'clair-de-lune-v3.mp3',   // 3.0MB, 모노 80kbps, 5분 3초, 소리 크기를 원본의 0.25 로 파일에 넣음 (원본 ogg 는 원본 폴더)
-    volume: 1,                      // 크기는 파일로 조절 — 아이폰은 이 값을 무시함 (2026-11-19 0.5, 2026-11-20 반으로 줄여 0.25)
+    file: 'clair-de-lune-v4.mp3',   // 3.0MB, 모노 80kbps, 5분 3초 — 잔잔하게(큰 소리 눌러 줌·높은 음 부드럽게·3초 페이드인) + 평균 소리 v3 의 80% (원본 ogg 는 원본 폴더)
+    volume: 1,                      // 크기는 파일로 조절 — 아이폰은 이 값을 무시함 (2026-11-19 0.5, 2026-11-20 0.25, 같은 날 20% 더 줄이고 잔잔하게)
     // 드뷔시 〈달빛〉 Clair de lune — Laurens Goedhart 피아노(2011), 퍼블릭 도메인, 위키미디어 공용
     source: 'https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg'
   },
