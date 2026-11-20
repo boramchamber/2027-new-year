@@ -5,26 +5,47 @@
 (function () {
   var A = {};
 
-  // 표지 땅: 눈 덮인 언덕, 무대 뒤 불 켜진 음악당, 나무 무대 위 눈사람 오케스트라와 지휘자 캐릭터
+  // 표지 땅: 눈 덮인 언덕, 무대를 감싸는 야외 공연장 쉘(반원 지붕), 나무 무대 위 눈사람 오케스트라와 지휘자 캐릭터
   A.cover =
     '<svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
     '<defs><radialGradient id="cv-halo"><stop offset="0" stop-color="#ffe2a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>' +
     '<linearGradient id="cv-snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e2eaf8"/></linearGradient></defs>' +
-    '<circle cx="282" cy="128" r="96" fill="url(#cv-halo)" opacity=".45"/>' +
+    '<ellipse cx="200" cy="132" rx="170" ry="62" fill="url(#cv-halo)" opacity=".4"/>' +
     // 먼 언덕과 먼 숲
     '<path d="M0 148 Q70 124 140 138 T280 130 T400 136 V210 H0Z" fill="#c8d7f1"/>' +
     pines([[118, 140, .45], [132, 138, .35], [150, 141, .4], [196, 136, .38], [212, 134, .3], [372, 136, .42], [386, 138, .32]], '#8fa7d3', false) +
     // 가까운 눈밭
     '<path d="M0 170 Q90 150 200 162 T400 156 V210 H0Z" fill="url(#cv-snow)"/>' +
-    // 음악당
-    '<rect x="244" y="120" width="76" height="44" fill="#7a3444"/>' +
-    '<path d="M236 122 L282 94 L328 122Z" fill="#8c3d4e"/>' +
-    '<path d="M231 123 L282 90 L333 123 Q327 127 321 123 L282 99 L243 123 Q237 127 231 123Z" fill="#ffffff"/>' +
-    '<circle cx="282" cy="111" r="5" fill="#ffd36b"/>' +
-    win(252) + win(268) + win(290) + win(306) +
-    '<path d="M276 164 V147 Q282 138 288 147 V164Z" fill="#ffc24d"/>' +
-    '<circle cx="282" cy="141" r="3.4" fill="none" stroke="#3d7a52" stroke-width="1.8"/><circle cx="282" cy="144.4" r="1.1" fill="#d6413f"/>' +
-    '<rect x="240" y="161" width="84" height="5" rx="2.5" fill="#ffffff"/>' +
+    // 야외 공연장 쉘(반원 지붕) — 무대를 감싸는 배경. 음악당(집) 대신, 집 높이보다 위로는 올라가지 않게
+    (function () {
+      var cx = 200, by = 160, R = 178, H = 68;
+      var arc = function (rx, ry) { return 'M' + (cx - rx) + ' ' + by + ' A' + rx + ' ' + ry + ' 0 0 1 ' + (cx + rx) + ' ' + by; };
+      var g = '<defs><radialGradient id="bs-in" cx=".5" cy="1" r="1"><stop offset="0" stop-color="#e3946e"/><stop offset=".55" stop-color="#b25a5a"/><stop offset="1" stop-color="#7d3445"/></radialGradient></defs>';
+      var ribs = '';
+      for (var k = 1; k < 12; k++) {   // 부채살 금색 살
+        var a = Math.PI * k / 12, x2 = cx - Math.cos(a) * (R - 10), y2 = by - Math.sin(a) * (H - 7);
+        ribs += '<path d="M' + cx + ' ' + (by + 8) + ' L' + x2.toFixed(1) + ' ' + y2.toFixed(1) + '" stroke="#f3d9a4" stroke-width=".7" opacity=".32"/>';
+      }
+      var bands = [[146, 50], [114, 36], [82, 24]].map(function (r) { return '<path d="' + arc(r[0], r[1]) + '" fill="none" stroke="#f3d9a4" stroke-width=".8" opacity=".35"/>'; }).join('');
+      var bulbs = '';
+      for (var k = 1; k < 20; k++) {   // 테두리 안쪽 작은 전구
+        var a = Math.PI * k / 20, x = cx - Math.cos(a) * (R - 6), y = by - Math.sin(a) * (H - 4);
+        bulbs += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="1.3" fill="#ffe7a8"/><circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="3" fill="#ffe7a8" opacity=".25"/>';
+      }
+      var snow = '';
+      [[-0.92, 3.2], [-0.7, 4], [-0.45, 3.6], [-0.2, 4.4], [0.05, 3.8], [0.3, 4.2], [0.55, 3.4], [0.78, 4], [0.95, 3]].forEach(function (q) {
+        var a = Math.acos(q[0]), x = cx + q[0] * R, y = by - Math.sin(a) * H;
+        snow += '<ellipse cx="' + x.toFixed(1) + '" cy="' + (y - .6).toFixed(1) + '" rx="' + (q[1] * 1.8) + '" ry="' + q[1] * .55 + '" fill="#ffffff"/>';
+      });
+      return g +
+        '<path d="' + arc(R, H) + 'Z" fill="#f3e3c4"/>' +
+        '<path d="' + arc(R - 8, H - 6) + 'Z" fill="url(#bs-in)"/>' +
+        ribs + bands +
+        '<ellipse cx="200" cy="158" rx="120" ry="30" fill="#ffe2a0" opacity=".22"/>' +
+        bulbs +
+        '<path d="' + arc(R, H) + '" fill="none" stroke="#d9b56e" stroke-width="1.2"/>' +
+        '<path d="' + arc(R + .5, H + .8) + '" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>' + snow;
+    })() +
     // 무대 양옆 소나무 (작은 전구 장식, 밑동은 무대 뒤로)
     pines([[14, 166, 1.2], [388, 164, 1.0]], '#2e5d4f', true) +
     // 무대 — 눈밭 위 나무 무대(앞면 와인색·금색 테·무대 앞 조명), 음악당은 무대 뒤 배경
