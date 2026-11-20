@@ -566,8 +566,36 @@
     '<g fill="#f6d488" font-family="serif"><text x="66" y="50" font-size="18" opacity=".8">♪</text><text x="88" y="78" font-size="13" opacity=".55">♫</text><text x="244" y="52" font-size="15" opacity=".7">♩</text></g>' +
     '</svg>';
 
+  // 캐논변주곡 — 결혼식 종 두 개와 리본, 아래 오선지에 같은 선율이 돌림노래처럼 겹겹이
+  A.bells = (function () {
+    var bell = function (x, y, r) {
+      return '<g transform="translate(' + x + ' ' + y + ') rotate(' + r + ')">' +
+        '<path d="M0 0 C-3 0 -12 5 -13 20 L-16 27 H16 L13 20 C12 5 3 0 0 0Z" fill="url(#bl-gold)"/>' +
+        '<path d="M-16 27 H16" stroke="#a87a2a" stroke-width="1.6"/><circle cx="0" cy="30" r="3" fill="#a87a2a"/>' +
+        '<path d="M-6 6 Q-9 14 -9 22" stroke="#fff6d8" stroke-width="1.6" stroke-linecap="round" opacity=".7" fill="none"/></g>';
+    };
+    var note = function (x, y, c) { return '<ellipse cx="' + x + '" cy="' + y + '" rx="3" ry="2.2" transform="rotate(-20 ' + x + ' ' + y + ')" fill="' + c + '"/><path d="M' + (x + 2.7) + ' ' + y + ' V' + (y - 11) + '" stroke="' + c + '" stroke-width="1.1"/>'; };
+    var voices = '', cols = ['#7b2d3b', '#c08a3e', '#d9738a'], mel = [0, -3, -6, -3, 0, 3];
+    cols.forEach(function (c, v) { mel.forEach(function (m, k) { var x = 40 + v * 34 + k * 40; if (x < 300) voices += note(x, 128 + m - v * 1.2, c); }); });
+    var staff = ''; for (var k = 0; k < 5; k++) staff += '<path d="M14 ' + (116 + k * 4) + ' H306" stroke="#b08d5a" stroke-width=".6" opacity=".55"/>';
+    return '<svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      '<defs><linearGradient id="bl-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff4de"/><stop offset="1" stop-color="#f4d6a6"/></linearGradient>' +
+      '<linearGradient id="bl-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8dc8c"/><stop offset="1" stop-color="#c99536"/></linearGradient></defs>' +
+      '<rect width="320" height="150" fill="url(#bl-bg)"/>' +
+      '<g fill="#f2b3c0"><circle cx="40" cy="22" r="5"/><circle cx="58" cy="14" r="4"/><circle cx="262" cy="16" r="4.5"/><circle cx="282" cy="26" r="5"/></g>' +
+      '<g fill="#ffffff"><circle cx="48" cy="18" r="3.2"/><circle cx="272" cy="20" r="3.4"/></g>' +
+      staff + voices +
+      '<g transform="translate(160 60) scale(1.6) translate(-160 -50)">' +
+      bell(140, 40, -14) + bell(180, 40, 14) +
+      '<path d="M160 34 q-16 -14 -20 0 q4 8 20 0Z M160 34 q16 -14 20 0 q-4 8 -20 0Z" fill="#ffffff" stroke="#e7c9cf"/>' +
+      '<path d="M158 36 l-7 16 M162 36 l7 16" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/><circle cx="160" cy="34" r="3" fill="#f2b3c0"/>' +
+      '</g>' +
+      '<g fill="#c08a3e"><path d="M110 30 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4Z"/><path d="M212 26 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2Z"/></g>' +
+      '</svg>';
+  })();
+
   // 곡 목록의 작은 정사각형 그림에서 보여 줄 가로 시작 위치 (그림 폭 320 중 150 만큼 보임)
-  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85, tango: 92 };
+  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85, tango: 92, bells: 85 };
 
   window.ART = A;
 })();
