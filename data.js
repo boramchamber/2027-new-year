@@ -67,7 +67,9 @@ window.INVITE = {
         { title: '캐논변주곡', note: 'Canon in D', composer: 'J. Pachelbel', art: 'bells',
           desc: '결혼식에서 자주 들으셨을 바로 그 선율이에요. 같은 낮은 음 진행이 되풀이되는 위로 멜로디가 돌림노래처럼 차례차례 겹쳐지며 점점 풍성해집니다.' },
         { title: '사랑의 인사', note: "Salut d'Amour", composer: 'E. Elgar', art: 'letter',
-          desc: '〈위풍당당 행진곡〉의 작곡가 엘가가 약혼녀에게 선물로 바친 곡이에요. 짧고 다정한 선율이 마음을 포근하게 감싸 줍니다.' }
+          desc: '〈위풍당당 행진곡〉의 작곡가 엘가가 약혼녀에게 선물로 바친 곡이에요. 짧고 다정한 선율이 마음을 포근하게 감싸 줍니다.' },
+        { title: 'Por una Cabeza', note: '영화 〈여인의 향기〉 OST', composer: 'C. Gardel', art: 'tango',
+          desc: "영화 〈여인의 향기〉에서 알 파치노가 탱고를 추는 장면에 흐르는 음악이에요. '말 머리 하나 차이로'라는 뜻의 제목처럼 아슬아슬하고 정열적인 탱고 선율입니다." }
       ]
     }
   ],
