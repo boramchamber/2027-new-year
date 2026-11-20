@@ -26,7 +26,7 @@
     '<circle cx="282" cy="141" r="3.4" fill="none" stroke="#3d7a52" stroke-width="1.8"/><circle cx="282" cy="144.4" r="1.1" fill="#d6413f"/>' +
     '<rect x="240" y="161" width="84" height="5" rx="2.5" fill="#ffffff"/>' +
     // 무대 양옆 소나무 (작은 전구 장식, 밑동은 무대 뒤로)
-    pines([[14, 166, 1.2], [388, 164, 1.0]], '#2e5d4f', true) +
+    pines([[388, 164, 1.0]], '#2e5d4f', true) +
     // 무대 — 눈밭 위 나무 무대(앞면 와인색·금색 테·무대 앞 조명), 음악당은 무대 뒤 배경
     '<defs><linearGradient id="st-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c99566"/><stop offset="1" stop-color="#9c6539"/></linearGradient></defs>' +
     '<path d="M0 158 Q200 149 400 156 L400 187 Q200 194 0 187Z" fill="url(#st-top)"/>' +
@@ -37,16 +37,19 @@
     '<path d="M0 187 Q200 194 400 187" fill="none" stroke="#d9b56e" stroke-width="1.4"/>' +
     (function () { var l = ''; for (var x = 20; x < 400; x += 40) { var y = 189.5 + 3.2 * (1 - Math.pow((x - 200) / 200, 2)); l += '<ellipse cx="' + x + '" cy="' + (y - 4) + '" rx="9" ry="5" fill="#ffe7a8" opacity=".28"/><circle cx="' + x + '" cy="' + y + '" r="1.6" fill="#ffe08a"/>'; } return l; })() +
     // 플루트 눈사람 (뒷줄 왼쪽) — 원근감을 위해 조금 작게
-    flutist(126, 166, 1.15) +
+    flutist(96, 166, 1.15) +
     // 클라리넷 눈사람 (뒷줄 가운데) — 원근감을 위해 조금 작게
-    clarinetist(186, 166, 1.15) +
-    // 뒷줄 보면대
-    musicStand(153, 166, 1.0, -1) + musicStand(211, 166, .92, -1) +
+    clarinetist(146, 166, 1.15) +
+    // 뒷줄 보면대 — 플루트·클라리넷이 함께 봄
+    musicStand(121, 166, 1.0, 0) +
+    // [피아노]
     // 바이올린 눈사람 (앞줄 왼쪽)
-    violinist(64, 184, 1.35) +
-    musicStand(28, 184, 1.2, 1) +
-    // 첼로 눈사람 (앞줄 오른쪽) — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름)
-    '<g transform="translate(90 8)">' +
+    musicStand(18, 184, 1.15, 1) +
+    violinist(52, 184, 1.35) +
+    // 첼로 보면대 (첼로보다 먼저 그려 활이 앞으로 지나가게)
+    musicStand(222, 184, 1.05, -1) +
+    // 첼로 눈사람 (앞줄 가운데) — 나무 의자에 앉아 첼로를 켬 (활이 오가고, 몸이 흔들리고, 음표가 피어오름)
+    '<g transform="translate(30 8)">' +
     '<ellipse cx="148" cy="177" rx="22" ry="3" fill="#6e4424" opacity=".35"/>' +
     '<g transform="translate(150 176) scale(1.35) translate(-150 -176)">' +
     // 의자
@@ -94,8 +97,8 @@
     '<animateTransform attributeName="transform" type="translate" values="0 0;7 -16" dur="2.6s" begin="1.3s" repeatCount="indefinite"/></text>' +
     '</g></g>' +
     '</g>' +
-    // 첼로 보면대, 지휘자 악보대(지휘대 바로 앞 — 지휘대 위에 선 지휘자 가슴 높이)
-    musicStand(286, 184, 1.2, -1) + musicStand(327, 184, 1.2, 1, 36) +
+    // 지휘자 악보대(지휘대 바로 앞 — 지휘대 위에 선 지휘자 가슴 높이)
+    musicStand(327, 184, 1.2, 1, 36) +
     // 지휘자 캐릭터 — 사진에서 오린 얼굴 + 졸라맨 몸, 12초짜리 지휘 (아래 maestro 함수)
     maestro() +
     '<path d="M0 204 Q100 199 200 204 T400 202 V210 H0Z" fill="#fffaf2"/>' +
