@@ -171,8 +171,11 @@
     var ink2 = 'fill="none" stroke="#3a3e52" stroke-width="2" stroke-linecap="round"';
 
     return '<ellipse cx="350" cy="185" rx="20" ry="3" fill="#6e4424" opacity=".35"/>' +
-      '<g transform="translate(350 184) scale(1.25)">' +
-      '<rect x="-13" y="-5" width="26" height="6" rx="1.5" fill="#7a3444"/><path d="M-13 -4.6 H13" stroke="#d9b56e" stroke-width=".8"/>' +
+      '<g transform="translate(350 176) scale(1.25)">' +
+      // 지휘대 — 높이를 2배로(2026-11-20), 금색 테와 앞판
+      '<rect x="-14" y="-5" width="28" height="12.6" rx="1.2" fill="#7a3444"/>' +
+      '<rect x="-11.5" y="-1.6" width="23" height="6.6" rx=".8" fill="none" stroke="#d9b56e" stroke-width=".6" opacity=".8"/>' +
+      '<rect x="-15" y="-5.6" width="30" height="2" rx=".8" fill="#8c3d4e"/><path d="M-15 -5.4 H15" stroke="#d9b56e" stroke-width=".8"/>' +
       '<path d="M0 -22 L-6 -5 M0 -22 L6 -5" ' + ink + ' stroke-width="2.3"><animate attributeName="d" values="' + legs + '" dur="12s" repeatCount="indefinite"/></path>' +
       '<g>' +
       '<animateTransform attributeName="transform" type="translate" values="' + BOB.map(function (b) { return '0 ' + f(b); }).join(';') + '" dur="12s" repeatCount="indefinite"/>' +
