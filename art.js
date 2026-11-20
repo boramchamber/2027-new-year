@@ -42,7 +42,8 @@
     clarinetist(146, 166, 1.15) +
     // 뒷줄 보면대 — 플루트·클라리넷이 함께 봄
     musicStand(121, 166, 1.0, 0) +
-    // [피아노]
+    // 피아노 눈사람 (뒷줄 오른쪽, 음악당 앞) — 옆모습으로 지휘자를 보며 연주
+    pianist(262, 165, 1.15) +
     // 바이올린 눈사람 (앞줄 왼쪽)
     musicStand(18, 184, 1.15, 1) +
     violinist(52, 184, 1.35) +
@@ -319,6 +320,70 @@
       '<rect x="-7.6" y="' + (top - 6.6) + '" width="15.2" height="8.2" fill="#fffdf3"/>' + lines + dots +
       '<rect x="-9.6" y="' + (top + 2.4) + '" width="19.2" height="1.6" rx=".6" fill="#2f2f3a"/>' +
       '</g></g>';
+  }
+  // 피아노 눈사람 — 옆모습으로 앉아 오른쪽(지휘자)을 보며 그랜드 피아노를 침. 원점 = 건반 앞 땅.
+  //  두 손이 번갈아 건반 위에서 통통 튀고 가끔 신나게 높이 들림, 몸이 앞뒤로 들썩, 고개 까딱, 줄무늬 털모자 꼬리가 펄럭, 열린 뚜껑에서 음표가 튀어나옴
+  function pianist(x, y, sc) {
+    var K = '#1b1b24', A = function (attr, vals, dur, extra) { return '<animateTransform attributeName="transform" type="' + attr + '" values="' + vals + '" dur="' + dur + 's" repeatCount="indefinite"' + (extra || '') + '/>'; };
+    // 그랜드 피아노 (옆모습: 왼쪽 건반, 오른쪽 꼬리, 뚜껑 열림)
+    var blackKeys = ''; [-6.2, -4.8, -2.6, -1.2, .2].forEach(function (k) { blackKeys += '<rect x="' + k + '" y="-23.4" width=".8" height="1" fill="' + K + '"/>'; });
+    var piano =
+      '<ellipse cx="22" cy=".8" rx="34" ry="2.4" fill="#6e4424" opacity=".35"/>' +
+      '<rect x="3" y="-14" width="3" height="14" rx=".6" fill="' + K + '"/><rect x="49" y="-13" width="3" height="13" rx=".6" fill="' + K + '"/>' +
+      '<circle cx="4.5" cy=".2" r=".9" fill="#d9b56e"/><circle cx="50.5" cy=".2" r=".9" fill="#d9b56e"/>' +
+      '<path d="M15 -12 L16 -3 L20 -3 L21 -12Z" fill="' + K + '"/><rect x="15.6" y="-2.6" width="4.8" height="1.1" rx=".4" fill="#d9b56e"/>' +
+      // 뚜껑(열림)과 받침대
+      '<path d="M7 -27 L56 -27 L17 -55 L10 -51Z" fill="#2c2c38"/><path d="M7 -27 L17 -55" stroke="#d9b56e" stroke-width=".6"/>' +
+      '<path d="M33 -27 L28 -45" stroke="' + K + '" stroke-width="1"/>' +
+      // 몸통
+      '<path d="M0 -27 H36 Q56 -27 57 -20.5 Q58 -14 49 -13 H0Z" fill="' + K + '"/>' +
+      '<path d="M2 -25.6 H36 Q51 -25.6 54 -21.5" fill="none" stroke="#4a4a5c" stroke-width=".8"/>' +
+      '<path d="M0 -14.4 H48" stroke="#d9b56e" stroke-width=".5" opacity=".7"/>' +
+      // 건반
+      '<path d="M-7.4 -19 H1 V-13 H-4.6 Q-7.4 -13 -7.4 -15.8Z" fill="' + K + '"/>' +
+      '<rect x="-7.4" y="-22.2" width="8" height="3.6" rx=".6" fill="' + K + '"/><rect x="-7.4" y="-23.6" width="8" height="1.6" fill="#fffdf6"/>' + blackKeys +
+      // 악보대와 악보
+      '<path d="M1 -27 L4.4 -36.5 L6 -36.5 L2.6 -27Z" fill="' + K + '"/><path d="M2.6 -29 L5.4 -36 L9.4 -35 L6.6 -28Z" fill="#fffdf3"/>' +
+      '<path d="M3.6 -30.4 L7.6 -29.4 M4.3 -32.2 L8.3 -31.2 M5 -34 L9 -33" stroke="#b9ae98" stroke-width=".3"/>';
+    // 의자
+    var bench = '<path d="M-26 -12 L-27 0 M-13 -12 L-12 0" stroke="#3a2a22" stroke-width="1.5" stroke-linecap="round"/><rect x="-28" y="-14.4" width="17" height="3" rx="1" fill="#5a3a2a"/>';
+    // 털모자 꼬리 (펄럭)
+    var tail = '<g>' + A('rotate', '-12 -18 -54;16 -18 -54;-12 -18 -54', .8) +
+      '<path d="M-18 -54 Q-26 -60 -32 -53" fill="none" stroke="#d6413f" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M-21 -56.8 l.8 2.4 M-25 -57.4 l.2 2.6 M-28.6 -55.6 l-.6 2.4" stroke="#ffffff" stroke-width="1"/>' +
+      '<circle cx="-32.6" cy="-52.4" r="2.4" fill="#ffffff"/></g>';
+    var head = '<g>' + A('rotate', '-5 -18 -36;6 -18 -36;-5 -18 -36', .8) +
+      '<circle cx="-18" cy="-43" r="7.8" fill="#ffffff" stroke="#d3ddef"/>' +
+      '<circle cx="-13.8" cy="-44.6" r=".95" fill="#2f2f45"/><path d="M-15.4 -46.6 q1.6 -1 3 .2" fill="none" stroke="#2f2f45" stroke-width=".45"/>' +
+      '<path d="M-11 -42.2 l6.2 1.1 -6.2 1.2Z" fill="#f08a3c"/>' +
+      '<path d="M-15.8 -38.8 q2.4 2.2 5 .2" fill="none" stroke="#2f2f45" stroke-width=".6" stroke-linecap="round"/>' +
+      '<circle cx="-14.6" cy="-40.6" r="1.3" fill="#f3a6b4" opacity=".55"/>' +
+      tail +
+      '<path d="M-26 -45.5 Q-18 -60 -10 -45.5Z" fill="#d6413f"/><path d="M-24.6 -49.6 Q-18 -53 -11.4 -49.6" fill="none" stroke="#ffffff" stroke-width="1.2"/>' +
+      '<rect x="-26.6" y="-47" width="17.4" height="3" rx="1.3" fill="#ffffff"/>' +
+      '</g>';
+    // 두 손: 번갈아 통통, 마지막 박에 둘 다 높이 (3.2초 주기)
+    var hand = function (begin, x2, y2) {
+      return '<g>' + A('translate', '0 0;0 -2;0 0;0 -2;0 0;0 -2;0 0;0 -7;0 0', 3.2, ' begin="' + begin + 's"') +
+        '<path d="M-14 -29.5 Q-9 -31.5 ' + x2 + ' ' + y2 + '" ' + TW() + '/>' +
+        '<path d="M' + x2 + ' ' + y2 + ' l1.4 -1 M' + x2 + ' ' + y2 + ' l1.7 .1 M' + x2 + ' ' + y2 + ' l1.3 1" stroke="#6b4a2b" stroke-width=".7" stroke-linecap="round"/></g>';
+    };
+    var body = '<g>' + A('rotate', '-3 -19 -14;4 -19 -14;-3 -19 -14', 1.6) +
+      '<circle cx="-19" cy="-24.5" r="10.5" fill="#ffffff" stroke="#d3ddef"/>' +
+      '<circle cx="-11.2" cy="-26" r=".9" fill="#2f2f45"/><circle cx="-10.4" cy="-21.6" r=".9" fill="#2f2f45"/>' +
+      hand(.2, -6.2, -24.4) +
+      head +
+      '<path d="M-13.4 -36.2 l-2.4 -1.6 v3.2Z M-13.4 -36.2 l2.4 -1.6 v3.2Z" fill="#2f2f45"/>' +
+      hand(0, -3, -24.6) +
+      '</g>';
+    // 열린 뚜껑에서 튀어나오는 음표
+    var pop = function (nx, ny, ch, d, dx) {
+      return '<text x="' + nx + '" y="' + ny + '" font-size="7" fill="#fff6dc" font-family="serif" opacity="0">' + ch +
+        '<animate attributeName="opacity" values="0;1;0" dur="2.4s" begin="' + d + 's" repeatCount="indefinite"/>' +
+        '<animateTransform attributeName="transform" type="translate" values="0 0;' + dx + ' -18" dur="2.4s" begin="' + d + 's" repeatCount="indefinite"/></text>';
+    };
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + sc + ')">' + piano + bench + body +
+      pop(30, -34, '♪', 0, 6) + pop(40, -32, '♫', .8, 8) + pop(22, -38, '♩', 1.6, 4) + '</g>';
   }
   function win(x) {
     return '<rect x="' + (x - 3) + '" y="127" width="16" height="22" rx="8" fill="#ffe7a8" opacity=".35"/>' +
