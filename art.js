@@ -119,24 +119,24 @@
     }
     function lerp(a, b, w) { return [a[0] + (b[0] - a[0]) * w, a[1] + (b[1] - a[1]) * w]; }
     function sm(w) { w = Math.max(0, Math.min(1, w)); return w * w * (3 - 2 * w); }
-    function other(t) {  // 반대 손: 평소엔 허리 옆에 내려 둠 → 여리게(가슴 높이, 손바닥 아래) → 점점 들어 올림 → 세게·끝맺음은 좌우 대칭으로 함께 → 다시 내려놓음
-      var r = hand(t), m = function (k) { return [Math.max(7, 11 - (r[0] + 11) * k), -34 + (r[1] + 34) * k]; };   // 몸 가운데를 넘어 엇갈리지 않게
-      var rest = [6.5 + .25 * Math.sin(t * 2.1), -23.6], soft = [12, -31 + .35 * Math.sin(t * 9)], high = [14, -46];
+    function other(t) {  // 반대 손 — 지휘자가 왼쪽(연주자)을 보므로 이 손도 늘 왼쪽 앞으로만: 평소엔 옆에 내려 둠 → 여리게(가슴 높이, 손바닥 아래) → 점점 들어 올림 → 세게·끝맺음은 지휘봉 손과 같은 방향으로 함께 → 다시 내려놓음
+      var r = hand(t), f = function (k) { return [Math.min(-6, -11 + (r[0] + 11) * k + 3), -34 + (r[1] + 34) * k + 2.5]; };   // 몸 오른쪽으로 넘어가지 않게
+      var rest = [-2.6 + .2 * Math.sin(t * 2.1), -22.6], soft = [-12, -32 + .35 * Math.sin(t * 9)], high = [-11.5, -47];
       if (t < 3.5) return rest;
       if (t < 4) return lerp(rest, soft, sm((t - 3.5) / .5));
       if (t < 6) return soft;
       if (t < 8) return lerp(soft, high, sm((t - 6) / 2));
-      if (t < 8.3) return lerp(high, m(.75), sm((t - 8) / .3));
-      if (t < 11.5) return m(.75);
-      return lerp(m(.75), rest, sm((t - 11.5) / .5));
+      if (t < 8.5) return lerp(high, f(.6), sm((t - 8) / .5));
+      if (t < 11.5) return f(.6);
+      return lerp(f(.6), rest, sm((t - 11.5) / .5));
     }
-    function ikOut(tg, prev) {  // 반대 팔: 팔꿈치가 손보다 아래로 처지는(낮은) 풀이 — 실제 지휘처럼. 두 풀이 높이가 비슷하면 바로 앞 자세를 이어 감(뒤집힘 방지)
+    function ikOut(tg, prev) {  // 반대 팔: 첫 자세는 팔꿈치가 낮은 풀이, 그다음부터는 늘 바로 앞 자세와 가까운 풀이 — 팔꿈치가 중간에 뒤집히지 않음
       var p = ik(tg, 1), q = ik(tg, -1);
-      var ey = function (v) { return Math.sin(v[0] * Math.PI / 180); };
-      if (prev && Math.abs(ey(p) - ey(q)) < .18) {
+      if (prev) {
         var dist = function (v) { return Math.abs(((v[0] - prev[0]) % 360 + 540) % 360 - 180); };
         return dist(p) <= dist(q) ? p : q;
       }
+      var ey = function (v) { return Math.sin(v[0] * Math.PI / 180); };
       return ey(p) >= ey(q) ? p : q;
     }
     function ik(tg, elbowSign) {
@@ -168,6 +168,7 @@
     };
     var legs = BOB.map(function (b) { var hy = f(-22 + b); return 'M0 ' + hy + ' L-6 -5 M0 ' + hy + ' L6 -5'; }).join(';');
     var ink = 'fill="none" stroke="#1d1f2b" stroke-width="2.1" stroke-linecap="round"';
+    var ink2 = 'fill="none" stroke="#3a3e52" stroke-width="2" stroke-linecap="round"';
 
     return '<ellipse cx="350" cy="185" rx="20" ry="3" fill="#6e4424" opacity=".35"/>' +
       '<g transform="translate(350 184) scale(1.25)">' +
@@ -178,17 +179,17 @@
       rot(LN, 0, -22, ' additive="sum"') +
       '<path d="M0 -22 V-40" ' + ink + ' stroke-width="2.3"/>' +
       '<path d="M-3 -41.5 L0 -40 L-3 -38.5Z M3 -41.5 L0 -40 L3 -38.5Z" fill="#c0463f"/>' +
+      // 반대 손(멀리 있는 팔이라 지휘봉 팔 뒤에, 조금 옅게): 위팔 → 아래팔 → 펼친 손
+      '<g>' + rot(B1, 0, -37) + '<path d="M0 -37 H9" ' + ink2 + '/>' +
+      '<g>' + rot(B2, 9, -37) + '<path d="M9 -37 H17" ' + ink2 + '/>' +
+      '<path d="M17 -37 l2.2 -1.4 M17 -37 l2.6 0 M17 -37 l2.2 1.4" stroke="#3a3e52" stroke-width=".9" stroke-linecap="round"/>' +
+      '</g></g>' +
       // 지휘봉 팔: 위팔 → 아래팔 → 손목(지휘봉)
       '<g>' + rot(A1, 0, -37) + '<path d="M0 -37 H9" ' + ink + '/>' +
       '<g>' + rot(A2, 9, -37) + '<path d="M9 -37 H17" ' + ink + '/>' +
       '<g>' + rot(FL, 17, -37) + '<path d="M17 -37 H30" stroke="#ffffff" stroke-width="1.1" stroke-linecap="round"/>' +
       '<circle cx="30.4" cy="-37" r="1.5" fill="#fff6c8"><animate attributeName="opacity" values=".25;1;.25" dur=".5s" repeatCount="indefinite"/></circle>' +
       '</g></g></g>' +
-      // 반대 손: 위팔 → 아래팔 → 펼친 손
-      '<g>' + rot(B1, 0, -37) + '<path d="M0 -37 H9" ' + ink + '/>' +
-      '<g>' + rot(B2, 9, -37) + '<path d="M9 -37 H17" ' + ink + '/>' +
-      '<path d="M17 -37 l2.2 -1.4 M17 -37 l2.6 0 M17 -37 l2.2 1.4" stroke="#1d1f2b" stroke-width=".9" stroke-linecap="round"/>' +
-      '</g></g>' +
       // 얼굴 (사진에서 머리·얼굴만 오린 것, 배경 투명) — 박자에 맞춰 까딱
       '<g>' + rot(NOD, 0, -40) +
       '<image href="' + (window.ART_BASE || '') + 'conductor-face-v2.png" x="-10.6" y="-64.6" width="21.2" height="25.5"/>' +
