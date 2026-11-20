@@ -594,8 +594,34 @@
       '</svg>';
   })();
 
+  // 사랑의 인사 — 하트 봉인을 한 연애편지, 작은 장미 꽃다발, 떠오르는 하트
+  A.letter = (function () {
+    var heart = function (x, y, sc, c, op) { return '<path transform="translate(' + x + ' ' + y + ') scale(' + sc + ')" d="M0 4 C-4 -4 -14 -2 -12 7 C-10 14 0 18 0 22 C0 18 10 14 12 7 C14 -2 4 -4 0 4Z" fill="' + c + '" opacity="' + (op || 1) + '"/>'; };
+    var rose = function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="6" fill="#c8102e"/><circle cx="' + (x - 2) + '" cy="' + (y - 2) + '" r="3.4" fill="#e0304b"/><path d="M' + (x - 2.5) + ' ' + y + ' q2.5 -3 5 0" fill="none" stroke="#8a0a20" stroke-width="1"/>'; };
+    return '<svg viewBox="0 0 320 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      '<defs><linearGradient id="lt-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdeef0"/><stop offset="1" stop-color="#f5c3cc"/></linearGradient></defs>' +
+      '<rect width="320" height="150" fill="url(#lt-bg)"/>' +
+      heart(60, 26, .7, '#ef8fa0', .7) + heart(262, 20, .9, '#ef8fa0', .6) + heart(240, 104, .55, '#ffffff', .8) + heart(78, 100, .5, '#ffffff', .8) +
+      // 편지지(봉투 위로 살짝 나옴)
+      '<g transform="rotate(-6 160 80)">' +
+      '<rect x="118" y="34" width="84" height="60" rx="3" fill="#fffdf7" stroke="#ead7c4"/>' +
+      '<path d="M128 46 H192 M128 54 H186 M128 62 H190" stroke="#c9a6a0" stroke-width="1.3" stroke-linecap="round"/>' +
+      // 봉투
+      '<rect x="108" y="62" width="104" height="62" rx="4" fill="#ffffff" stroke="#e5cfd3"/>' +
+      '<path d="M108 66 L160 100 L212 66" fill="none" stroke="#e5cfd3" stroke-width="1.6"/>' +
+      '<path d="M108 124 L148 92 M212 124 L172 92" stroke="#f0dde1" stroke-width="1.2"/>' +
+      heart(160, 88, .62, '#c0243d') +
+      '</g>' +
+      // 장미 꽃다발
+      '<path d="M98 132 L86 104 M98 132 L96 100 M98 132 L108 104" stroke="#3f7a3a" stroke-width="2" stroke-linecap="round"/>' +
+      '<path d="M88 116 q-8 -2 -10 -8 q8 0 10 8Z M104 116 q8 -2 10 -8 q-8 0 -10 8Z" fill="#4d8b45"/>' +
+      rose(86, 100) + rose(97, 95) + rose(109, 101) +
+      '<path d="M91 124 L105 124 L101 132 L95 132Z" fill="#f6d9a0"/>' +
+      '</svg>';
+  })();
+
   // 곡 목록의 작은 정사각형 그림에서 보여 줄 가로 시작 위치 (그림 폭 320 중 150 만큼 보임)
-  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85, tango: 92, bells: 85 };
+  A.thumbX = { autumn: 20, ocean: 66, grandpa: 40, graduation: 85, toreador: 140, waltz: 100, candle: 85, together: 85, tango: 92, bells: 85, letter: 70 };
 
   window.ART = A;
 })();
