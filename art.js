@@ -118,6 +118,8 @@
     '</g>' +
     // 앞줄 보면대 — 연주자 바로 앞, 배 높이로 낮게: 바이올린은 정면(악기·활은 턱 높이라 보임), 첼로는 악기를 피해 조금 왼쪽
     musicStand(72, 188, 1.15, -1, 20) + musicStand(212, 188, 1.15, 1, 20) +
+    // 잠자는 고양이 (무대 맨 앞 가운데, 바이올린과 첼로 사이 빈 바닥)
+    sleepingCat(150, 187, 1.1) +
     // 지휘자 악보대(지휘대 바로 앞 — 지휘대 위에 선 지휘자 가슴 높이)
     musicStand(327, 184, 1.2, 1, 36) +
     // 지휘자 캐릭터 — 사진에서 오린 얼굴 + 졸라맨 몸, 12초짜리 지휘 (아래 maestro 함수)
@@ -407,6 +409,48 @@
     };
     return '<g transform="translate(' + x + ' ' + y + ') scale(' + sc + ')">' + piano + bench + body +
       pop(6, -46, '♪', 0, 6) + pop(12, -44, '♫', .8, 8) + pop(2, -48, '♩', 1.6, 4) + '</g>';
+  }
+  // 잠자는 고양이 — 빨간 방석 위에서 동그랗게 몸을 말고 웃는 얼굴로 잠. 원점 = 방석 아래 바닥.
+  //  숨 쉴 때마다 몸이 부풀었다 가라앉고, 머리 위로 z z Z, 꼬리 끝이 살랑, 가끔 귀를 움찔
+  function sleepingCat(x, y, sc) {
+    var Wc = '#fffaf2', Ln = '#e3d3c0', Or = '#f2a65a', Pk = '#f3a6b4';
+    var breathe = '3.2s';
+    var cushion =
+      '<ellipse cx="0" cy="-.6" rx="17" ry="2.4" fill="#6e4424" opacity=".35"/>' +
+      '<ellipse cx="0" cy="-3" rx="16" ry="4.2" fill="#a52f45"/><ellipse cx="0" cy="-4" rx="14" ry="2.8" fill="#c7425a"/>' +
+      '<circle cx="-16" cy="-2.6" r="1.2" fill="#d9b56e"/><circle cx="16" cy="-2.6" r="1.2" fill="#d9b56e"/>';
+    var tail =
+      '<g><animateTransform attributeName="transform" type="rotate" values="0 4 -2.4;-14 4 -2.4;0 4 -2.4" dur="4.4s" repeatCount="indefinite"/>' +
+      '<path d="M4 -2.4 Q-1 -1.2 -5.6 -3" fill="none" stroke="' + Wc + '" stroke-width="3" stroke-linecap="round"/>' +
+      '<path d="M-3.2 -2.2 Q-4.6 -2.4 -5.6 -3" fill="none" stroke="' + Or + '" stroke-width="3" stroke-linecap="round"/></g>';
+    var body =
+      '<path d="M11.4 -6.6 Q14.6 -2.6 6 -2.2 L4 -2.4" fill="none" stroke="' + Wc + '" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<ellipse cx="2" cy="-9" rx="10.6" ry="6.2" fill="' + Wc + '" stroke="' + Ln + '" stroke-width=".6">' +
+      '<animate attributeName="ry" values="6.2;6.9;6.2" dur="' + breathe + '" repeatCount="indefinite"/><animate attributeName="cy" values="-9;-9.7;-9" dur="' + breathe + '" repeatCount="indefinite"/></ellipse>' +
+      '<ellipse cx="6" cy="-12.2" rx="4.2" ry="2.3" fill="' + Or + '" opacity=".9">' +
+      '<animate attributeName="cy" values="-12.2;-13.1;-12.2" dur="' + breathe + '" repeatCount="indefinite"/></ellipse>';
+    var ear = function (d, inner, twitch) {
+      return '<g>' + (twitch ? '<animateTransform attributeName="transform" type="rotate" values="0 -5.4 -13.6;0 -5.4 -13.6;-18 -5.4 -13.6;0 -5.4 -13.6;0 -5.4 -13.6" keyTimes="0;.86;.89;.93;1" dur="5s" repeatCount="indefinite"/>' : '') +
+        '<path d="' + d + '" fill="' + (twitch ? Or : Wc) + '" stroke="' + Ln + '" stroke-width=".5"/><path d="' + inner + '" fill="' + Pk + '"/></g>';
+    };
+    var head =
+      '<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -.5;0 0" dur="' + breathe + '" repeatCount="indefinite"/>' +
+      ear('M-12.8 -12.4 L-12.2 -17.6 L-8.8 -14Z', 'M-12 -13.2 L-11.7 -16 L-9.9 -14.1Z', false) +
+      ear('M-6.6 -14.2 L-3.6 -17.8 L-3 -12.6Z', 'M-5.8 -14 L-4 -16.1 L-3.7 -13.3Z', true) +
+      '<circle cx="-7.8" cy="-9" r="5.8" fill="' + Wc + '" stroke="' + Ln + '" stroke-width=".6"/>' +
+      '<path d="M-11.2 -9.8 q1.2 1.1 2.4 0 M-7.4 -9.8 q1.2 1.1 2.4 0" fill="none" stroke="#5a3a2a" stroke-width=".55" stroke-linecap="round"/>' +
+      '<path d="M-8.6 -8 l.9 0 l-.45 .6Z" fill="' + Pk + '"/>' +
+      '<path d="M-9.3 -7 q.6 .7 1.15 0 q.55 .7 1.15 0" fill="none" stroke="#5a3a2a" stroke-width=".45" stroke-linecap="round"/>' +
+      '<circle cx="-11.4" cy="-7.8" r="1.1" fill="' + Pk + '" opacity=".5"/><circle cx="-4.4" cy="-7.8" r="1.1" fill="' + Pk + '" opacity=".5"/>' +
+      '<path d="M-13 -8.2 l-2.4 -.4 M-13 -7.4 l-2.4 .3 M-2.6 -8.2 l2.2 -.4 M-2.6 -7.4 l2.2 .3" stroke="' + Ln + '" stroke-width=".35"/>' +
+      '</g>' +
+      '<ellipse cx="-10.6" cy="-4.4" rx="2.3" ry="1.4" fill="' + Wc + '" stroke="' + Ln + '" stroke-width=".5"/><ellipse cx="-5.6" cy="-4.2" rx="2.3" ry="1.4" fill="' + Wc + '" stroke="' + Ln + '" stroke-width=".5"/>';
+    var zz = [[0, 4.2, 'z'], [1.1, 5.4, 'z'], [2.2, 7, 'Z']].map(function (z) {
+      return '<text x="-5" y="-17" font-size="' + z[1] + '" font-family="Georgia, serif" font-weight="700" fill="#fff6dc" opacity="0">' + z[2] +
+        '<animate attributeName="opacity" values="0;.95;0" dur="3.3s" begin="' + z[0] + 's" repeatCount="indefinite"/>' +
+        '<animateTransform attributeName="transform" type="translate" values="0 0;6 -11" dur="3.3s" begin="' + z[0] + 's" repeatCount="indefinite"/></text>';
+    }).join('');
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + sc + ')">' + cushion + body + tail + head + zz + '</g>';
   }
   function win(x) {
     return '<rect x="' + (x - 3) + '" y="127" width="16" height="22" rx="8" fill="#ffe7a8" opacity=".35"/>' +
