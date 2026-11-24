@@ -165,6 +165,10 @@ document.getElementById('app').innerHTML = `
   (function () {
     var B = D.bgm;
     if (!B || !B.file) return;
+    // 공연 당일 정해진 시각(quietFrom)부터는 음악 없음 — ♪ 버튼도 안 보임. 페이지를 열어 둔 채 그 시각이 지나도 멈춤
+    var quietAt = B.quietFrom ? Date.parse(B.quietFrom) : NaN;
+    function quiet() { return !isNaN(quietAt) && Date.now() >= quietAt; }
+    if (quiet()) return;
     var au = new Audio(B.file);
     au.loop = true; au.preload = 'none'; au.volume = B.volume || 0.7;
     var fab = document.createElement('button');
@@ -174,7 +178,10 @@ document.getElementById('app').innerHTML = `
     document.body.appendChild(fab);
     var on = false;
     function paint() { fab.classList.toggle('on', on); }
+    function shut() { on = false; au.pause(); stopListening(); if (fab.parentNode) fab.parentNode.removeChild(fab); clearInterval(watch); }
+    var watch = setInterval(function () { if (quiet()) shut(); }, 20000);
     function sound(v) {
+      if (v && quiet()) { shut(); return; }
       on = v; paint();
       if (v) { var pr = au.play(); if (pr && pr.catch) pr.catch(function () { on = false; paint(); }); }
       else au.pause();
@@ -189,7 +196,7 @@ document.getElementById('app').innerHTML = `
     fab.onclick = function () { stopListening(); sound(!on); };
     // 다른 앱으로 나가면 잠시 멈추고, 돌아오면 이어서
     document.addEventListener('visibilitychange', function () {
-      if (document.hidden) au.pause(); else if (on) au.play().catch(function () {});
+      if (document.hidden) au.pause(); else if (quiet()) shut(); else if (on) au.play().catch(function () {});
     });
   })();
 

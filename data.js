@@ -117,6 +117,8 @@ window.INVITE = {
   bgm: {
     file: 'clair-de-lune-v7.mp3',   // 3.5MB, 스테레오 96kbps, 5분 3초 — 그랜드 피아노 느낌·부드러운 콘서트홀 잔향, 평균 -49.7dB (원본 ogg 는 원본 폴더)
     volume: 1,                      // 크기는 파일로 조절 — 아이폰은 이 값을 무시함 (2026-11-19 0.5, 2026-11-20 0.25 → 20% 더 → 그랜드 피아노·몽환 + 30% 더)
+    // 공연 당일 오후 5시(한국 시간)부터는 음악을 틀지 않음 — 공연장에서 휴대폰 소리가 나지 않게 하기 위해서 (2026-11-24 요청). 빈칸이면 늘 재생
+    quietFrom: '2027-01-06T17:00:00+09:00',
     // 드뷔시 〈달빛〉 Clair de lune — Laurens Goedhart 피아노(2011), 퍼블릭 도메인, 위키미디어 공용
     source: 'https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg'
   },
