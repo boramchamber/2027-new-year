@@ -81,7 +81,7 @@ document.getElementById('app').innerHTML = `
     <div class="sec-label en">Information</div>
     <h2 class="sec-title serif foil">공연 안내</h2>
     ${ORN}
-    <div class="info" id="info"></div>
+    <div class="ticket st" id="info"></div>
   </section>
 
   <section class="reveal stage" id="sec-conductor" hidden>
@@ -235,7 +235,9 @@ document.getElementById('app').innerHTML = `
     });
   })();
 
-  // 공연 안내
+  // 공연 안내 — 와인색 공연 티켓 (큰 날짜 · 일시/장소 · 절취선 너머 '입장 무료')
+  var pad2 = function (n) { return (n < 10 ? '0' : '') + n; };
+  var DOW = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   var rows = [];
   var when = esc(dateText) + (D.time ? ' ' + esc(timeText(D.time)) : '');
   rows.push(['일시', when + (D.doorsOpen ? '<span class="sub">' + esc(timeText(D.doorsOpen)) + ' 입장 시작</span>' : '')]);
@@ -244,10 +246,20 @@ document.getElementById('app').innerHTML = `
   } else {
     rows.push(['장소', '추후 안내 예정', 'pending']);
   }
-  if (D.admission) rows.push(['입장', esc(D.admission)]);
-  $('info').innerHTML = rows.map(function (r) {
-    return '<div class="row"><div class="k">' + r[0] + '</div><div class="v' + (r[2] ? ' ' + r[2] : '') + '">' + r[1] + '</div></div>';
-  }).join('');
+  var flake = '<svg class="tk-flake" viewBox="-50 -50 100 100" aria-hidden="true"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none">' +
+    [0, 60, 120, 180, 240, 300].map(function (a) {
+      return '<g transform="rotate(' + a + ')"><path d="M0 0 V-44 M0 -28 l-9 -9 M0 -28 l9 -9 M0 -14 l-6 -6 M0 -14 l6 -6"/></g>';
+    }).join('') + '</g></svg>';
+  $('info').innerHTML = flake +
+    '<div class="tk-main">' +
+      '<div class="tk-head en">' + esc(D.subtitle || '') + '</div>' +
+      '<div class="tk-date"><b class="en">' + pad2(p[1]) + '.' + pad2(p[2]) + '</b><span><i class="en">' + DOW[day.getDay()] + '</i>' + p[0] + '</span></div>' +
+      '<dl class="tk-rows">' + rows.map(function (r) {
+        return '<div><dt>' + r[0] + '</dt><dd' + (r[2] ? ' class="' + r[2] + '"' : '') + '>' + r[1] + '</dd></div>';
+      }).join('') + '</dl>' +
+    '</div>' +
+    '<div class="tk-stub"><span class="en">Admission</span><b class="serif">' + esc(D.admission ? '입장 ' + D.admission : '초대') + '</b></div>' +
+    '<i class="notch t"></i><i class="notch b"></i>';
 
   // 프로그램 — 묶음마다 1번부터
   var groups = (D.program || []).filter(function (g) { return g.pieces && g.pieces.length; });

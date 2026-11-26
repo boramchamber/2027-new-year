@@ -139,13 +139,44 @@ section { padding: 52px 24px; }
 @media (prefers-reduced-motion: reduce) { .reveal .seal { opacity: 1; transform: none; transition: none; } }
 
 .soft { background: var(--cream); }
-.info { background: #fff; border-radius: 18px; padding: 6px 18px; box-shadow: 0 4px 16px rgba(122,62,40,.08); }
-.info .row { display: flex; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--line); }
-.info .row:last-child { border-bottom: 0; }
-.info .k { flex: 0 0 48px; color: var(--gold); font-size: 15px; font-weight: 500; }
-.info .v { flex: 1; font-weight: 500; }
-.info .v .sub { display: block; font-weight: 400; font-size: 14px; color: var(--muted); }
-.info .v.pending { color: var(--muted); font-weight: 400; }
+/* 공연 안내 — 와인색 공연 티켓 */
+.ticket {
+  position: relative; display: flex; border-radius: 14px; overflow: hidden; color: #f6ead2;
+  background: linear-gradient(135deg, #8c3647 0%, #6b2535 46%, #4d1c2a 100%);
+  box-shadow: 0 16px 32px rgba(77,28,42,.28), 0 2px 6px rgba(77,28,42,.18);
+}
+.ticket::before { content: ''; position: absolute; inset: 6px; border: 1px solid rgba(243,217,164,.42); border-radius: 10px; pointer-events: none; }
+.ticket::after {   /* 빛이 한 번씩 스쳐 지나감 */
+  content: ''; position: absolute; top: 0; bottom: 0; left: -70%; width: 45%; pointer-events: none;
+  background: linear-gradient(100deg, rgba(255,255,255,0), rgba(255,240,210,.22), rgba(255,255,255,0));
+  transform: skewX(-18deg);
+}
+.reveal.in .ticket::after { animation: tk-shine 7s ease-in-out 1.2s infinite; }
+@keyframes tk-shine { 0% { left: -70%; } 22%, 100% { left: 140%; } }
+.tk-flake { position: absolute; right: 64px; top: -26px; width: 150px; height: 150px; color: #f3d9a4; opacity: .08; pointer-events: none; }
+.reveal.in .tk-flake { animation: tk-spin 60s linear infinite; }
+@keyframes tk-spin { to { transform: rotate(360deg); } }
+.tk-main { position: relative; flex: 1; min-width: 0; padding: 20px 14px 16px 22px; }
+.tk-head { font-size: 14px; color: #f3d9a4; letter-spacing: .12em; }
+.tk-date { display: flex; align-items: flex-end; gap: 10px; margin: 0 0 10px; font-variant-numeric: lining-nums; font-feature-settings: 'lnum' 1; }
+.tk-date b { font-size: 54px; line-height: 1; font-weight: 500; color: #fff; letter-spacing: .01em; text-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.tk-date span { padding-bottom: 7px; font-size: 13px; line-height: 1.35; color: #f3d9a4; letter-spacing: .14em; }
+.tk-date span i { display: block; font-size: 15px; color: #fff3d8; }
+.tk-rows div { display: flex; gap: 12px; padding: 8px 0; border-top: 1px dashed rgba(243,217,164,.32); font-size: 14.5px; line-height: 1.55; }
+.tk-rows dt { flex: 0 0 30px; color: #e2bf7a; }
+.tk-rows dd { flex: 1; color: #fff8ea; }
+.tk-rows dd .sub { display: block; font-size: 13px; color: rgba(255,248,234,.72); }
+.tk-rows dd.pending { color: rgba(255,248,234,.72); }
+.tk-stub {
+  position: relative; flex: 0 0 72px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  border-left: 2px dashed rgba(243,217,164,.55); background: rgba(0,0,0,.14);
+}
+.tk-stub .en { writing-mode: vertical-rl; font-size: 14px; color: #e2bf7a; letter-spacing: .22em; }
+.tk-stub b { writing-mode: vertical-rl; font-size: 21px; color: #fff; letter-spacing: .26em; font-weight: 700; }
+.ticket .notch { position: absolute; right: 61px; width: 20px; height: 20px; border-radius: 50%; background: var(--cream); }
+.ticket .notch.t { top: -10px; }
+.ticket .notch.b { bottom: -10px; }
+@media (prefers-reduced-motion: reduce) { .reveal.in .ticket::after, .reveal.in .tk-flake { animation: none; } }
 
 /* 배경음악 카드 + 떠 있는 ♪ 버튼 */
 /* 배경음악 ♪ 버튼 (오른쪽 아래) */
@@ -343,6 +374,11 @@ footer .rights { margin-top: 6px; font-size: 11px; color: #b3a594; line-height: 
   .card .sprig.r { right: 12px; }
   .welcome .w { font-size: 12px; }
   .welcome .ic { width: 48px; height: 48px; }
+  .tk-main { padding: 18px 10px 14px 18px; }
+  .tk-date b { font-size: 46px; }
+  .tk-stub { flex-basis: 62px; }
+  .ticket .notch { right: 51px; }
+  .tk-rows div { font-size: 14px; gap: 8px; }
   .pieces { padding: 2px 12px; }
   .piece .row { grid-template-columns: 52px 1fr 18px; gap: 12px; }
   .piece .thumb { width: 52px; height: 52px; border-radius: 12px; }
