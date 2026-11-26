@@ -119,7 +119,8 @@ document.getElementById('app').innerHTML = `
     <div class="performers" id="performers" hidden></div>
   </section>
 
-  <section class="soft reveal" id="sec-program">
+  <section class="reveal booklet" id="sec-program">
+    <svg class="staff" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width=".8"><path d="M-20 20 C60 11 120 29 200 20 S340 11 420 20" /><path d="M-20 27 C60 18 120 36 200 27 S340 18 420 27" /><path d="M-20 34 C60 25 120 43 200 34 S340 25 420 34" /><path d="M-20 41 C60 32 120 50 200 41 S340 32 420 41" /><path d="M-20 48 C60 39 120 57 200 48 S340 39 420 48" /></g><g fill="currentColor"><g class="bob" style="animation-delay:0s"><ellipse cx="46" cy="33" rx="4.2" ry="3" transform="rotate(-20 46 33)"/><path d="M49.6 32 V14" stroke="currentColor" stroke-width="1.2"/></g><g class="bob" style="animation-delay:-1.2s"><ellipse cx="338" cy="27" rx="4.2" ry="3" transform="rotate(-20 338 27)"/><ellipse cx="356" cy="23" rx="4.2" ry="3" transform="rotate(-20 356 23)"/><path d="M341.6 26 V8 M359.6 22 V5" stroke="currentColor" stroke-width="1.2"/><path d="M341 8 L360 5 L360 8 L341 11Z"/></g><g class="bob" style="animation-delay:-2.1s"><ellipse cx="374" cy="45" rx="3.6" ry="2.6" transform="rotate(-20 374 45)"/><path d="M377 44 V29 q3 3 5 7" stroke="currentColor" stroke-width="1.1" fill="none"/></g></g></svg>
     <div class="sec-label en">Program</div>
     <h2 class="sec-title serif foil">이런 곡을 들려드려요</h2>
     ${ORN}
@@ -128,7 +129,7 @@ document.getElementById('app').innerHTML = `
     <p class="program-note" id="program-note"></p>
   </section>
 
-  <section class="reveal" id="sec-map" hidden>
+  <section class="soft reveal" id="sec-map" hidden>
     <div class="sec-label en">Location</div>
     <h2 class="sec-title serif foil">오시는 길</h2>
     ${ORN}
@@ -271,20 +272,21 @@ document.getElementById('app').innerHTML = `
   if (groups.length) {
     $('program').innerHTML = groups.map(function (g) {
       var head = g.group
-        ? '<div class="group">' + (g.en ? '<div class="g-en en">' + esc(g.en) + '</div>' : '') +
+        ? '<div class="group st">' + (g.en ? '<div class="g-en en">' + esc(g.en) + '</div>' : '') +
           '<h3 class="serif">' + esc(g.group) + '</h3>' + (g.desc ? '<p>' + esc(g.desc) + '</p>' : '') + '</div>'
         : '';
       // 한 줄 목록: 작은 그림 + 제목 — 누르면 설명이 펼쳐짐 (설명 없는 곡은 펼치기 없음)
-      var items = g.pieces.map(function (s) {
+      var items = g.pieces.map(function (s, k) {
         var meta = [s.note ? esc(s.note) : '', s.composer ? '<span class="nw">' + esc(s.composer) + '</span>' : ''].filter(Boolean).join(' · ');
         var art = ART[s.art] || '';
         var x = (ART.thumbX && ART.thumbX[s.art]) || 85;
         art = art.replace('viewBox="0 0 320 150"', 'viewBox="' + x + ' 0 150 150"');
-        var row = '<span class="thumb">' + art + '</span>' +
+        var row = '<span class="no en">' + pad2(k + 1) + '</span><span class="thumb">' + art + '</span>' +
           '<span class="txt"><span class="t serif">' + esc(s.title) + '</span>' +
           (meta ? '<span class="m">' + meta + '</span>' : '') + '</span>';
-        if (!s.desc) return '<div class="piece"><div class="row">' + row + '<span></span></div></div>';
-        return '<details class="piece"><summary class="row">' + row +
+        var st = ' st" style="--i:' + (k + 1);
+        if (!s.desc) return '<div class="piece' + st + '"><div class="row">' + row + '<span></span></div></div>';
+        return '<details class="piece' + st + '"><summary class="row">' + row +
           '<svg class="chev" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
           '</summary><p class="d">' + esc(s.desc) + '</p></details>';
       }).join('');
