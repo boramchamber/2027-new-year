@@ -85,6 +85,11 @@ document.getElementById('app').innerHTML = `
   </section>
 
   <section class="reveal stage" id="sec-conductor" hidden>
+    <!-- 무대 조명 두 줄기(양쪽 위에서 사진 쪽으로, 천천히 흔들림) + 떠오르는 금빛 먼지 -->
+    <div class="beams" aria-hidden="true"><i></i><i></i></div>
+    <div class="dust" aria-hidden="true">${[8, 18, 27, 36, 47, 58, 66, 74, 83, 92, 13, 52, 88, 31].map(function (x, k) {
+      return '<i style="--x:' + x + '%;--y:' + (18 + (k * 37) % 70) + '%;--d:' + (9 + (k * 5) % 7) + 's;--w:' + (k % 3 ? 2 : 3) + 'px;animation-delay:-' + (k * 1.3).toFixed(1) + 's"></i>';
+    }).join('')}</div>
     <div class="sec-label en">Conductor</div>
     <h2 class="sec-title serif foil">지휘자 소개</h2>
     ${ORN}

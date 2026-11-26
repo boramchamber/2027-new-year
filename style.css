@@ -242,6 +242,29 @@ section { padding: 52px 24px; }
   background: radial-gradient(120% 60% at 50% 0%, #2b3768 0%, #171d3a 55%, #10142a 100%);
   color: #efe9de;
 }
+.stage { position: relative; overflow: hidden; }
+.stage > *:not(.beams):not(.dust) { position: relative; z-index: 1; }
+/* 무대 조명 — 위쪽 양옆에서 사진 쪽으로 비추는 빛줄기 (가장자리는 흐리게) */
+.beams { position: absolute; inset: 0; filter: blur(6px); pointer-events: none; }
+.beams i {
+  position: absolute; top: -20px; width: 200px; height: 760px; margin-left: -100px; transform-origin: 50% 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,232,176,.17) 0%, rgba(255,232,176,.06) 55%, rgba(255,232,176,0) 85%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+}
+.beams i:first-child { left: 6%; transform: rotate(-21deg); }
+.beams i:last-child { left: 94%; transform: rotate(21deg); }
+.reveal.in .beams i:first-child { animation: beam-l 10s ease-in-out infinite alternate; }
+.reveal.in .beams i:last-child { animation: beam-r 12s ease-in-out -4s infinite alternate; }
+@keyframes beam-l { from { transform: rotate(-27deg); } to { transform: rotate(-15deg); } }
+@keyframes beam-r { from { transform: rotate(15deg); } to { transform: rotate(27deg); } }
+/* 금빛 먼지 — 아래에서 천천히 떠오르며 반짝 */
+.dust i {
+  position: absolute; left: var(--x); top: var(--y); width: var(--w); height: var(--w); border-radius: 50%;
+  background: #f3d9a4; box-shadow: 0 0 6px 1px rgba(243,217,164,.7); opacity: 0; pointer-events: none;
+}
+.reveal.in .dust i { animation: dust var(--d) linear infinite; }
+@keyframes dust { 0% { opacity: 0; transform: translateY(40px); } 20% { opacity: .8; } 60% { opacity: .35; } 80% { opacity: .75; } 100% { opacity: 0; transform: translateY(-120px); } }
+@media (prefers-reduced-motion: reduce) { .reveal.in .beams i, .reveal.in .dust i { animation: none; } }
 .stage .sec-label { color: #d9b56e; }
 .stage .sec-title { color: #fff; }
 .conductor { text-align: center; }
