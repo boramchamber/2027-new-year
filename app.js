@@ -141,15 +141,26 @@ document.getElementById('app').innerHTML = `
     </div>
   </section>
 
-  <footer>
-    <p class="closing serif">새해 첫 음악회에서 뵙겠습니다<small id="closing-date"></small></p>
-    <p class="contact" id="contact" hidden></p>
-    <div class="btns">
-      <button class="btn primary full" type="button" id="share">초대장 공유하기</button>
-      <button class="btn full" type="button" id="calendar" hidden>내 캘린더에 추가</button>
+  <footer class="reveal">
+    <!-- 종이에서 눈 덮인 언덕을 넘어 밤하늘로 (표지와 짝) -->
+    <svg class="hills" viewBox="0 0 400 64" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 Q90 6 190 22 T400 12 V64 H0Z" fill="#7fa3dc" opacity=".35"/><path d="M44.0 16.0 L49.0 23.0 L47.0 23.0 L51.0 29.0 L48.0 29.0 L52.0 34.0 L36.0 34.0 L40.0 29.0 L37.0 29.0 L41.0 23.0 L39.0 23.0Z" fill="#18244f"/><path d="M41.6 20.0 L44.0 16.0 L46.4 20.0 Z" fill="#fff" opacity=".85"/><path d="M58.0 21.6 L62.0 27.2 L60.4 27.2 L63.6 32.0 L61.2 32.0 L64.4 36.0 L51.6 36.0 L54.8 32.0 L52.4 32.0 L55.6 27.2 L54.0 27.2Z" fill="#18244f"/><path d="M56.1 24.8 L58.0 21.6 L59.9 24.8 Z" fill="#fff" opacity=".85"/><path d="M338.0 8.1 L343.2 15.4 L341.1 15.4 L345.4 21.8 L342.2 21.8 L346.4 27.0 L329.6 27.0 L333.8 21.8 L330.6 21.8 L334.9 15.4 L332.8 15.4Z" fill="#18244f"/><path d="M335.5 12.3 L338.0 8.1 L340.5 12.3 Z" fill="#fff" opacity=".85"/><path d="M354.0 14.6 L358.0 20.2 L356.4 20.2 L359.6 25.0 L357.2 25.0 L360.4 29.0 L347.6 29.0 L350.8 25.0 L348.4 25.0 L351.6 20.2 L350.0 20.2Z" fill="#18244f"/><path d="M352.1 17.8 L354.0 14.6 L355.9 17.8 Z" fill="#fff" opacity=".85"/><path d="M0 40 Q60 22 130 33 T260 29 T400 24 V64 H0Z" fill="#1f2d63"/><path d="M0 40 Q60 22 130 33 T260 29 T400 24" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/></svg>
+    <div class="night">
+      <canvas id="snow2" aria-hidden="true"></canvas>
+      <div class="stars" aria-hidden="true"><i style="left:6%;top:12%;--d:2.4s;--s:3px;animation-delay:-0.0s"></i><i style="left:17%;top:30%;--d:3.1s;--s:2px;animation-delay:-0.5s"></i><i style="left:28%;top:8%;--d:3.8s;--s:2px;animation-delay:-0.9s"></i><i style="left:39%;top:22%;--d:4.5s;--s:3px;animation-delay:-1.4s"></i><i style="left:52%;top:6%;--d:2.4s;--s:2px;animation-delay:-1.8s"></i><i style="left:63%;top:18%;--d:3.1s;--s:2px;animation-delay:-2.2s"></i><i style="left:71%;top:34%;--d:3.8s;--s:3px;animation-delay:-2.7s"></i><i style="left:84%;top:10%;--d:4.5s;--s:2px;animation-delay:-3.1s"></i><i style="left:93%;top:26%;--d:2.4s;--s:2px;animation-delay:-3.6s"></i><i style="left:11%;top:52%;--d:3.1s;--s:3px;animation-delay:-4.0s"></i><i style="left:33%;top:46%;--d:3.8s;--s:2px;animation-delay:-4.5s"></i><i style="left:58%;top:40%;--d:4.5s;--s:2px;animation-delay:-5.0s"></i><i style="left:88%;top:48%;--d:2.4s;--s:3px;animation-delay:-5.4s"></i><i style="left:46%;top:62%;--d:3.1s;--s:2px;animation-delay:-5.9s"></i><i style="left:22%;top:70%;--d:3.8s;--s:2px;animation-delay:-6.3s"></i><i style="left:77%;top:66%;--d:4.5s;--s:3px;animation-delay:-6.8s"></i><i style="left:96%;top:70%;--d:2.4s;--s:2px;animation-delay:-7.2s"></i></div>
+      <svg class="moon" viewBox="0 0 40 40" aria-hidden="true"><path d="M26 6 A15 15 0 1 0 34 30 A12 12 0 1 1 26 6Z" fill="#fff4d6"/></svg>
+      <div class="ft">
+        <div class="sec-label en">See you in the New Year</div>
+        <p class="closing serif">새해 첫 음악회에서<br>뵙겠습니다<small id="closing-date"></small></p>
+        ${ORN}
+        <p class="contact" id="contact" hidden></p>
+        <div class="btns">
+          <button class="btn primary full" type="button" id="share">초대장 공유하기</button>
+          <button class="btn full" type="button" id="calendar" hidden>내 캘린더에 추가</button>
+        </div>
+        <p class="copy" id="copyright"></p>
+        <p class="rights">이 초대장의 사진·그림·글은 보람챔버오케스트라에 저작권이 있으며<br>허락 없이 복제·배포·다른 곳에 사용할 수 없습니다.</p>
+      </div>
     </div>
-    <p class="copy" id="copyright"></p>
-    <p class="rights">이 초대장의 사진·그림·글은 보람챔버오케스트라에 저작권이 있으며<br>허락 없이 복제·배포·다른 곳에 사용할 수 없습니다.</p>
   </footer>
 `;
 
@@ -471,16 +482,18 @@ document.getElementById('app').innerHTML = `
       }
     }
   };
-  var cv = $('snow'), ctx = cv.getContext && cv.getContext('2d');
-  if (ctx && ctx.ellipse && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    var notes = [], W, H, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  function fall(cv, count, floorR, noteShare) {
+    var ctx = cv && cv.getContext && cv.getContext('2d');
+    if (!ctx || !ctx.ellipse || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var notes = [], W, H, dpr = Math.min(window.devicePixelRatio || 1, 2), seen = true;
     var size = function () { W = cv.offsetWidth; H = cv.offsetHeight; cv.width = W * dpr; cv.height = H * dpr; };
     size(); window.addEventListener('resize', size);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { seen = es[0].isIntersecting; }).observe(cv);
     var spawn = function (n, top) {
       n.x = Math.random() * W; n.y = top ? -20 : Math.random() * H * .72;
-      // 눈 40% · 눈 결정 10% · 음표 5종 50%
+      // 음표 noteShare · 나머지는 눈(동그란 눈 80% · 눈 결정 20%)
       var r = Math.random();
-      n.kind = r < .4 ? 5 : r < .5 ? 6 : Math.floor(Math.random() * 5);
+      n.kind = r < noteShare ? Math.floor(Math.random() * 5) : (Math.random() < .8 ? 5 : 6);
       n.sc = n.kind === 5 ? Math.random() * .8 + .6 : Math.random() * .55 + .55;   // 크기
       n.v = n.kind >= 5 ? Math.random() * .3 + .2 : Math.random() * .35 + .25;      // 떨어지는 속도 (눈은 조금 더 천천히)
       n.w = Math.random() * Math.PI * 2;           // 좌우 흔들림
@@ -489,11 +502,13 @@ document.getElementById('app').innerHTML = `
       n.a = Math.random() * .35 + .5;              // 투명도
       return n;
     };
-    for (var i = 0; i < 44; i++) notes.push(spawn({}, false));
+    for (var i = 0; i < count; i++) notes.push(spawn({}, false));
     (function tick() {
+      requestAnimationFrame(tick);
+      if (!seen) return;
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, cv.width, cv.height);
-      var floor = H * .86;   // 눈밭 근처에서 사라짐
+      var floor = H * floorR;
       notes.forEach(function (n) {
         n.y += n.v; n.w += .012; n.x += Math.sin(n.w) * .25; n.rot += n.spin;
         if (n.y > floor) spawn(n, true);
@@ -506,7 +521,8 @@ document.getElementById('app').innerHTML = `
         NOTE.draw(ctx, n.kind);
       });
       ctx.globalAlpha = 1;
-      requestAnimationFrame(tick);
     })();
   }
+  fall($('snow'), 44, .86, .5);     // 표지: 눈 40% · 눈 결정 10% · 음표 5종 50%, 눈밭 근처에서 사라짐
+  fall($('snow2'), 26, 1.02, .2);   // 맺음 밤하늘: 눈 위주, 음표 조금
 })();
