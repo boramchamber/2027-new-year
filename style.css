@@ -98,18 +98,45 @@ section { padding: 52px 24px; }
   .reveal.in .foil { animation: none; }
 }
 
-.greeting { text-align: center; padding-top: 36px; }
-.greeting .sprig { width: 120px; height: 46px; margin: 0 auto 14px; display: block; }
-.greeting p { font-size: 16px; line-height: 2.05; color: var(--text); }
-.greeting .sign { margin-top: 22px; font-size: 15px; color: var(--muted); }
-
-.welcome { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 34px; }
-.welcome .w {
-  background: var(--cream); border-radius: 16px; padding: 16px 6px 14px; text-align: center;
-  font-size: 13px; line-height: 1.5; color: var(--ink);
+/* 초대 카드 — 상아색 종이, 금색 이중 테두리, 모서리 장식, 위에 와인색 봉랍 */
+.greeting { text-align: center; padding-top: 56px; }
+.card {
+  position: relative; padding: 50px 18px 42px; border-radius: 3px;
+  background: radial-gradient(120% 70% at 50% 0%, #ffffff 0%, #fffcf5 55%, #fbf2e2 100%);
+  border: 1px solid rgba(192,138,62,.6);
+  box-shadow: 0 14px 34px rgba(122,62,40,.12), 0 2px 6px rgba(122,62,40,.06);
 }
-.welcome .w svg { width: 34px; height: 34px; display: block; margin: 0 auto 8px; }
+.card::before { content: ''; position: absolute; inset: 7px; border: 1px solid rgba(192,138,62,.32); pointer-events: none; }
+.card .cn { position: absolute; width: 26px; height: 26px; color: var(--gold); }
+.card .cn.tl { left: 3px; top: 3px; }
+.card .cn.tr { right: 3px; top: 3px; transform: scaleX(-1); }
+.card .cn.bl { left: 3px; bottom: 3px; transform: scaleY(-1); }
+.card .cn.br { right: 3px; bottom: 3px; transform: scale(-1); }
+.card .sprig { position: absolute; left: 14px; top: 16px; width: 74px; height: 28px; }
+.card .sprig.r { left: auto; top: auto; right: 14px; bottom: 12px; transform: rotate(180deg); }
+.seal {
+  position: absolute; left: 50%; top: -31px; width: 62px; height: 62px; margin-left: -31px;
+  filter: drop-shadow(0 5px 6px rgba(77,28,42,.32));
+}
+.reveal .seal { opacity: 0; transform: scale(1.7) rotate(-28deg); transition: transform .7s cubic-bezier(.2,1.5,.4,1) .35s, opacity .3s ease .35s; }
+.reveal.in .seal { opacity: 1; transform: none; }
+.greeting p { font-size: 16.5px; line-height: 2.1; color: var(--text); }
+.greeting p .st { display: block; }
+.greeting .sign { margin-top: 20px; font-size: 14px; color: var(--muted); }
+.greeting .sign::before, .greeting .sign::after { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--gold); opacity: .6; vertical-align: middle; margin: 0 10px; }
+.greeting .sign .serif { font-size: 15.5px; color: var(--wine-deep); letter-spacing: .04em; }
+
+/* 환영 3칸 — 상자 대신 금색 원 아이콘 + 가는 금색 칸막이 */
+.welcome { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 30px; }
+.welcome .w { position: relative; padding: 2px 4px; text-align: center; font-size: 13px; line-height: 1.5; color: var(--text); }
+.welcome .w + .w::before { content: ''; position: absolute; left: 0; top: 10%; bottom: 10%; width: 1px; background: linear-gradient(transparent, rgba(192,138,62,.55), transparent); }
+.welcome .ic {
+  display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; margin: 0 auto 9px; border-radius: 50%;
+  background: #fffdf8; border: 1px solid rgba(192,138,62,.6); box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px rgba(192,138,62,.22);
+}
+.welcome .w svg { width: 28px; height: 28px; display: block; }
 .welcome .w b { display: block; font-size: 14px; color: var(--wine); }
+@media (prefers-reduced-motion: reduce) { .reveal .seal { opacity: 1; transform: none; transition: none; } }
 
 .soft { background: var(--cream); }
 .info { background: #fff; border-radius: 18px; padding: 6px 18px; box-shadow: 0 4px 16px rgba(122,62,40,.08); }
@@ -310,9 +337,12 @@ footer .rights { margin-top: 6px; font-size: 11px; color: #b3a594; line-height: 
   .cover { padding: 52px 16px 0; }
   .cover .scene { width: calc(100% + 32px); margin: 18px -16px -1px; }
   .cover h1 { font-size: 34px; }
-  .greeting p { font-size: 15px; }
-  .welcome { gap: 6px; }
+  .card { padding: 48px 12px 44px; }
+  .greeting p { font-size: 15.5px; }
+  .card .sprig { width: 60px; left: 12px; }
+  .card .sprig.r { right: 12px; }
   .welcome .w { font-size: 12px; }
+  .welcome .ic { width: 48px; height: 48px; }
   .pieces { padding: 2px 12px; }
   .piece .row { grid-template-columns: 52px 1fr 18px; gap: 12px; }
   .piece .thumb { width: 52px; height: 52px; border-radius: 12px; }

@@ -24,8 +24,20 @@ document.getElementById('app').innerHTML = `
   </header>
 
   <section class="greeting reveal" id="sec-greeting">
-    <!-- 새해 매화 가지 -->
-    <svg class="sprig" viewBox="0 0 120 46" aria-hidden="true">
+    <div class="card">
+      <!-- 봉랍(와인색 밀랍 도장, 가운데 금색 음표) -->
+      <svg class="seal" viewBox="0 0 60 60" aria-hidden="true">
+        <defs><radialGradient id="seal-g" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#b0485a"/><stop offset=".55" stop-color="#7b2d3b"/><stop offset="1" stop-color="#4d1c2a"/></radialGradient></defs>
+        <path d="M57.8 30.0 L58.7 32.5 L58.8 35.1 L57.7 37.4 L55.7 39.4 L53.6 41.0 L51.9 42.6 L50.9 44.6 L50.2 46.9 L49.3 49.3 L47.8 51.2 L45.7 52.4 L43.2 52.9 L40.8 53.2 L38.7 53.9 L36.8 55.2 L34.8 57.0 L32.5 58.6 L30.0 59.3 L27.5 58.7 L25.2 57.3 L23.1 55.6 L21.2 54.3 L19.0 53.6 L16.6 53.2 L14.2 52.6 L12.1 51.3 L10.7 49.3 L9.9 46.8 L9.3 44.5 L8.4 42.5 L6.8 40.8 L4.7 39.2 L2.7 37.3 L1.5 35.0 L1.4 32.5 L2.2 30.0 L3.4 27.7 L4.2 25.4 L4.4 23.1 L4.3 20.6 L4.5 18.1 L5.5 15.9 L7.4 14.2 L9.8 13.1 L12.2 12.2 L14.1 11.1 L15.5 9.3 L16.8 7.1 L18.3 4.9 L20.3 3.3 L22.7 2.7 L25.2 3.0 L27.7 3.5 L30.0 3.7 L32.3 3.4 L34.8 2.7 L37.4 2.3 L39.9 2.9 L41.9 4.5 L43.4 6.8 L44.6 9.1 L46.0 11.0 L47.8 12.2 L50.1 13.2 L52.4 14.3 L54.2 16.0 L55.1 18.3 L55.3 20.8 L55.2 23.2 L55.6 25.5 L56.5 27.7 L57.8 30.0Z" fill="url(#seal-g)"/>
+        <circle cx="30" cy="30" r="20" fill="none" stroke="#e2bf7a" stroke-width="1" opacity=".85"/>
+        <circle cx="30" cy="30" r="17.6" fill="none" stroke="#e2bf7a" stroke-width=".5" stroke-dasharray="1.2 1.8" opacity=".7"/>
+        <path d="M27.5 37.5 V22 l9 -2.4 v13.6" fill="none" stroke="#f3d9a4" stroke-width="1.8" stroke-linejoin="round"/>
+        <ellipse cx="25" cy="37.6" rx="3.3" ry="2.5" transform="rotate(-20 25 37.6)" fill="#f3d9a4"/><ellipse cx="34" cy="33.4" rx="3.3" ry="2.5" transform="rotate(-20 34 33.4)" fill="#f3d9a4"/>
+        <ellipse cx="22" cy="20" rx="7" ry="3.4" transform="rotate(-35 22 20)" fill="#fff" opacity=".13"/>
+      </svg>
+      <svg class="cn tl" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 24 V9 Q2 2 9 2 H24" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M6 24 V12 Q6 6 12 6 H24" fill="none" stroke="currentColor" stroke-width=".6" opacity=".7"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/></svg><svg class="cn tr" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 24 V9 Q2 2 9 2 H24" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M6 24 V12 Q6 6 12 6 H24" fill="none" stroke="currentColor" stroke-width=".6" opacity=".7"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/></svg><svg class="cn bl" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 24 V9 Q2 2 9 2 H24" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M6 24 V12 Q6 6 12 6 H24" fill="none" stroke="currentColor" stroke-width=".6" opacity=".7"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/></svg><svg class="cn br" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 24 V9 Q2 2 9 2 H24" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M6 24 V12 Q6 6 12 6 H24" fill="none" stroke="currentColor" stroke-width=".6" opacity=".7"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/></svg>
+      <!-- 새해 매화 가지 (카드 왼쪽 위·오른쪽 아래) -->
+      <svg class="sprig" viewBox="0 0 120 46" aria-hidden="true">
       <path d="M6 38 Q40 30 62 22 Q86 14 114 12" fill="none" stroke="#6b3b2a" stroke-width="2" stroke-linecap="round"/>
       <path d="M50 26 Q56 36 54 42 M84 16 Q92 8 98 6" fill="none" stroke="#6b3b2a" stroke-width="1.6" stroke-linecap="round"/>
       <g fill="#e98a9a"><circle cx="30" cy="30" r="4"/><circle cx="25" cy="27" r="3.4"/><circle cx="34" cy="26" r="3.4"/><circle cx="27" cy="34" r="3.4"/><circle cx="34" cy="34" r="3.4"/></g>
@@ -34,22 +46,32 @@ document.getElementById('app').innerHTML = `
       <circle cx="70" cy="18" r="1.2" fill="#f6d27a"/>
       <circle cx="54" cy="42" r="3" fill="#e98a9a"/><circle cx="99" cy="6" r="2.6" fill="#f0a6b2"/><circle cx="108" cy="12" r="2" fill="#e98a9a"/>
     </svg>
-    <div class="sec-label en">Invitation</div>
-    <h2 class="sec-title serif foil">초대합니다</h2>
-    ${ORN}
-    <div id="greeting"></div>
+      <svg class="sprig r" viewBox="0 0 120 46" aria-hidden="true">
+      <path d="M6 38 Q40 30 62 22 Q86 14 114 12" fill="none" stroke="#6b3b2a" stroke-width="2" stroke-linecap="round"/>
+      <path d="M50 26 Q56 36 54 42 M84 16 Q92 8 98 6" fill="none" stroke="#6b3b2a" stroke-width="1.6" stroke-linecap="round"/>
+      <g fill="#e98a9a"><circle cx="30" cy="30" r="4"/><circle cx="25" cy="27" r="3.4"/><circle cx="34" cy="26" r="3.4"/><circle cx="27" cy="34" r="3.4"/><circle cx="34" cy="34" r="3.4"/></g>
+      <circle cx="30" cy="30" r="1.6" fill="#f6d27a"/>
+      <g fill="#f0a6b2"><circle cx="70" cy="18" r="3"/><circle cx="66" cy="16" r="2.6"/><circle cx="73" cy="14" r="2.6"/><circle cx="67" cy="21" r="2.6"/><circle cx="73" cy="21" r="2.6"/></g>
+      <circle cx="70" cy="18" r="1.2" fill="#f6d27a"/>
+      <circle cx="54" cy="42" r="3" fill="#e98a9a"/><circle cx="99" cy="6" r="2.6" fill="#f0a6b2"/><circle cx="108" cy="12" r="2" fill="#e98a9a"/>
+    </svg>
+      <div class="sec-label en">Invitation</div>
+      <h2 class="sec-title serif foil">초대합니다</h2>
+      ${ORN}
+      <div id="greeting"></div>
+    </div>
 
     <div class="welcome">
-      <div class="w">
-        <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M5 10 h24 v4 a3 3 0 0 0 0 6 v4 h-24 v-4 a3 3 0 0 0 0 -6Z" fill="#f3d9a4" stroke="#c08a3e" stroke-width="1.4"/><path d="M21 10 v14" stroke="#c08a3e" stroke-dasharray="2 2"/></svg>
+      <div class="w st" style="--i:6">
+        <span class="ic"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M5 10 h24 v4 a3 3 0 0 0 0 6 v4 h-24 v-4 a3 3 0 0 0 0 -6Z" fill="#f3d9a4" stroke="#c08a3e" stroke-width="1.4"/><path d="M21 10 v14" stroke="#c08a3e" stroke-dasharray="2 2"/></svg></span>
         <b id="w-admission">입장 무료</b>편하게 오세요
       </div>
-      <div class="w">
-        <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M13 24 V8 l14 -3 v16" fill="none" stroke="#7b2d3b" stroke-width="2"/><ellipse cx="10" cy="24" rx="4" ry="3" fill="#7b2d3b"/><ellipse cx="24" cy="21" rx="4" ry="3" fill="#7b2d3b"/></svg>
+      <div class="w st" style="--i:7">
+        <span class="ic"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M13 24 V8 l14 -3 v16" fill="none" stroke="#7b2d3b" stroke-width="2"/><ellipse cx="10" cy="24" rx="4" ry="3" fill="#7b2d3b"/><ellipse cx="24" cy="21" rx="4" ry="3" fill="#7b2d3b"/></svg></span>
         <b>영화음악·클래식</b>귀에 익은 곡들
       </div>
-      <div class="w">
-        <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 11 C14 5 5 6 6 13 C7 19 17 25 17 28 C17 25 27 19 28 13 C29 6 20 5 17 11Z" fill="#e2495b"/></svg>
+      <div class="w st" style="--i:8">
+        <span class="ic"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 11 C14 5 5 6 6 13 C7 19 17 25 17 28 C17 25 27 19 28 13 C29 6 20 5 17 11Z" fill="#e2495b"/></svg></span>
         <b>누구나 환영</b>가족·친구와 함께
       </div>
     </div>
@@ -168,8 +190,9 @@ document.getElementById('app').innerHTML = `
 
   // 인사말
   if (D.greeting && D.greeting.length) {
-    $('greeting').innerHTML = '<p>' + D.greeting.map(esc).join('<br>') + '</p>' +
-      '<p class="sign">' + esc(D.orchestra) + ' 드림</p>';
+    // 한 줄씩 차례로 나타남
+    $('greeting').innerHTML = '<p class="serif">' + D.greeting.map(function (x, k) { return '<span class="st" style="--i:' + k + '">' + esc(x) + '</span>'; }).join('') + '</p>' +
+      '<p class="sign st" style="--i:' + D.greeting.length + '"><span class="serif">' + esc(D.orchestra) + '</span> 드림</p>';
   }
   if (D.admission) $('w-admission').textContent = '입장 ' + D.admission;
 
