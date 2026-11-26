@@ -71,7 +71,32 @@ body {
 /* 본문 섹션 */
 section { padding: 52px 24px; }
 .sec-label { text-align: center; font-size: 17px; color: var(--gold); letter-spacing: .06em; }
-.sec-title { text-align: center; font-size: 24px; font-weight: 700; margin: 2px 0 26px; color: var(--wine-deep); }
+.sec-title { text-align: center; font-size: 24px; font-weight: 700; margin: 2px 0 8px; color: var(--wine-deep); }
+.orn { display: block; width: 150px; height: 17px; margin: 0 auto 26px; color: var(--gold); }
+.stage .orn { color: #d9b56e; }
+
+/* 금박 제목 — 평소엔 와인색, 금빛이 가끔 한 번씩 스쳐 지나감 (움직임 줄이기 설정이면 와인색 그대로) */
+.foil {
+  background: linear-gradient(100deg, var(--wine-deep) 0%, var(--wine-deep) 42%, #c08a3e 47%, #f7e3b0 50%, #c08a3e 53%, var(--wine-deep) 58%, var(--wine-deep) 100%);
+  background-size: 300% 100%; background-position: 100% 0;
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+}
+.stage .foil { background-image: linear-gradient(100deg, #fff 0%, #fff 42%, #d9b56e 47%, #fff4d6 50%, #d9b56e 53%, #fff 58%, #fff 100%); }
+.reveal.in .foil { animation: foil 7s ease-in-out .6s infinite; }
+@keyframes foil { 0% { background-position: 100% 0; } 28%, 100% { background-position: 0 0; } }
+
+/* 장식선은 가운데서 양옆으로 그어짐 */
+.reveal .orn .ln { stroke-dasharray: 70; stroke-dashoffset: 70; transition: stroke-dashoffset 1.2s ease .3s; }
+.reveal.in .orn .ln { stroke-dashoffset: 0; }
+
+/* 섹션 안 요소가 차례로 나타남 (--i 순서) */
+.reveal .st { opacity: 0; transform: translateY(12px); transition: opacity .8s ease, transform .8s ease; transition-delay: calc(var(--i, 0) * 110ms + .2s); }
+.reveal.in .st { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal .st { opacity: 1; transform: none; transition: none; }
+  .reveal .orn .ln { stroke-dashoffset: 0; transition: none; }
+  .reveal.in .foil { animation: none; }
+}
 
 .greeting { text-align: center; padding-top: 36px; }
 .greeting .sprig { width: 120px; height: 46px; margin: 0 auto 14px; display: block; }

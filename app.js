@@ -2,6 +2,13 @@
  * 초대장 화면 틀과 동작. index.html 은 이 파일·style.css·data.js·art.js 를
  * 열 때마다 새로 받아 오는 껍데기라서, 여기를 고치면 push 후 바로 반영됩니다.
  */
+// 금색 장식선 (제목 아래) — 가운데 마름모, 양옆 꽃잎, 선이 가운데서 양옆으로 그어지며 나타남
+var ORN = '<svg class="orn" viewBox="0 0 160 18" aria-hidden="true">' +
+  '<path class="ln" d="M70 9 H6 M90 9 H154" stroke="currentColor" stroke-width=".9"/>' +
+  '<path d="M62 9 q5 -5.5 10 0 q-5 5.5 -10 0Z M88 9 q5 -5.5 10 0 q-5 5.5 -10 0Z" fill="none" stroke="currentColor" stroke-width=".9"/>' +
+  '<path d="M80 2.5 l4.6 6.5 l-4.6 6.5 l-4.6 -6.5Z" fill="currentColor"/>' +
+  '<circle cx="3" cy="9" r="1.5" fill="currentColor"/><circle cx="157" cy="9" r="1.5" fill="currentColor"/></svg>';
+
 document.getElementById('app').innerHTML = `
 
   <header class="cover">
@@ -28,7 +35,8 @@ document.getElementById('app').innerHTML = `
       <circle cx="54" cy="42" r="3" fill="#e98a9a"/><circle cx="99" cy="6" r="2.6" fill="#f0a6b2"/><circle cx="108" cy="12" r="2" fill="#e98a9a"/>
     </svg>
     <div class="sec-label en">Invitation</div>
-    <h2 class="sec-title serif">초대합니다</h2>
+    <h2 class="sec-title serif foil">초대합니다</h2>
+    ${ORN}
     <div id="greeting"></div>
 
     <div class="welcome">
@@ -49,13 +57,15 @@ document.getElementById('app').innerHTML = `
 
   <section class="soft reveal">
     <div class="sec-label en">Information</div>
-    <h2 class="sec-title serif">공연 안내</h2>
+    <h2 class="sec-title serif foil">공연 안내</h2>
+    ${ORN}
     <div class="info" id="info"></div>
   </section>
 
   <section class="reveal stage" id="sec-conductor" hidden>
     <div class="sec-label en">Conductor</div>
-    <h2 class="sec-title serif">지휘자 소개</h2>
+    <h2 class="sec-title serif foil">지휘자 소개</h2>
+    ${ORN}
     <div class="conductor">
       <figure class="portrait protect" id="conductor-photo" hidden>
         <div class="frame" id="conductor-frame"></div>
@@ -84,7 +94,8 @@ document.getElementById('app').innerHTML = `
 
   <section class="soft reveal" id="sec-program">
     <div class="sec-label en">Program</div>
-    <h2 class="sec-title serif">이런 곡을 들려드려요</h2>
+    <h2 class="sec-title serif foil">이런 곡을 들려드려요</h2>
+    ${ORN}
     <p class="program-hint">곡을 누르면 쉬운 설명이 펼쳐져요</p>
     <div id="program"></div>
     <p class="program-note" id="program-note"></p>
@@ -92,7 +103,8 @@ document.getElementById('app').innerHTML = `
 
   <section class="reveal" id="sec-map" hidden>
     <div class="sec-label en">Location</div>
-    <h2 class="sec-title serif">오시는 길</h2>
+    <h2 class="sec-title serif foil">오시는 길</h2>
+    ${ORN}
     <div class="addr" id="addr"></div>
     <div class="btns">
       <a class="btn" id="naver" target="_blank" rel="noopener">네이버 지도</a>
