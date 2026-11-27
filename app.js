@@ -202,13 +202,15 @@ document.getElementById('app').innerHTML = `
   $('cover-sky').innerHTML = ART.sky || '';
   $('cover-garland').innerHTML = ART.garland || '';
 
-  // D-day
-  var today = new Date(); today.setHours(0, 0, 0, 0);
-  var diff = Math.round((day - today) / 86400000);
-  if (diff >= 0) {
+  // D-day — 열어 둔 채 자정이 지나도 저절로 바뀜 (아래 '시각 지켜보기'에서 다시 부름)
+  function updateDday() {
+    if (ended) return;
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var diff = Math.round((day - today) / 86400000);
     $('dday').textContent = diff === 0 ? '오늘 공연합니다' : 'D-' + diff;
-    $('dday').hidden = false;
+    $('dday').hidden = diff < 0;
   }
+  updateDday();
 
   // 인사말
   if (D.greeting && D.greeting.length) {
@@ -237,6 +239,7 @@ document.getElementById('app').innerHTML = `
     function paint() { fab.classList.toggle('on', on); }
     function shut() { on = false; au.pause(); stopListening(); if (fab.parentNode) fab.parentNode.removeChild(fab); clearInterval(watch); }
     var watch = setInterval(function () { if (quiet()) shut(); }, 20000);
+    document.addEventListener('invite-ended', function () { shut(); });
     function sound(v) {
       if (v && quiet()) { shut(); return; }
       on = v; paint();
@@ -438,7 +441,8 @@ document.getElementById('app').innerHTML = `
   }
 
   // 공연이 끝난 뒤 — 초대장을 감사 인사로 바꿈 (문구는 data.js ended)
-  if (ended) {
+  function applyEnded(live) {
+    ended = true;
     document.body.classList.add('ended');
     var setText = function (sel, html) { var el = document.querySelector(sel); if (el && html) el.innerHTML = html; };
     if (E.badge) { $('dday').textContent = E.badge; $('dday').hidden = false; }
@@ -460,7 +464,20 @@ document.getElementById('app').innerHTML = `
     setText('footer .sec-label', esc(E.closingLabel || ''));
     if (E.closing) { var cl = document.querySelector('footer .closing'); cl.innerHTML = E.closing + '<small id="closing-date">' + esc(dateText) + '</small>'; }
     $('share').hidden = true; $('calendar').hidden = true;
+    if (live) {   // 보고 있는 중에 바뀌면: 배경음악 멈추고, 도장이 쾅 찍히는 움직임
+      stamp.classList.add('pop');
+      document.dispatchEvent(new Event('invite-ended'));
+    }
   }
+  if (ended) applyEnded(false);
+
+  // 시각 지켜보기 — 15초마다 + 다른 앱에서 돌아올 때: 자정이면 D-day, 종료 시각이면 감사 인사 화면으로
+  function watchClock() {
+    if (!ended && !isNaN(endAt) && Date.now() >= endAt) applyEnded(true);
+    updateDday();
+  }
+  setInterval(watchClock, 15000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) watchClock(); });
 
   // 스크롤하면 섹션이 부드럽게 나타남
   var secs = document.querySelectorAll('.reveal');

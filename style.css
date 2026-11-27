@@ -189,7 +189,9 @@ section { padding: 52px 24px; }
 .ticket .stamp span { display: block; font-size: 12.5px; letter-spacing: .12em; color: #e9c98a; }
 .reveal .ticket .stamp { opacity: 0; transform: rotate(-12deg) scale(1.8); transition: transform .5s cubic-bezier(.2,1.5,.4,1) .9s, opacity .2s ease .9s; }
 .reveal.in .ticket .stamp { opacity: 1; transform: rotate(-12deg); }
-@media (prefers-reduced-motion: reduce) { .reveal .ticket .stamp { opacity: 1; transform: rotate(-12deg); transition: none; } }
+.ticket .stamp.pop { animation: stamp-pop .55s cubic-bezier(.2,1.5,.4,1); }
+@keyframes stamp-pop { from { opacity: 0; transform: rotate(-12deg) scale(1.8); } to { opacity: 1; transform: rotate(-12deg); } }
+@media (prefers-reduced-motion: reduce) { .reveal .ticket .stamp { opacity: 1; transform: rotate(-12deg); transition: none; } .ticket .stamp.pop { animation: none; } }
 
 
 /* 배경음악 카드 + 떠 있는 ♪ 버튼 */
