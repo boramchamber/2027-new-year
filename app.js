@@ -208,7 +208,7 @@ document.getElementById('app').innerHTML = `
 
   // D-day — 열어 둔 채 자정이 지나도 저절로 바뀜 (아래 '시각 지켜보기'에서 다시 부름)
   function updateDday() {
-    if (ended) return;
+    if (ended || $('back-thanks')) return;
     var today = new Date(); today.setHours(0, 0, 0, 0);
     var diff = Math.round((day - today) / 86400000);
     if (diff >= 0) $('dday').textContent = diff === 0 ? '오늘 공연합니다' : 'D-' + diff;
@@ -450,6 +450,9 @@ document.getElementById('app').innerHTML = `
     document.body.classList.add('ended');
     var setText = function (sel, html) { var el = document.querySelector(sel); if (el && html) el.innerHTML = html; };
     if (E.badge) { $('dday').textContent = E.badge; $('dday').hidden = false; }
+    setText('.cover .tagline', esc(E.tagline || ''));
+    // 묶음 설명도 끝난 말투로 ("들려드리는 무대" → "들려드린 무대")
+    [].forEach.call(document.querySelectorAll('#program .group p'), function (el) { el.textContent = el.textContent.replace('들려드리는', '들려드린'); });
     setText('#sec-greeting .sec-label', esc(E.label || ''));
     setText('#sec-greeting .sec-title', esc(E.title || ''));
     if (E.greeting && E.greeting.length) {
@@ -482,10 +485,11 @@ document.getElementById('app').innerHTML = `
     }
   }
   if (ended) applyEnded(false);
-  function addBack() {   // 다시 보기 화면에서 공연이 끝났으면 '감사 인사 보기' 버튼 (열어 둔 채 시각이 지나도 생김)
+  function addBack() {   // 다시 본 초대장(공연이 끝난 뒤): 표지에 '공연을 마쳤습니다', 맨 아래 '감사 인사로 돌아가기' (열어 둔 채 시각이 지나도 생김)
     if (!forceInvite || isNaN(endAt) || Date.now() < endAt || $('back-thanks')) return;
+    if (E.badge) { $('dday').textContent = E.badge; $('dday').hidden = false; }
     var back = document.createElement('a');
-    back.id = 'back-thanks'; back.className = 'btn full'; back.href = homeUrl; back.textContent = '감사 인사 보기';
+    back.id = 'back-thanks'; back.className = 'btn full'; back.href = homeUrl; back.textContent = '‹ 감사 인사로 돌아가기';
     document.querySelector('footer .btns').appendChild(back);
   }
   addBack();
