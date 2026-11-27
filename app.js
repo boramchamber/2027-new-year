@@ -186,7 +186,11 @@ document.getElementById('app').innerHTML = `
   // 공연이 끝났는지 — ended.from 시각이 지났거나, 미리 보기(?mode=ended)
   var E = D.ended || {};
   var endAt = E.from ? Date.parse(E.from) : NaN;
-  var ended = /[?&]mode=ended\b/.test(location.search) || (!isNaN(endAt) && Date.now() >= endAt);
+  // ?mode=invite = 공연이 끝난 뒤에도 원래 초대장을 다시 봄 ('초대장 다시 보기' 버튼)
+  var forceInvite = /[?&]mode=invite\b/.test(location.search);
+  var ended = !forceInvite && (/[?&]mode=ended\b/.test(location.search) || (!isNaN(endAt) && Date.now() >= endAt));
+  var homeUrl = location.pathname;                       // 주소 뒤 ?… 없이 (감사 인사 화면)
+  var inviteUrl = location.pathname + '?mode=invite';    // 초대장 다시 보기
 
   // 표지
   $('subtitle').textContent = D.subtitle;
@@ -207,7 +211,7 @@ document.getElementById('app').innerHTML = `
     if (ended) return;
     var today = new Date(); today.setHours(0, 0, 0, 0);
     var diff = Math.round((day - today) / 86400000);
-    $('dday').textContent = diff === 0 ? '오늘 공연합니다' : 'D-' + diff;
+    if (diff >= 0) $('dday').textContent = diff === 0 ? '오늘 공연합니다' : 'D-' + diff;
     $('dday').hidden = diff < 0;
   }
   updateDday();
@@ -414,7 +418,7 @@ document.getElementById('app').innerHTML = `
     }
   }
   $('share').onclick = function () {
-    var data = { title: D.title, text: dateText + ' · ' + D.orchestra + ' ' + D.title + '에 초대합니다.', url: location.href };
+    var data = { title: D.title, text: dateText + ' · ' + D.orchestra + ' ' + D.title + '에 초대합니다.', url: location.origin + location.pathname };
     if (navigator.share) { navigator.share(data).catch(function () {}); }
     else { copy(location.href, '초대장 주소를 복사했습니다'); }
   };
@@ -464,16 +468,32 @@ document.getElementById('app').innerHTML = `
     setText('footer .sec-label', esc(E.closingLabel || ''));
     if (E.closing) { var cl = document.querySelector('footer .closing'); cl.innerHTML = E.closing + '<small id="closing-date">' + esc(dateText) + '</small>'; }
     $('share').hidden = true; $('calendar').hidden = true;
+    // '초대장 다시 보기' — 감사 카드 아래(작은 버튼)와 맨 아래 밤하늘(금박 버튼)
+    var again = document.createElement('a');
+    again.className = 'again st'; again.style.setProperty('--i', (E.greeting || []).length + 1);
+    again.href = inviteUrl; again.innerHTML = '초대장 다시 보기 <span aria-hidden="true">›</span>';
+    document.querySelector('#sec-greeting .card').appendChild(again);
+    var again2 = document.createElement('a');
+    again2.className = 'btn primary full'; again2.href = inviteUrl; again2.textContent = '초대장 다시 보기';
+    document.querySelector('footer .btns').appendChild(again2);
     if (live) {   // 보고 있는 중에 바뀌면: 배경음악 멈추고, 도장이 쾅 찍히는 움직임
       stamp.classList.add('pop');
       document.dispatchEvent(new Event('invite-ended'));
     }
   }
   if (ended) applyEnded(false);
+  function addBack() {   // 다시 보기 화면에서 공연이 끝났으면 '감사 인사 보기' 버튼 (열어 둔 채 시각이 지나도 생김)
+    if (!forceInvite || isNaN(endAt) || Date.now() < endAt || $('back-thanks')) return;
+    var back = document.createElement('a');
+    back.id = 'back-thanks'; back.className = 'btn full'; back.href = homeUrl; back.textContent = '감사 인사 보기';
+    document.querySelector('footer .btns').appendChild(back);
+  }
+  addBack();
 
   // 시각 지켜보기 — 15초마다 + 다른 앱에서 돌아올 때: 자정이면 D-day, 종료 시각이면 감사 인사 화면으로
   function watchClock() {
-    if (!ended && !isNaN(endAt) && Date.now() >= endAt) applyEnded(true);
+    if (!ended && !forceInvite && !isNaN(endAt) && Date.now() >= endAt) applyEnded(true);
+    addBack();
     updateDday();
   }
   setInterval(watchClock, 15000);

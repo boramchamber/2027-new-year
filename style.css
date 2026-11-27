@@ -177,6 +177,13 @@ section { padding: 52px 24px; }
 .ticket .notch.t { top: -10px; }
 .ticket .notch.b { bottom: -10px; }
 @media (prefers-reduced-motion: reduce) { .reveal.in .ticket::after, .reveal.in .tk-flake { animation: none; } }
+/* 공연이 끝난 뒤 — 감사 카드 아래 '초대장 다시 보기' */
+.card .again {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; padding: 8px 18px;
+  border: 1px solid rgba(192,138,62,.7); border-radius: 999px; background: #fffdf8;
+  color: var(--wine); font-size: 14px; font-weight: 500; text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+.card .again span { color: var(--gold); font-size: 17px; line-height: 1; }
 /* 공연이 끝난 뒤 — 티켓 떼는 쪽 위에 금색 '공연 종료' 도장이 쾅 찍힘 */
 .ended .tk-stub > * { opacity: .22; }
 .ticket .stamp {
