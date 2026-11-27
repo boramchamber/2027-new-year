@@ -123,5 +123,25 @@ window.INVITE = {
     source: 'https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg'
   },
 
+  // 공연이 끝난 뒤(from 시각부터) 초대장이 감사 인사로 바뀝니다. from 을 '' 로 두면 바뀌지 않음.
+  // 미리 보기: 링크 끝에 ?mode=ended 를 붙여 열면 지금도 바뀐 화면을 볼 수 있습니다.
+  ended: {
+    from: '2027-01-07T00:00:00+09:00',      // 공연 다음 날 0시 (한국 시간)
+    badge: '공연을 마쳤습니다 · 감사합니다',   // 표지 날짜 아래 (D-day 자리)
+    label: 'Thank you',
+    title: '감사합니다',                      // 초대 카드 제목
+    greeting: [                               // 초대 카드 인사말 (한 줄 20자 안팎)
+      '새해 첫 무대를 함께해 주셔서',
+      '진심으로 감사드립니다.',
+      '보내 주신 따뜻한 박수 덕분에',
+      '더없이 행복한 음악회였습니다.',
+      '올 한 해도 음악처럼 빛나시길 바랍니다.'
+    ],
+    infoTitle: '그날의 공연',                 // 티켓 칸 제목 (티켓에 '공연 종료' 도장)
+    programTitle: '이런 곡을 들려드렸어요',
+    closingLabel: 'See you again',
+    closing: '다음 무대에서<br>또 만나요'      // 맺음 (줄바꿈은 <br>)
+  },
+
   contact: ''           // 문의처 (예: '문의 · 인스타그램 @boramchamber') — 없으면 빈칸
 };

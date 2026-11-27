@@ -79,7 +79,7 @@ document.getElementById('app').innerHTML = `
 
   <section class="soft reveal">
     <div class="sec-label en">Information</div>
-    <h2 class="sec-title serif foil">공연 안내</h2>
+    <h2 class="sec-title serif foil" id="sec-info-title">공연 안내</h2>
     ${ORN}
     <div class="ticket st" id="info"></div>
   </section>
@@ -183,6 +183,11 @@ document.getElementById('app').innerHTML = `
     return (h < 12 ? '오전 ' : '오후 ') + (h % 12 === 0 ? 12 : h % 12) + '시' + (m ? ' ' + m + '분' : '');
   };
 
+  // 공연이 끝났는지 — ended.from 시각이 지났거나, 미리 보기(?mode=ended)
+  var E = D.ended || {};
+  var endAt = E.from ? Date.parse(E.from) : NaN;
+  var ended = /[?&]mode=ended\b/.test(location.search) || (!isNaN(endAt) && Date.now() >= endAt);
+
   // 표지
   $('subtitle').textContent = D.subtitle;
   var t = D.title.split(' ');
@@ -216,7 +221,7 @@ document.getElementById('app').innerHTML = `
   // 배경음악 (mp3) — 화면에 티 나지 않게: 첫 터치에 재생 → 반복, ♪ 버튼으로 끄고 켬
   (function () {
     var B = D.bgm;
-    if (!B || !B.file) return;
+    if (!B || !B.file || ended) return;
     // 공연 당일 정해진 시각(quietFrom)부터는 음악 없음 — ♪ 버튼도 안 보임. 페이지를 열어 둔 채 그 시각이 지나도 멈춤
     var quietAt = B.quietFrom ? Date.parse(B.quietFrom) : NaN;
     function quiet() { return !isNaN(quietAt) && Date.now() >= quietAt; }
@@ -430,6 +435,31 @@ document.getElementById('app').innerHTML = `
       a.download = 'boramchamber-' + D.date + '.ics';
       a.click();
     };
+  }
+
+  // 공연이 끝난 뒤 — 초대장을 감사 인사로 바꿈 (문구는 data.js ended)
+  if (ended) {
+    document.body.classList.add('ended');
+    var setText = function (sel, html) { var el = document.querySelector(sel); if (el && html) el.innerHTML = html; };
+    if (E.badge) { $('dday').textContent = E.badge; $('dday').hidden = false; }
+    setText('#sec-greeting .sec-label', esc(E.label || ''));
+    setText('#sec-greeting .sec-title', esc(E.title || ''));
+    if (E.greeting && E.greeting.length) {
+      $('greeting').innerHTML = '<p class="serif">' + E.greeting.map(function (x, k) { return '<span class="st" style="--i:' + k + '">' + esc(x) + '</span>'; }).join('') + '</p>' +
+        '<p class="sign st" style="--i:' + E.greeting.length + '"><span class="serif">' + esc(D.orchestra) + '</span> 드림</p>';
+    }
+    document.querySelector('#sec-greeting .welcome').hidden = true;
+    setText('#sec-info-title', esc(E.infoTitle || ''));
+    var pend = document.querySelector('#info dd.pending'); if (pend) pend.parentNode.hidden = true;   // '추후 안내 예정'은 숨김
+    var stamp = document.createElement('div'); stamp.className = 'stamp';
+    stamp.innerHTML = '<b class="serif">공연 종료</b><span class="en">Thank you</span>';
+    $('info').appendChild(stamp);
+    setText('#sec-program .sec-title', esc(E.programTitle || ''));
+    $('program-note').hidden = true;
+    var hint = document.querySelector('.program-hint'); if (hint) hint.textContent = '곡을 누르면 설명이 펼쳐져요';
+    setText('footer .sec-label', esc(E.closingLabel || ''));
+    if (E.closing) { var cl = document.querySelector('footer .closing'); cl.innerHTML = E.closing + '<small id="closing-date">' + esc(dateText) + '</small>'; }
+    $('share').hidden = true; $('calendar').hidden = true;
   }
 
   // 스크롤하면 섹션이 부드럽게 나타남

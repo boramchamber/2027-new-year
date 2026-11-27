@@ -177,6 +177,20 @@ section { padding: 52px 24px; }
 .ticket .notch.t { top: -10px; }
 .ticket .notch.b { bottom: -10px; }
 @media (prefers-reduced-motion: reduce) { .reveal.in .ticket::after, .reveal.in .tk-flake { animation: none; } }
+/* 공연이 끝난 뒤 — 티켓 떼는 쪽 위에 금색 '공연 종료' 도장이 쾅 찍힘 */
+.ended .tk-stub > * { opacity: .22; }
+.ticket .stamp {
+  position: absolute; right: 12px; top: 50%; z-index: 2; margin-top: -30px; padding: 8px 12px 7px; text-align: center; line-height: 1.2;
+  border: 2px solid #e9c98a; border-radius: 8px; color: #f7e3b0; background: rgba(58,20,30,.9);
+  box-shadow: inset 0 0 0 3px rgba(58,20,30,.9), inset 0 0 0 4px rgba(233,201,138,.6), 0 6px 14px rgba(0,0,0,.3);
+  transform: rotate(-12deg);
+}
+.ticket .stamp b { display: block; font-size: 17px; letter-spacing: .16em; padding-left: .16em; white-space: nowrap; }
+.ticket .stamp span { display: block; font-size: 12.5px; letter-spacing: .12em; color: #e9c98a; }
+.reveal .ticket .stamp { opacity: 0; transform: rotate(-12deg) scale(1.8); transition: transform .5s cubic-bezier(.2,1.5,.4,1) .9s, opacity .2s ease .9s; }
+.reveal.in .ticket .stamp { opacity: 1; transform: rotate(-12deg); }
+@media (prefers-reduced-motion: reduce) { .reveal .ticket .stamp { opacity: 1; transform: rotate(-12deg); transition: none; } }
+
 
 /* 배경음악 카드 + 떠 있는 ♪ 버튼 */
 /* 배경음악 ♪ 버튼 (오른쪽 아래) */
@@ -441,6 +455,8 @@ footer .rights { margin-top: 6px; font-size: 11px; color: rgba(255,255,255,.42);
   .tk-date b { font-size: 46px; }
   .tk-stub { flex-basis: 62px; }
   .ticket .notch { right: 51px; }
+  .ticket .stamp { right: 6px; padding: 7px 9px 6px; }
+  .ticket .stamp b { font-size: 15px; }
   .tk-rows div { font-size: 14px; gap: 8px; }
   .booklet { padding-left: 24px; padding-right: 24px; }
   .booklet::before { inset: 8px; }
